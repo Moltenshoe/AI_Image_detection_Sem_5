@@ -51,6 +51,10 @@ The generated results are stored in:
 
 [View Analysis Outputs](./analysis_outputs/)
 
+The Analysis of the images is stored in the analysis.md file
+
+[View Analysis.md file](./ANALYSIS.md)
+
 ## Running the Analysis
 
 1.  Clone the repository.

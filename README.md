@@ -46,10 +46,7 @@ may differ between real and AI-generated images:
 -   Error Level Analysis (ELA)
 -   Cross-difference analysis
 -   Frequency-domain analysis
-
-The generated results are stored in:
-
-[View Analysis Outputs](./analysis_outputs/)
+-   Quanternion analysis
 
 The Analysis of the images is stored in the analysis.md file
 

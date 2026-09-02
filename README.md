@@ -14,6 +14,7 @@ frequency-domain techniques.
 -   `analysis.ipynb` --- Earlier analysis notebook
 -   `new_analysis.ipynb` --- Main image-analysis notebook
 -   `crop_dataset.py` --- Dataset/image preprocessing script
+-   `markdown_files/` --- extra markdown files related to the project
 
 ## Dataset
 
@@ -50,15 +51,15 @@ may differ between real and AI-generated images:
 
 The Analysis of the images is stored in the analysis.md file
 
-[View Analysis.md file](./ANALYSIS.md)
+[View Analysis.md file](./markdown_files/ANALYSIS.md)
 
 New analysis with respect to v3
 
-[View Analysis_v3.md file](./ANALYSIS_v3.md)
+[View Analysis_v3.md file](./markdown_files/ANALYSIS_v3.md)
 
 Limitations of the analysis 
 
-[Limitations.md](./LIMITATIONS.md)
+[Limitations.md](./markdown_files/LIMITATIONS.md)
 
 ## Running the Analysis
 
@@ -138,4 +139,4 @@ This specific model:
 
 **Semester 5 Minor Project --- In Progress**
 
-[CHANGELOG.MD FILE](./CHANGELOG.md)
+[CHANGELOG.MD FILE](./markdown_files/CHANGELOG.md)

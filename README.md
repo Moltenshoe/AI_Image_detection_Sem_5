@@ -56,6 +56,10 @@ New analysis with respect to v3
 
 [View Analysis_v3.md file](./ANALYSIS_v3.md)
 
+Limitations of the analysis 
+
+[Limitations.md](./LIMITATIONS.md)
+
 ## Running the Analysis
 
 1.  Clone the repository.

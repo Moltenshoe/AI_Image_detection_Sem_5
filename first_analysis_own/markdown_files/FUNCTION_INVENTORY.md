@@ -1,0 +1,55 @@
+# Function & Analysis Inventory — Refined Notebook
+
+## Functions
+- Cell 2: `index_images()`
+- Cell 2: `find_pairs()`
+- Cell 3: `load_rgb_tensor()`
+- Cell 3: `rgb_to_gray_tensor()`
+- Cell 3: `load_pair_tensors()`
+- Cell 4: `_frequency_radius()`
+- Cell 4: `fft_features()`
+- Cell 4: `plot_fft_pair()`
+- Cell 5: `safe_entropy()`
+- Cell 5: `dwt_features()`
+- Cell 5: `plot_dwt_pair()`
+- Cell 6: `block_dct_features()`
+- Cell 6: `plot_dct_pair()`
+- Cell 7: `cross_difference()`
+- Cell 7: `synthbuster_peak_features()`
+- Cell 7: `residual_features()`
+- Cell 7: `plot_residual_pair()`
+- Cell 8: `edge_contour_features()`
+- Cell 8: `plot_edges_pair()`
+- Cell 9: `lbp_features()`
+- Cell 9: `plot_lbp_pair()`
+- Cell 10: `glcm_features()`
+- Cell 11: `tensor_entropy_uint8()`
+- Cell 11: `intensity_color_features()`
+- Cell 11: `plot_intensity_pair()`
+- Cell 12: `ela_features_from_path()`
+- Cell 12: `plot_ela_pair()`
+- Cell 14: `scalar_only()`
+- Cell 16: `exact_signflip_pvalue()`
+- Cell 16: `cohens_dz()`
+- Cell 16: `bh_fdr()`
+
+## Analysis groups
+- Dataset indexing and real/AI pairing
+- Tensor-native image decoding, EXIF orientation, aspect-ratio-preserving resize and center crop
+- RGB to grayscale conversion
+- FFT magnitude, phase, radial power, frequency-band ratios and spectral centroid
+- 2-D Haar DWT approximation/detail energies, absolute means and entropy
+- 8×8 DCT DC ratio, high/low-frequency ratios and coefficient maps
+- Gaussian high-pass residuals
+- 2×2 cross-difference and cross-difference FFT
+- Simplified Synthbuster-inspired periodic FFT peaks for periods 2, 4 and 8
+- Sobel gradient, Laplacian, Canny edges and contour statistics
+- Uniform LBP histogram, entropy, dominant bin, mean and standard deviation
+- GLCM contrast, dissimilarity, homogeneity, ASM, energy, correlation and entropy
+- Intensity, RGB statistics, RGB correlations, HSV statistics and entropy
+- JPEG Error Level Analysis (ELA) on original files
+- Paired real-vs-AI feature deltas and relative deltas
+- Cohen's dz effect size
+- Exact paired sign-flip p-values
+- Benjamini-Hochberg FDR correction
+- Paired plots, relative-change heatmap and final feature report

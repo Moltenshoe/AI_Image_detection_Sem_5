@@ -1,0 +1,1789 @@
+{
+  "dataset": "Rajarshi-Roy-research/Defactify_Image_Dataset",
+  "local_data_dir": "/home/moltenshoe/Desktop/ArchFiles/UBUNTU_FILES/projects/Minor/data/defactify",
+  "audit_status": "PASS",
+  "expected_totals": {
+    "train": 42000,
+    "validation": 9000,
+    "test": 45000
+  },
+  "actual_totals": {
+    "train": 42000,
+    "validation": 9000,
+    "test": 45000,
+    "total": 96000
+  },
+  "label_a": {
+    "0": 16000,
+    "1": 80000
+  },
+  "label_b": {
+    "0": 16000,
+    "1": 16000,
+    "2": 16000,
+    "3": 16000,
+    "4": 16000,
+    "5": 16000
+  },
+  "label_a_x_label_b": {
+    "0,0": 16000,
+    "1,1": 16000,
+    "1,2": 16000,
+    "1,3": 16000,
+    "1,4": 16000,
+    "1,5": 16000
+  },
+  "nulls": {
+    "Caption": 0,
+    "Image": 0,
+    "Label_A": 0,
+    "Label_B": 0
+  },
+  "files": [
+    {
+      "path": "data/defactify/data/train-00000-of-00007.parquet",
+      "size_bytes": 448176166,
+      "size_gib": 0.4173965808004141,
+      "rows": 6000,
+      "row_groups": 5,
+      "schema": [
+        {
+          "name": "Caption",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "Image",
+          "type": "struct<bytes: binary, path: string>",
+          "nullable": true
+        },
+        {
+          "name": "Label_A",
+          "type": "int32",
+          "nullable": true
+        },
+        {
+          "name": "Label_B",
+          "type": "int32",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "path": "data/defactify/data/train-00001-of-00007.parquet",
+      "size_bytes": 445126447,
+      "size_gib": 0.41455630864948034,
+      "rows": 6000,
+      "row_groups": 5,
+      "schema": [
+        {
+          "name": "Caption",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "Image",
+          "type": "struct<bytes: binary, path: string>",
+          "nullable": true
+        },
+        {
+          "name": "Label_A",
+          "type": "int32",
+          "nullable": true
+        },
+        {
+          "name": "Label_B",
+          "type": "int32",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "path": "data/defactify/data/train-00002-of-00007.parquet",
+      "size_bytes": 449640886,
+      "size_gib": 0.41876070760190487,
+      "rows": 6000,
+      "row_groups": 5,
+      "schema": [
+        {
+          "name": "Caption",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "Image",
+          "type": "struct<bytes: binary, path: string>",
+          "nullable": true
+        },
+        {
+          "name": "Label_A",
+          "type": "int32",
+          "nullable": true
+        },
+        {
+          "name": "Label_B",
+          "type": "int32",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "path": "data/defactify/data/train-00003-of-00007.parquet",
+      "size_bytes": 456221402,
+      "size_gib": 0.4248892907053232,
+      "rows": 6000,
+      "row_groups": 5,
+      "schema": [
+        {
+          "name": "Caption",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "Image",
+          "type": "struct<bytes: binary, path: string>",
+          "nullable": true
+        },
+        {
+          "name": "Label_A",
+          "type": "int32",
+          "nullable": true
+        },
+        {
+          "name": "Label_B",
+          "type": "int32",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "path": "data/defactify/data/train-00004-of-00007.parquet",
+      "size_bytes": 458610596,
+      "size_gib": 0.4271144010126591,
+      "rows": 6000,
+      "row_groups": 5,
+      "schema": [
+        {
+          "name": "Caption",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "Image",
+          "type": "struct<bytes: binary, path: string>",
+          "nullable": true
+        },
+        {
+          "name": "Label_A",
+          "type": "int32",
+          "nullable": true
+        },
+        {
+          "name": "Label_B",
+          "type": "int32",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "path": "data/defactify/data/train-00005-of-00007.parquet",
+      "size_bytes": 453342171,
+      "size_gib": 0.4222077978774905,
+      "rows": 6000,
+      "row_groups": 5,
+      "schema": [
+        {
+          "name": "Caption",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "Image",
+          "type": "struct<bytes: binary, path: string>",
+          "nullable": true
+        },
+        {
+          "name": "Label_A",
+          "type": "int32",
+          "nullable": true
+        },
+        {
+          "name": "Label_B",
+          "type": "int32",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "path": "data/defactify/data/train-00006-of-00007.parquet",
+      "size_bytes": 448412083,
+      "size_gib": 0.41761629562824965,
+      "rows": 6000,
+      "row_groups": 5,
+      "schema": [
+        {
+          "name": "Caption",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "Image",
+          "type": "struct<bytes: binary, path: string>",
+          "nullable": true
+        },
+        {
+          "name": "Label_A",
+          "type": "int32",
+          "nullable": true
+        },
+        {
+          "name": "Label_B",
+          "type": "int32",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "path": "data/defactify/data/validation-00000-of-00002.parquet",
+      "size_bytes": 333255675,
+      "size_gib": 0.31036853324621916,
+      "rows": 4500,
+      "row_groups": 4,
+      "schema": [
+        {
+          "name": "Caption",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "Image",
+          "type": "struct<bytes: binary, path: string>",
+          "nullable": true
+        },
+        {
+          "name": "Label_A",
+          "type": "int32",
+          "nullable": true
+        },
+        {
+          "name": "Label_B",
+          "type": "int32",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "path": "data/defactify/data/validation-00001-of-00002.parquet",
+      "size_bytes": 344988959,
+      "size_gib": 0.32129600550979376,
+      "rows": 4500,
+      "row_groups": 4,
+      "schema": [
+        {
+          "name": "Caption",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "Image",
+          "type": "struct<bytes: binary, path: string>",
+          "nullable": true
+        },
+        {
+          "name": "Label_A",
+          "type": "int32",
+          "nullable": true
+        },
+        {
+          "name": "Label_B",
+          "type": "int32",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "path": "data/defactify/data/test-00000-of-00008.parquet",
+      "size_bytes": 318333820,
+      "size_gib": 0.2964714728295803,
+      "rows": 5625,
+      "row_groups": 5,
+      "schema": [
+        {
+          "name": "Caption",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "Image",
+          "type": "struct<bytes: binary, path: string>",
+          "nullable": true
+        },
+        {
+          "name": "Label_A",
+          "type": "int32",
+          "nullable": true
+        },
+        {
+          "name": "Label_B",
+          "type": "int32",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "path": "data/defactify/data/test-00001-of-00008.parquet",
+      "size_bytes": 462192453,
+      "size_gib": 0.43045026529580355,
+      "rows": 5625,
+      "row_groups": 5,
+      "schema": [
+        {
+          "name": "Caption",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "Image",
+          "type": "struct<bytes: binary, path: string>",
+          "nullable": true
+        },
+        {
+          "name": "Label_A",
+          "type": "int32",
+          "nullable": true
+        },
+        {
+          "name": "Label_B",
+          "type": "int32",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "path": "data/defactify/data/test-00002-of-00008.parquet",
+      "size_bytes": 670927639,
+      "size_gib": 0.6248500561341643,
+      "rows": 5625,
+      "row_groups": 5,
+      "schema": [
+        {
+          "name": "Caption",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "Image",
+          "type": "struct<bytes: binary, path: string>",
+          "nullable": true
+        },
+        {
+          "name": "Label_A",
+          "type": "int32",
+          "nullable": true
+        },
+        {
+          "name": "Label_B",
+          "type": "int32",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "path": "data/defactify/data/test-00003-of-00008.parquet",
+      "size_bytes": 477096313,
+      "size_gib": 0.4443305665627122,
+      "rows": 5625,
+      "row_groups": 5,
+      "schema": [
+        {
+          "name": "Caption",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "Image",
+          "type": "struct<bytes: binary, path: string>",
+          "nullable": true
+        },
+        {
+          "name": "Label_A",
+          "type": "int32",
+          "nullable": true
+        },
+        {
+          "name": "Label_B",
+          "type": "int32",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "path": "data/defactify/data/test-00004-of-00008.parquet",
+      "size_bytes": 425363358,
+      "size_gib": 0.3961504977196455,
+      "rows": 5625,
+      "row_groups": 5,
+      "schema": [
+        {
+          "name": "Caption",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "Image",
+          "type": "struct<bytes: binary, path: string>",
+          "nullable": true
+        },
+        {
+          "name": "Label_A",
+          "type": "int32",
+          "nullable": true
+        },
+        {
+          "name": "Label_B",
+          "type": "int32",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "path": "data/defactify/data/test-00005-of-00008.parquet",
+      "size_bytes": 425250823,
+      "size_gib": 0.39604569133371115,
+      "rows": 5625,
+      "row_groups": 5,
+      "schema": [
+        {
+          "name": "Caption",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "Image",
+          "type": "struct<bytes: binary, path: string>",
+          "nullable": true
+        },
+        {
+          "name": "Label_A",
+          "type": "int32",
+          "nullable": true
+        },
+        {
+          "name": "Label_B",
+          "type": "int32",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "path": "data/defactify/data/test-00006-of-00008.parquet",
+      "size_bytes": 442703930,
+      "size_gib": 0.4123001638799906,
+      "rows": 5625,
+      "row_groups": 5,
+      "schema": [
+        {
+          "name": "Caption",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "Image",
+          "type": "struct<bytes: binary, path: string>",
+          "nullable": true
+        },
+        {
+          "name": "Label_A",
+          "type": "int32",
+          "nullable": true
+        },
+        {
+          "name": "Label_B",
+          "type": "int32",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "path": "data/defactify/data/test-00007-of-00008.parquet",
+      "size_bytes": 449388697,
+      "size_gib": 0.41852583829313517,
+      "rows": 5625,
+      "row_groups": 5,
+      "schema": [
+        {
+          "name": "Caption",
+          "type": "string",
+          "nullable": true
+        },
+        {
+          "name": "Image",
+          "type": "struct<bytes: binary, path: string>",
+          "nullable": true
+        },
+        {
+          "name": "Label_A",
+          "type": "int32",
+          "nullable": true
+        },
+        {
+          "name": "Label_B",
+          "type": "int32",
+          "nullable": true
+        }
+      ]
+    }
+  ],
+  "caption_analysis": {
+    "total_unique_captions": 9884,
+    "duplicated_caption_count": 9884,
+    "cross_real_fake_caption_count": 9884,
+    "cross_generator_caption_count": 9884,
+    "maximum_images_per_caption": 60,
+    "top_50_duplicated_captions": [
+      {
+        "caption": "A large jetliner sitting on top of an airport tarmac.",
+        "count": 60
+      },
+      {
+        "caption": "A group of giraffe standing next to each other.",
+        "count": 54
+      },
+      {
+        "caption": "A man riding on the back of a motorcycle down a street.",
+        "count": 48
+      },
+      {
+        "caption": "A bird perched on top of a tree branch.",
+        "count": 42
+      },
+      {
+        "caption": "A clean bathroom is seen in this image.",
+        "count": 42
+      },
+      {
+        "caption": "A man standing next to a parked motorcycle.",
+        "count": 42
+      },
+      {
+        "caption": "A white stove top oven sitting inside of a kitchen.",
+        "count": 42
+      },
+      {
+        "caption": "A white toilet sitting next to a white bath tub.",
+        "count": 42
+      },
+      {
+        "caption": "A bathroom sink sitting under a large mirror.",
+        "count": 36
+      },
+      {
+        "caption": "A bathroom with a white toilet next to a walk in shower.",
+        "count": 36
+      },
+      {
+        "caption": "A cat laying on top of a wooden bench.",
+        "count": 36
+      },
+      {
+        "caption": "A couple of giraffe standing next to each other.",
+        "count": 36
+      },
+      {
+        "caption": "A giraffe standing next to a tall tree.",
+        "count": 36
+      },
+      {
+        "caption": "A giraffe walking across a lush green field.",
+        "count": 36
+      },
+      {
+        "caption": "A group of people enjoying a day at the beach.",
+        "count": 36
+      },
+      {
+        "caption": "A group of people standing around a kitchen preparing food.",
+        "count": 36
+      },
+      {
+        "caption": "A kitchen with a black stove top oven.",
+        "count": 36
+      },
+      {
+        "caption": "A large jet sitting on top of an airport tarmac.",
+        "count": 36
+      },
+      {
+        "caption": "A large jetliner sitting on top of an airport runway.",
+        "count": 36
+      },
+      {
+        "caption": "A large passenger jet flying through a blue sky.",
+        "count": 36
+      },
+      {
+        "caption": "A man that is sitting on a motorcycle.",
+        "count": 36
+      },
+      {
+        "caption": "A man walking down a street holding an umbrella.",
+        "count": 36
+      },
+      {
+        "caption": "A red stop sign sitting on the side of a road.",
+        "count": 36
+      },
+      {
+        "caption": "A table and some chairs in a room.",
+        "count": 36
+      },
+      {
+        "caption": "A train engine carrying carts down a track.",
+        "count": 36
+      },
+      {
+        "caption": "A white refrigerator freezer sitting inside of a kitchen.",
+        "count": 36
+      },
+      {
+        "caption": "A white toilet sitting in a bathroom next to a sink.",
+        "count": 36
+      },
+      {
+        "caption": "A white toilet sitting in a bathroom next to a wall.",
+        "count": 36
+      },
+      {
+        "caption": "A white toilet sitting next to a window in a bathroom.",
+        "count": 36
+      },
+      {
+        "caption": "I am unable to see the image above.",
+        "count": 36
+      },
+      {
+        "caption": "Two giraffes that are standing in the grass.",
+        "count": 36
+      },
+      {
+        "caption": "a close up of a street sign with buildings in the background",
+        "count": 36
+      },
+      {
+        "caption": "a couple of giraffes are standing in a pin",
+        "count": 36
+      },
+      {
+        "caption": "a large air plane flying in the air",
+        "count": 36
+      },
+      {
+        "caption": "cars that are stopped at a traffic light",
+        "count": 36
+      },
+      {
+        "caption": " a sink and a bathtub and shower with a mirror above the sink",
+        "count": 30
+      },
+      {
+        "caption": "A  large air plane flying in the blue sky.",
+        "count": 30
+      },
+      {
+        "caption": "A  person approaching a public transportation bus through the snow.",
+        "count": 30
+      },
+      {
+        "caption": "A  yellow fire hydrant on a green piece of grass next to a road.",
+        "count": 30
+      },
+      {
+        "caption": "A European street scene with a motorcycle and a car.",
+        "count": 30
+      },
+      {
+        "caption": "A Stop sign is at the corner of a grassy area.",
+        "count": 30
+      },
+      {
+        "caption": "A Stop sign saying to stop all war at intersection.",
+        "count": 30
+      },
+      {
+        "caption": "A TV sitting on top of a counter inside of a store.",
+        "count": 30
+      },
+      {
+        "caption": "A United States air plane taking off .",
+        "count": 30
+      },
+      {
+        "caption": "A advertising billboard next to a street light at night.",
+        "count": 30
+      },
+      {
+        "caption": "A airplane that is flying over a mountain.",
+        "count": 30
+      },
+      {
+        "caption": "A baby giraffe standing next to an adult giraffe.",
+        "count": 30
+      },
+      {
+        "caption": "A back ho that is next to a pile of dirt.",
+        "count": 30
+      },
+      {
+        "caption": "A baseball player swinging a ball at a bat.",
+        "count": 30
+      },
+      {
+        "caption": "A bath caddy is stuffed with all the amenities for teeth care.",
+        "count": 30
+      }
+    ],
+    "interpretation": "Caption duplication is expected in this dataset because the same source prompt/caption can be paired with real and generated images. Captions must therefore not be classifier inputs."
+  },
+  "image_samples": {
+    "0": [
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 0,
+        "label_a": 0,
+        "label_b": 0,
+        "actual_label_a": 0,
+        "actual_label_b": 0,
+        "width": 640,
+        "height": 480,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 100832
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 6,
+        "label_a": 0,
+        "label_b": 0,
+        "actual_label_a": 0,
+        "actual_label_b": 0,
+        "width": 480,
+        "height": 640,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 81773
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 12,
+        "label_a": 0,
+        "label_b": 0,
+        "actual_label_a": 0,
+        "actual_label_b": 0,
+        "width": 427,
+        "height": 640,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 56643
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 18,
+        "label_a": 0,
+        "label_b": 0,
+        "actual_label_a": 0,
+        "actual_label_b": 0,
+        "width": 640,
+        "height": 480,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 45396
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 24,
+        "label_a": 0,
+        "label_b": 0,
+        "actual_label_a": 0,
+        "actual_label_b": 0,
+        "width": 500,
+        "height": 378,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 27304
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 30,
+        "label_a": 0,
+        "label_b": 0,
+        "actual_label_a": 0,
+        "actual_label_b": 0,
+        "width": 480,
+        "height": 640,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 19009
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 36,
+        "label_a": 0,
+        "label_b": 0,
+        "actual_label_a": 0,
+        "actual_label_b": 0,
+        "width": 640,
+        "height": 425,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 78452
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 42,
+        "label_a": 0,
+        "label_b": 0,
+        "actual_label_a": 0,
+        "actual_label_b": 0,
+        "width": 368,
+        "height": 640,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 18165
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 48,
+        "label_a": 0,
+        "label_b": 0,
+        "actual_label_a": 0,
+        "actual_label_b": 0,
+        "width": 640,
+        "height": 444,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 51172
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 54,
+        "label_a": 0,
+        "label_b": 0,
+        "actual_label_a": 0,
+        "actual_label_b": 0,
+        "width": 480,
+        "height": 640,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 51967
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 60,
+        "label_a": 0,
+        "label_b": 0,
+        "actual_label_a": 0,
+        "actual_label_b": 0,
+        "width": 640,
+        "height": 480,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 51017
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 66,
+        "label_a": 0,
+        "label_b": 0,
+        "actual_label_a": 0,
+        "actual_label_b": 0,
+        "width": 640,
+        "height": 480,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 31439
+      }
+    ],
+    "1": [
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 1,
+        "label_a": 1,
+        "label_b": 1,
+        "actual_label_a": 1,
+        "actual_label_b": 1,
+        "width": 768,
+        "height": 768,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 80714
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 7,
+        "label_a": 1,
+        "label_b": 1,
+        "actual_label_a": 1,
+        "actual_label_b": 1,
+        "width": 768,
+        "height": 768,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 110607
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 13,
+        "label_a": 1,
+        "label_b": 1,
+        "actual_label_a": 1,
+        "actual_label_b": 1,
+        "width": 768,
+        "height": 768,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 121408
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 19,
+        "label_a": 1,
+        "label_b": 1,
+        "actual_label_a": 1,
+        "actual_label_b": 1,
+        "width": 768,
+        "height": 768,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 102777
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 25,
+        "label_a": 1,
+        "label_b": 1,
+        "actual_label_a": 1,
+        "actual_label_b": 1,
+        "width": 768,
+        "height": 768,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 75545
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 31,
+        "label_a": 1,
+        "label_b": 1,
+        "actual_label_a": 1,
+        "actual_label_b": 1,
+        "width": 768,
+        "height": 768,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 50987
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 37,
+        "label_a": 1,
+        "label_b": 1,
+        "actual_label_a": 1,
+        "actual_label_b": 1,
+        "width": 768,
+        "height": 768,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 92166
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 43,
+        "label_a": 1,
+        "label_b": 1,
+        "actual_label_a": 1,
+        "actual_label_b": 1,
+        "width": 768,
+        "height": 768,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 106153
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 49,
+        "label_a": 1,
+        "label_b": 1,
+        "actual_label_a": 1,
+        "actual_label_b": 1,
+        "width": 768,
+        "height": 768,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 78654
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 55,
+        "label_a": 1,
+        "label_b": 1,
+        "actual_label_a": 1,
+        "actual_label_b": 1,
+        "width": 768,
+        "height": 768,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 99762
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 61,
+        "label_a": 1,
+        "label_b": 1,
+        "actual_label_a": 1,
+        "actual_label_b": 1,
+        "width": 768,
+        "height": 768,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 95009
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 67,
+        "label_a": 1,
+        "label_b": 1,
+        "actual_label_a": 1,
+        "actual_label_b": 1,
+        "width": 768,
+        "height": 768,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 55941
+      }
+    ],
+    "2": [
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 2,
+        "label_a": 1,
+        "label_b": 2,
+        "actual_label_a": 1,
+        "actual_label_b": 2,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 84767
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 8,
+        "label_a": 1,
+        "label_b": 2,
+        "actual_label_a": 1,
+        "actual_label_b": 2,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 119110
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 14,
+        "label_a": 1,
+        "label_b": 2,
+        "actual_label_a": 1,
+        "actual_label_b": 2,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 126583
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 20,
+        "label_a": 1,
+        "label_b": 2,
+        "actual_label_a": 1,
+        "actual_label_b": 2,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 111588
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 26,
+        "label_a": 1,
+        "label_b": 2,
+        "actual_label_a": 1,
+        "actual_label_b": 2,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 99514
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 32,
+        "label_a": 1,
+        "label_b": 2,
+        "actual_label_a": 1,
+        "actual_label_b": 2,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 83403
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 38,
+        "label_a": 1,
+        "label_b": 2,
+        "actual_label_a": 1,
+        "actual_label_b": 2,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 127819
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 44,
+        "label_a": 1,
+        "label_b": 2,
+        "actual_label_a": 1,
+        "actual_label_b": 2,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 131635
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 50,
+        "label_a": 1,
+        "label_b": 2,
+        "actual_label_a": 1,
+        "actual_label_b": 2,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 129412
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 56,
+        "label_a": 1,
+        "label_b": 2,
+        "actual_label_a": 1,
+        "actual_label_b": 2,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 103091
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 62,
+        "label_a": 1,
+        "label_b": 2,
+        "actual_label_a": 1,
+        "actual_label_b": 2,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 139181
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 68,
+        "label_a": 1,
+        "label_b": 2,
+        "actual_label_a": 1,
+        "actual_label_b": 2,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 62358
+      }
+    ],
+    "3": [
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 3,
+        "label_a": 1,
+        "label_b": 3,
+        "actual_label_a": 1,
+        "actual_label_b": 3,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 118619
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 9,
+        "label_a": 1,
+        "label_b": 3,
+        "actual_label_a": 1,
+        "actual_label_b": 3,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 150146
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 15,
+        "label_a": 1,
+        "label_b": 3,
+        "actual_label_a": 1,
+        "actual_label_b": 3,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 281672
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 21,
+        "label_a": 1,
+        "label_b": 3,
+        "actual_label_a": 1,
+        "actual_label_b": 3,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 84471
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 27,
+        "label_a": 1,
+        "label_b": 3,
+        "actual_label_a": 1,
+        "actual_label_b": 3,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 125631
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 33,
+        "label_a": 1,
+        "label_b": 3,
+        "actual_label_a": 1,
+        "actual_label_b": 3,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 97071
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 39,
+        "label_a": 1,
+        "label_b": 3,
+        "actual_label_a": 1,
+        "actual_label_b": 3,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 330104
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 45,
+        "label_a": 1,
+        "label_b": 3,
+        "actual_label_a": 1,
+        "actual_label_b": 3,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 78541
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 51,
+        "label_a": 1,
+        "label_b": 3,
+        "actual_label_a": 1,
+        "actual_label_b": 3,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 130343
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 57,
+        "label_a": 1,
+        "label_b": 3,
+        "actual_label_a": 1,
+        "actual_label_b": 3,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 90366
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 63,
+        "label_a": 1,
+        "label_b": 3,
+        "actual_label_a": 1,
+        "actual_label_b": 3,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 207761
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 69,
+        "label_a": 1,
+        "label_b": 3,
+        "actual_label_a": 1,
+        "actual_label_b": 3,
+        "width": 1024,
+        "height": 1024,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 93517
+      }
+    ],
+    "4": [
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 4,
+        "label_a": 1,
+        "label_b": 4,
+        "actual_label_a": 1,
+        "actual_label_b": 4,
+        "width": 270,
+        "height": 270,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 12176
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 10,
+        "label_a": 1,
+        "label_b": 4,
+        "actual_label_a": 1,
+        "actual_label_b": 4,
+        "width": 270,
+        "height": 270,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 15665
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 16,
+        "label_a": 1,
+        "label_b": 4,
+        "actual_label_a": 1,
+        "actual_label_b": 4,
+        "width": 270,
+        "height": 270,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 19389
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 22,
+        "label_a": 1,
+        "label_b": 4,
+        "actual_label_a": 1,
+        "actual_label_b": 4,
+        "width": 270,
+        "height": 270,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 16410
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 28,
+        "label_a": 1,
+        "label_b": 4,
+        "actual_label_a": 1,
+        "actual_label_b": 4,
+        "width": 270,
+        "height": 270,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 12082
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 34,
+        "label_a": 1,
+        "label_b": 4,
+        "actual_label_a": 1,
+        "actual_label_b": 4,
+        "width": 270,
+        "height": 270,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 19471
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 40,
+        "label_a": 1,
+        "label_b": 4,
+        "actual_label_a": 1,
+        "actual_label_b": 4,
+        "width": 270,
+        "height": 270,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 22273
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 46,
+        "label_a": 1,
+        "label_b": 4,
+        "actual_label_a": 1,
+        "actual_label_b": 4,
+        "width": 270,
+        "height": 270,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 19263
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 52,
+        "label_a": 1,
+        "label_b": 4,
+        "actual_label_a": 1,
+        "actual_label_b": 4,
+        "width": 270,
+        "height": 270,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 22493
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 58,
+        "label_a": 1,
+        "label_b": 4,
+        "actual_label_a": 1,
+        "actual_label_b": 4,
+        "width": 270,
+        "height": 270,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 13277
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 64,
+        "label_a": 1,
+        "label_b": 4,
+        "actual_label_a": 1,
+        "actual_label_b": 4,
+        "width": 270,
+        "height": 270,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 23650
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 70,
+        "label_a": 1,
+        "label_b": 4,
+        "actual_label_a": 1,
+        "actual_label_b": 4,
+        "width": 270,
+        "height": 270,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 12796
+      }
+    ],
+    "5": [
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 5,
+        "label_a": 1,
+        "label_b": 5,
+        "actual_label_a": 1,
+        "actual_label_b": 5,
+        "width": 436,
+        "height": 436,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 23338
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 11,
+        "label_a": 1,
+        "label_b": 5,
+        "actual_label_a": 1,
+        "actual_label_b": 5,
+        "width": 436,
+        "height": 436,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 16929
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 17,
+        "label_a": 1,
+        "label_b": 5,
+        "actual_label_a": 1,
+        "actual_label_b": 5,
+        "width": 436,
+        "height": 436,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 28214
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 23,
+        "label_a": 1,
+        "label_b": 5,
+        "actual_label_a": 1,
+        "actual_label_b": 5,
+        "width": 436,
+        "height": 436,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 26972
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 29,
+        "label_a": 1,
+        "label_b": 5,
+        "actual_label_a": 1,
+        "actual_label_b": 5,
+        "width": 436,
+        "height": 436,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 19967
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 35,
+        "label_a": 1,
+        "label_b": 5,
+        "actual_label_a": 1,
+        "actual_label_b": 5,
+        "width": 436,
+        "height": 436,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 18643
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 41,
+        "label_a": 1,
+        "label_b": 5,
+        "actual_label_a": 1,
+        "actual_label_b": 5,
+        "width": 436,
+        "height": 436,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 32837
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 47,
+        "label_a": 1,
+        "label_b": 5,
+        "actual_label_a": 1,
+        "actual_label_b": 5,
+        "width": 436,
+        "height": 436,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 21600
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 53,
+        "label_a": 1,
+        "label_b": 5,
+        "actual_label_a": 1,
+        "actual_label_b": 5,
+        "width": 436,
+        "height": 436,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 23122
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 59,
+        "label_a": 1,
+        "label_b": 5,
+        "actual_label_a": 1,
+        "actual_label_b": 5,
+        "width": 436,
+        "height": 436,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 29122
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 65,
+        "label_a": 1,
+        "label_b": 5,
+        "actual_label_a": 1,
+        "actual_label_b": 5,
+        "width": 436,
+        "height": 436,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 31393
+      },
+      {
+        "split": "train",
+        "file": "data/defactify/data/train-00000-of-00007.parquet",
+        "row_in_file": 71,
+        "label_a": 1,
+        "label_b": 5,
+        "actual_label_a": 1,
+        "actual_label_b": 5,
+        "width": 436,
+        "height": 436,
+        "mode": "RGB",
+        "format": "JPEG",
+        "encoded_bytes": 20339
+      }
+    ]
+  },
+  "duplicate_sample": {
+    "sample_size": 2000,
+    "unique_hashes": 2000,
+    "duplicate_groups": [],
+    "errors": [],
+    "note": "This is a bounded encoded-byte sample, not a proof that the entire dataset contains no duplicates."
+  },
+  "validation_errors": [],
+  "expected_label_a": {
+    "0": "real",
+    "1": "ai"
+  },
+  "expected_label_b": {
+    "0": "real",
+    "1": "sd21",
+    "2": "sdxl",
+    "3": "sd3",
+    "4": "dalle3",
+    "5": "midjourney_v6"
+  }
+}

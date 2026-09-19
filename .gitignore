@@ -1,0 +1,16 @@
+/first_analysis_own/analysis_outputs/
+/first_analysis_own/analysis_outputs_refined/
+/analysis_800x800/dataset/
+/analysis_800x800/analysis_800_outputs/
+/.venv/
+/.agents/
+/data/
+
+# Python bytecode & caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/

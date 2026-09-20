@@ -1,174 +1,677 @@
 # AI Image Detection — Semester 5 Minor Project
 
-An AI-generated image detection system built as a multi-stage forensic and machine-learning pipeline.
+A modular research project for detecting AI-generated images using a **data-efficient, low-complexity combination of RGB and low-level forensic evidence**.
 
-## Architecture
+The project is deliberately organized into four sequential blocks. Each block consumes a defined output from the previous block and stores its own output so that later development and experiments do not require repeatedly rerunning earlier stages.
 
-The project is divided into four sequential blocks. Each block consumes the output of the previous block and stores its output as persistent data so that later stages can be reproduced without rerunning earlier stages.
+> **Current project status (2026-09-20):** Block 1 is complete. The project is currently finishing Block 2. Forensic branches A–D are implemented; Branch E, forensic feature analysis/selection, and the RGB analysis/selection pipeline remain to be completed. Block 3 model training and Block 4 evaluation have not yet started as the main experimental phase.
+
+---
+
+## 1. Research Objective
+
+The central research question is:
+
+> **Can carefully selected low-level forensic evidence provide useful AI-image detection while minimizing training image count, feature count, model complexity, and inference cost, while remaining useful on unseen generators and compressed images?**
+
+The project is not primarily attempting to build the largest or most accurate detector possible. Its focus is the **performance–efficiency trade-off**:
+
+- How much training data is actually needed?
+- How many features are actually useful?
+- How much redundant information exists across forensic representations?
+- How much model complexity is necessary?
+- How well do the resulting representations generalize to generators not used for training?
+- How does controlled JPEG compression affect the evidence?
+
+The project therefore treats feature extraction, feature analysis, and feature selection as central research components rather than merely preprocessing.
+
+---
+
+# 2. Four-Block Architecture
 
 ```text
-                    ┌──────────────────────┐
-                    │      Block 1         │
-                    │ Data Loading &       │
-                    │ Basic Preprocessing  │
-                    └──────────┬───────────┘
+                           Defactify
+                              │
+                              ▼
+┌───────────────────────────────────────────────────────────────┐
+│ BLOCK 1 — DATA LOADING + PREPROCESSING                        │
+│                                                               │
+│ Raw images → deterministic crop → resize → RGB uint8          │
+└──────────────────────────────┬────────────────────────────────┘
                                │
-                         Processed Data
-                               │
-                               ▼
-                    ┌──────────────────────┐
-                    │      Block 2         │
-                    │ Image Analysis       │
-                    │                      │
-                    │ ┌──────────────────┐ │
-                    │ │ Forensic Pipeline│ │
-                    │ └──────────────────┘ │
-                    │ ┌──────────────────┐ │
-                    │ │ RGB Pipeline     │ │
-                    │ └──────────────────┘ │
-                    └──────────┬───────────┘
-                               │
-                  Analyzed / Feature Data
+                        Stored processed data
                                │
                                ▼
-                    ┌──────────────────────┐
-                    │      Block 3         │
-                    │ Model Training /     │
-                    │ Inference            │
-                    │                      │
-                    │ Uses outputs from    │
-                    │ both Block 2 paths   │
-                    └──────────┬───────────┘
-                               │
-                          Predictions
+┌───────────────────────────────────────────────────────────────┐
+│ BLOCK 2 — IMAGE ANALYSIS                                      │
+│                                                               │
+│                  ┌────────────────────────┐                   │
+│                  │                        │                   │
+│                  ▼                        ▼                   │
+│           RGB PIPELINE             FORENSIC PIPELINE          │
+│                  │                        │                   │
+│           representation          A Frequency                 │
+│           extraction               B Wavelet                   │
+│           analysis                 C Texture                   │
+│           selection                D Residual                  │
+│                  │                  E JPEG / Compression       │
+│                  │                        │                   │
+│                  ▼                        ▼                   │
+│             RGB DATASET             FORENSIC DATASET          │
+└──────────────────────────────┬────────────────────────────────┘
                                │
                                ▼
-                    ┌──────────────────────┐
-                    │      Block 4         │
-                    │ Evaluation            │
-                    │                      │
-                    │ Metrics, analysis,   │
-                    │ and final comparison │
-                    └──────────────────────┘
+┌───────────────────────────────────────────────────────────────┐
+│ BLOCK 3 — MODELS                                              │
+│                                                               │
+│ RGB models + forensic models + optional controlled fusion     │
+└──────────────────────────────┬────────────────────────────────┘
+                               │
+                         Predictions/results
+                               │
+                               ▼
+┌───────────────────────────────────────────────────────────────┐
+│ BLOCK 4 — EVALUATION + EXPERIMENTS                            │
+│                                                               │
+│ Data budget × feature budget × model type                     │
+│ + generator-disjoint evaluation + compression robustness     │
+│ + efficiency measurements                                     │
+└───────────────────────────────────────────────────────────────┘
 ```
 
-### Block 1 — Data Loading and Preprocessing
+The important architectural property is that **Block 2 produces two persistent datasets**:
 
-Loads the **Defactify** dataset and performs the basic preprocessing required by the analysis pipeline.
+1. a selected **forensic dataset**
+2. a selected **RGB dataset**
 
-**Input:** Raw Defactify data  
-**Output:** Processed dataset
+Block 3 should consume these outputs rather than rebuilding Block 2.
 
-The processed output is stored so that subsequent blocks can operate on a stable, reproducible dataset without repeating Block 1.
+See:
 
-### Block 2 — Image Analysis
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+- [`docs/BLOCK_1_DATA_PIPELINE.md`](docs/BLOCK_1_DATA_PIPELINE.md)
+- [`docs/BLOCK_2_DUAL_PIPELINE.md`](docs/BLOCK_2_DUAL_PIPELINE.md)
 
-The processed images are analyzed through two complementary pipelines:
+---
 
-- **Forensic pipeline** — extracts image-forensic representations/features.
-- **RGB pipeline** — retains/derives information from the conventional RGB image representation.
+# 3. Dataset
 
-The current forensic candidate feature architecture contains five complementary branches:
+## Primary dataset
 
-| Branch | Representation | Candidates |
+**Defactify**
+
+The project architecture document specifies:
+
+- 96,000 images
+- 16,000 real images
+- 80,000 AI-generated images
+- five AI generators:
+  - Stable Diffusion 2.1
+  - Stable Diffusion XL
+  - Stable Diffusion 3
+  - DALL-E 3
+  - Midjourney v6
+
+`Label_A` is the binary real/fake target.
+
+`Label_B` is evaluation metadata and is **not detector input**.
+
+The raw dataset is treated as immutable project input and is not intended to be committed to Git.
+
+See [`docs/BLOCK_1_DATA_PIPELINE.md`](docs/BLOCK_1_DATA_PIPELINE.md).
+
+---
+
+# 4. Block 1 — Data Loading and Preprocessing
+
+Block 1 converts the raw dataset into the canonical image representation used by downstream analysis.
+
+```text
+Raw image
+   ↓
+largest centered square crop
+   ↓
+resize to 256 × 256
+   ↓
+RGB uint8
+   ↓
+stored processed data
+```
+
+Canonical rules:
+
+- deterministic centered crop
+- crop before resize
+- `cv2.INTER_AREA`
+- no padding/letterboxing
+- no random crop
+- no random augmentation
+- no aspect-ratio squashing
+- no common ImageNet normalization for forensic extraction
+
+The detector must not use:
+
+- caption
+- path
+- filename
+- generator identity
+- split
+- EXIF
+- JPEG container metadata
+- original JPEG quantization tables
+- file size
+- source IDs
+
+See [`docs/BLOCK_1_DATA_PIPELINE.md`](docs/BLOCK_1_DATA_PIPELINE.md).
+
+---
+
+# 5. Block 2 — Dual Image-Analysis Pipeline
+
+Block 2 is the main feature/representation engineering stage.
+
+It has two deliberately different paths.
+
+## 5.1 Forensic pipeline
+
+The forensic pipeline is designed around multiple low-level evidence domains:
+
+| Branch | Evidence domain | Planned candidates |
 |---|---|---:|
-| A | Frequency | 34 |
-| B | Haar Wavelet | 30 |
-| C | Texture / LBP | 16 |
-| D | Residual / MFR | 5 |
-| E | JPEG / Compression-aware | 26 |
-| **Total** | **Canonical forensic candidate pool** | **111** |
+| A | Frequency / periodicity | 34 |
+| B | Haar wavelet | 30 |
+| C | Local texture | 16 canonical LBP |
+| D | Residual / noise | 5 canonical MFR |
+| E | JPEG / compression-aware | 26 |
+| **Total** | **Canonical forensic pool** | **111** |
 
-Branch E contains:
+The **111-feature pool is the planned canonical configuration after Branch E is implemented**. The currently implemented canonical A–D portion is 85 features.
 
-| Sub-branch | Features |
-|---|---:|
-| E1 — DCT | 10 |
-| E2 — JPEG response | 8 |
-| E3 — Phase stability | 4 |
-| E4 — Grid | 4 |
-| **Total** | **26** |
+Branch C and Branch D contain alternatives for ablation:
 
-**Input:** Block 1 processed data  
-**Output:** Stored forensic features + RGB analysis data
+- C_LBP: 16
+- C_GLCM: 24
+- C_LBP_EDGE: 16
+- D_HIGHPASS: 5
+- D_LAPLACIAN: 5
+- D_MFR: 5
 
-### Block 3 — Models
+The alternatives are not automatically concatenated into the canonical pool.
 
-The model stage consumes the analyzed outputs generated by Block 2.
+See:
 
-The model pipeline is intended to evaluate the information available from:
+- [`docs/FORENSIC_PIPELINE.md`](docs/FORENSIC_PIPELINE.md)
+- [`docs/BRANCH_A_FREQUENCY.md`](docs/BRANCH_A_FREQUENCY.md)
+- [`docs/BRANCH_B_WAVELET.md`](docs/BRANCH_B_WAVELET.md)
+- [`docs/BRANCH_C_TEXTURE.md`](docs/BRANCH_C_TEXTURE.md)
+- [`docs/BRANCH_D_RESIDUAL.md`](docs/BRANCH_D_RESIDUAL.md)
+- [`docs/BRANCH_E_JPEG.md`](docs/BRANCH_E_JPEG.md)
 
-- forensic features
-- RGB/image representations
-- and their appropriate combinations
+## 5.2 RGB pipeline
 
-Model selection, training, and final experimental configuration belong to this block.
+The RGB path retains conventional spatial/image information and is intentionally kept separate from the handcrafted forensic representation.
 
-**Input:** Block 2 outputs  
-**Output:** Trained models and predictions
+Its planned model candidates include:
 
-### Block 4 — Evaluation
+- MobileNetV3-Small
+- ShuffleNetV2
 
-The final stage evaluates the trained models and their predictions.
+The exact RGB feature/representation extraction, analysis, and selection implementation is **not yet finalized** and must be documented after it is designed and implemented.
 
-Evaluation will include the appropriate classification metrics, comparisons between analysis/model configurations, and analysis of model behavior.
+See [`docs/RGB_PIPELINE.md`](docs/RGB_PIPELINE.md).
 
-**Input:** Block 3 predictions/results  
-**Output:** Evaluation results and final analysis
+---
 
-## Data Flow
+# 6. Why the Forensic Branches Are Separate
 
-The project follows a persistent block-to-block workflow:
+The five forensic branches are **designed to interrogate different types of low-level evidence**, but the project does not assume that they are statistically independent.
+
+This distinction is important.
+
+For example:
+
+- FFT and DCT are both frequency-domain representations.
+- Haar high-frequency bands and LBP can both respond to local detail.
+- LBP and residual statistics can respond to related local/high-frequency structure.
+- DCT/compression response and residual behavior can be correlated.
+
+Therefore:
+
+> **Complementarity is a research hypothesis, not a predetermined result.**
+
+The feature-analysis stage is expected to determine which features are discriminative, redundant, unstable, generator-dependent, compression-sensitive, or computationally expensive.
+
+This allows the project to test whether combining branches actually provides information that cannot be obtained from a smaller subset.
+
+See [`docs/FEATURE_ANALYSIS_SELECTION.md`](docs/FEATURE_ANALYSIS_SELECTION.md).
+
+---
+
+# 7. Branch E — JPEG / Compression-Aware Forensics
+
+Branch E is divided into four candidate families:
 
 ```text
-Raw Defactify
-     │
-     ▼
-Block 1
-     │
-     └──► Stored Processed Data
-                 │
-                 ▼
-              Block 2
-                 │
-          ┌──────┴──────┐
-          ▼             ▼
-      Forensics        RGB
-          │             │
-          └──────┬──────┘
-                 ▼
-          Stored Analysis
-                 │
-                 ▼
-              Block 3
-                 │
-                 ▼
-          Stored Predictions
-                 │
-                 ▼
-              Block 4
-                 │
-                 ▼
-             Evaluation
+E1 DCT                  10
+E2 Controlled JPEG      8
+E3 Phase stability      4
+E4 Canonical grid       4
+                       ───
+                        26
 ```
 
-This separation is intended to make each stage independently reproducible and prevent later experiments from requiring the complete pipeline to be rerun.
+### E1 — DCT
 
-## Project Status
+Candidate features:
 
-The project is currently progressing through the **Block 2 forensic analysis stage**.
+- `dct_ac_mean_abs`
+- `dct_ac_energy`
+- `dct_ac_kurtosis`
+- `dct_sparsity_ratio`
+- `dct_low_freq_ratio`
+- `dct_mid_freq_ratio`
+- `dct_high_freq_ratio`
+- `dct_anisotropy`
+- `dct_benford_ssd`
+- `dct_block_var_mean`
 
-Branch E is undergoing a code-level and scientific audit before the project proceeds to later empirical evaluation.
+The DCT features use canonical 8×8 blocks.
 
-Block 4 is intentionally kept separate from feature implementation/verification.
+`dct_sparsity_ratio` refers to floating-point canonical DCT coefficients, not original JPEG quantization zeros.
 
-## Repository Structure
+### E2 — Controlled JPEG response
 
-The repository is organized around the four-block workflow, with source code, analysis modules, tests, documentation, and generated/processed data kept separate.
+Controlled in-memory recompression is performed at:
+
+```text
+Q95 / Q90 / Q75 / Q60
+```
+
+Candidate features:
+
+- `ela_q95_mean`
+- `ela_q90_mean`
+- `ela_q75_mean`
+- `ela_q60_mean`
+- `ela_q90_energy`
+- `ela_slope_q90_q75`
+- `ela_ratio_q90_q75`
+- `ela_q90_gini`
+
+This is a compression-response representation, not a JPEG-history detector.
+
+### E3 — Phase stability
+
+Candidate features:
+
+- `phase_corr_q90`
+- `phase_corr_q75`
+- `phase_diff_energy_q90`
+- `phase_hf_stability_q90`
+
+These measure Fourier-phase behavior before/after controlled recompression.
+
+### E4 — Canonical grid
+
+Candidate features:
+
+- `grid_h_ratio`
+- `grid_v_ratio`
+- `grid_strength`
+- `grid_anisotropy`
+
+The grid is the **canonical 8×8 analysis grid**. It does not recover the original JPEG encoder's block grid.
+
+See [`docs/BRANCH_E_JPEG.md`](docs/BRANCH_E_JPEG.md).
+
+---
+
+# 8. Feature Analysis and Selection
+
+After candidate extraction, the project does not assume that every feature is useful.
+
+The intended analysis considers:
+
+- per-feature discrimination
+- feature correlation/redundancy
+- mutual information
+- feature importance
+- per-generator behavior
+- compression sensitivity
+- branch ablation
+- computational cost
+- numerical stability
+
+Selection must be fitted using **training data only**.
+
+Validation and test information must not influence which features are selected.
+
+The output is a reduced feature representation suitable for Block 3.
+
+The project is particularly interested in the relationship:
+
+```text
+candidate feature count
+        ↓
+selected feature count
+        ↓
+model performance
+        ↓
+computational cost
+```
+
+See [`docs/FEATURE_ANALYSIS_SELECTION.md`](docs/FEATURE_ANALYSIS_SELECTION.md).
+
+---
+
+# 9. Block 2 Completion Criterion
+
+Block 2 is considered complete only when both paths produce stable, reproducible outputs:
+
+```text
+                 BLOCK 2
+                    │
+          ┌─────────┴─────────┐
+          ▼                   ▼
+   Forensic pipeline      RGB pipeline
+          │                   │
+   analysis + selection analysis + selection
+          │                   │
+          ▼                   ▼
+   FORENSIC DATASET       RGB DATASET
+```
+
+These two datasets become the inputs to Block 3.
+
+Implementing feature extraction alone does **not** complete Block 2.
+
+---
+
+# 10. Block 3 — Models
+
+Block 3 consumes the outputs of Block 2.
+
+### Forensic models
+
+Primary:
+
+- LightGBM
+
+Secondary:
+
+- Tiny MLP
+
+### RGB models
+
+Candidate lightweight CNNs:
+
+- MobileNetV3-Small
+- ShuffleNetV2
+
+Optional fusion is considered only after the independent RGB and forensic pipelines are understood.
+
+Fusion is not assumed to improve performance.
+
+See [`docs/BLOCK_3_MODELS.md`](docs/BLOCK_3_MODELS.md).
+
+---
+
+# 11. Block 4 — Evaluation and Experiments
+
+The experimental design is organized around three main experimental factors.
+
+## Factor 1 — Training-data budget
+
+Example levels:
+
+```text
+1k / 5k / 10k / 20k
+```
+
+Question:
+
+> How does detection performance change as available training data decreases?
+
+## Factor 2 — Feature budget
+
+Example levels:
+
+```text
+111 / 64 / 32 / 16 / 8 / ...
+```
+
+The exact final feature-budget grid can be selected after the feature-analysis stage.
+
+Question:
+
+> How much can the representation be reduced while retaining useful detection performance?
+
+## Factor 3 — Model type
+
+Examples:
+
+- LightGBM
+- Tiny MLP
+- MobileNetV3-Small
+- ShuffleNetV2
+
+Question:
+
+> How does model complexity affect performance and computational cost when the available information is controlled?
+
+These are **experimental factors**, not themselves metrics.
+
+Actual evaluation metrics include:
+
+- ROC-AUC
+- PR-AUC
+- F1
+- TPR at a fixed FPR
+- per-generator AUC
+- mean generator AUC
+- worst-generator AUC
+- parameter count
+- model size
+- FLOPs
+- inference runtime
+- RAM usage
+
+See:
+
+- [`docs/BLOCK_4_EVALUATION.md`](docs/BLOCK_4_EVALUATION.md)
+- [`docs/EXPERIMENTAL_PROTOCOL.md`](docs/EXPERIMENTAL_PROTOCOL.md)
+
+---
+
+# 12. Generator-Disjoint Evaluation
+
+Generator generalization is an important control.
+
+With five AI generators, the project can rotate the held-out generator:
+
+```text
+Train: generators A + B + C + D
+Test:  generator E
+```
+
+then repeat for each generator.
+
+Generator identity is never supplied to the detector as an input feature.
+
+This prevents a random image-level split from being the only measure of generalization.
+
+---
+
+# 13. Compression Robustness
+
+Compression robustness is evaluated separately from Branch E feature extraction.
+
+Example test qualities:
+
+```text
+Clean
+Q95
+Q80
+Q60
+Q40
+Q20
+```
+
+Possible protocols include:
+
+### Clean → compressed
+
+```text
+Train: clean
+Test:  compressed
+```
+
+### Compression augmentation
+
+```text
+Train: clean + compressed
+Test:  compressed
+```
+
+### Cross-quality generalization
+
+```text
+Train: clean + Q95 + Q80
+Test:  Q60 + Q40 + Q20
+```
+
+The objective is to determine whether the detector retains evidence of synthetic origin rather than merely learning JPEG artifacts.
+
+See [`docs/BLOCK_4_EVALUATION.md`](docs/BLOCK_4_EVALUATION.md).
+
+---
+
+# 14. Efficiency Objective
+
+The project targets constrained hardware.
+
+Efficiency should therefore be reported alongside detection performance:
+
+- number of selected features
+- model parameter count
+- model size
+- FLOPs where applicable
+- CPU/GPU inference time
+- RAM usage
+
+The desired result is not necessarily the absolute smallest detector.
+
+The research target is a useful **performance–efficiency trade-off**.
+
+---
+
+# 15. Scientific Controls
+
+The project does not claim novelty from the existence of:
+
+- FFT
+- DWT
+- LBP
+- GLCM
+- DCT
+- residual filters
+- LightGBM
+- lightweight CNNs
+- real-only training
+- multi-branch architecture
+
+The research contribution is instead centered on the systematic combination and evaluation of low-level evidence under controlled data, feature, model, generalization, compression, and efficiency conditions.
+
+Core controls:
+
+- image-only detector input
+- immutable raw dataset
+- deterministic preprocessing
+- generator-disjoint evaluation
+- symmetric transformations
+- no random augmentation during forensic extraction
+- training-only feature selection
+- explicit compression experiments
+- no metadata/container shortcuts
+- branch ablations
+- feature-budget experiments
+- data-budget experiments
+
+See [`docs/SCIENTIFIC_CONTROLS.md`](docs/SCIENTIFIC_CONTROLS.md).
+
+---
+
+# 16. Current Project Status
+
+| Component | Status |
+|---|---|
+| Block 1 data loading | Complete |
+| Block 1 canonical preprocessing | Complete |
+| Forensic Branch A | Implemented |
+| Forensic Branch B | Implemented |
+| Forensic Branch C | Implemented |
+| Forensic Branch D | Implemented |
+| Forensic Branch E | **Pending** |
+| Forensic feature analysis | **Pending** |
+| Forensic feature selection | **Pending** |
+| RGB pipeline | **Pending** |
+| RGB feature analysis | **Pending** |
+| RGB feature selection | **Pending** |
+| Block 2 final datasets | **Pending** |
+| Block 3 training | Pending |
+| Block 4 evaluation | Pending |
+
+The planned canonical forensic pool becomes 111 features after E is completed:
+
+```text
+A 34
+B 30
+C 16
+D  5
+E 26
+────
+111
+```
+
+Current implemented canonical A–D pool:
+
+```text
+34 + 30 + 16 + 5 = 85
+```
+
+No final detection-performance claim should be made until Block 4 experiments have been run.
+
+---
+
+# 17. Repository Structure
 
 ```text
 .
+├── .agents/
+├── .venv/
+├── analysis_800x800/
+├── data/
 ├── docs/
+│   ├── ARCHITECTURE.md
+│   ├── BLOCK_1_DATA_PIPELINE.md
+│   ├── BLOCK_2_DUAL_PIPELINE.md
+│   ├── FORENSIC_PIPELINE.md
+│   ├── BRANCH_A_FREQUENCY.md
+│   ├── BRANCH_B_WAVELET.md
+│   ├── BRANCH_C_TEXTURE.md
+│   ├── BRANCH_D_RESIDUAL.md
+│   ├── BRANCH_E_JPEG.md
+│   ├── RGB_PIPELINE.md
+│   ├── FEATURE_ANALYSIS_SELECTION.md
+│   ├── BLOCK_3_MODELS.md
+│   ├── BLOCK_4_EVALUATION.md
+│   ├── EXPERIMENTAL_PROTOCOL.md
+│   ├── SCIENTIFIC_CONTROLS.md
+│   ├── RESEARCH_REFERENCES.md
+│   ├── PROJECT_STATUS.md
+│   ├── BRANCH_E_AUDIT_STATE.md
+│   └── MODULE_MAP.md
+├── first_analysis_own/
 ├── src/
 │   ├── analysis/
 │   ├── data/
@@ -177,33 +680,53 @@ The repository is organized around the four-block workflow, with source code, an
 │       ├── branch_b_wavelet/
 │       ├── branch_c_texture/
 │       ├── branch_d_residual/
-│       └── branch_e/
-├── data/
-├── first_analysis_own/
-├── analysis_800x800/
+│       ├── branch_e/
+│       ├── tests/
+│       ├── pipeline.py
+│       └── run_forensic_pipeline.py
 ├── .gitignore
 ├── AGENTS.md
 ├── CHANGELOG.md
 ├── DECISIONS.md
-└── PROJECT.md
+├── PROJECT.md
+└── README.md
 ```
 
-## Dataset
+Large/raw datasets and virtual environments should remain excluded through `.gitignore`.
 
-The project uses **Defactify** as its primary dataset.
+---
 
-Raw dataset files are treated as immutable project inputs. Large/raw dataset contents are not intended to be committed directly to the Git repository.
+# 18. Research References
 
-## Reproducibility
+The research rationale and source list are maintained in:
 
-Each block is designed to consume a defined input and produce a persistent output:
+[`docs/RESEARCH_REFERENCES.md`](docs/RESEARCH_REFERENCES.md)
 
-```text
-Block N input → processing → Block N output → stored artifact
-```
+Important literature includes work on:
 
-This allows later stages to be developed and evaluated independently of earlier preprocessing and analysis steps.
+- frequency-domain AI-image detection
+- DCT traces
+- spectral learning
+- generator generalization
+- compression robustness
+- phase-spectrum robustness
+- JPEG/compression-response analysis
+- feature relevance/redundancy selection
 
-## Current Objective
+---
 
-Build and validate a data-efficient AI-generated image detection system using complementary RGB and forensic information while maintaining a reproducible, modular experimental pipeline.
+# 19. Documentation Policy
+
+The README intentionally describes the **system architecture, scientific objective, current status, and experimental structure**.
+
+Detailed implementation information belongs in `docs/`.
+
+Code-level truth should ultimately be verified against the source files under `src/`.
+
+When documentation and implementation disagree:
+
+1. inspect the implementation;
+2. update the documentation;
+3. do not silently claim that an unimplemented component is complete.
+
+The current status in this README reflects the project's latest stated implementation state, not the older status lines in earlier architecture notes.

@@ -455,7 +455,137 @@ This document defines the responsibility, inputs, outputs, public interfaces, de
 - `src/forensics/tests/test_branch_c_texture.py`: 15 comprehensive tests verifying C_LBP contract (16 features), C_GLCM contract (24 features), C_LBP_EDGE contract (16 features), uniform LBP bit transitions & rotation-invariant bin mapping, GLCM 16-level quantization/symmetry/normalization, Canny edge detection & sparse mask fallback safety, determinism, numerical safety on pathological inputs, texture discrimination, real Defactify sample smoke extraction, ForensicPipeline alternative isolation, multi-branch composition, strict mutual exclusion among Branch C variants, empty/sparse/dense edge mask behaviors, and edge LBP determinism.
 - `src/forensics/tests/test_branch_d_residual.py`: 12 comprehensive tests verifying D_HIGHPASS contract (5 features), D_LAPLACIAN contract (5 features), D_MFR contract (5 features), residual map shapes/dtypes, constant/zero image exact zero response & numerical safety, exact filter/kernel weights, Scipy reference equivalence for MFR, determinism, pathological input safety, pattern discrimination, real Defactify sample smoke extraction, and ForensicPipeline individual candidate isolation & multi-branch orchestration.
 - `src/forensics/tests/test_branch_e_forensics.py`: 12 comprehensive tests verifying E1_DCT contract (10 features), E2_RESP contract (8 features), E3_PHASE contract (4 features), E4_GRID contract (4 features), unified Branch E contract (26 features), block DCT shape/orthonormality, constant/zero image safety, determinism, pathological input safety, pattern discrimination, real Defactify sample smoke extraction, and ForensicPipeline candidate sub-branch isolation and multi-branch orchestration.
-- `src/forensics/tests/run_tests.py`: Standalone master test runner executing all 61 forensic tests across Branch A (11), Branch B (11), Branch C (15), Branch D (12), and Branch E (12) with full reporting.
+- `src/forensics/tests/test_feature_analysis.py`: 16 comprehensive tests verifying FeatureRegistry contract, metadata export, FeatureValidityAnalyzer finite/pathological inputs, FeatureRelevanceAnalyzer effective AUC symmetry & MI, FeatureRedundancyAnalyzer 111x111 Pearson/Spearman matrices & pair flagging, BranchComplementarityAnalyzer 14 ablation configs, GeneratorStabilityAnalyzer per-generator AUC, CompressionSensitivityAnalyzer symmetric JPEG degradation, MRMRFeatureSelector train-only deterministic ranking & budget extraction (111, 64, 32, 16, 8), DownstreamFeatureValidator LightGBM evaluation, end-to-end FeatureAnalysisRunner execution, and BranchFPipeline facade.
+- `src/forensics/tests/run_tests.py`: Master test runner executing all 77 forensic tests across Branch A (11), Branch B (11), Branch C (15), Branch D (12), Branch E (12), and Branch F (16) with full reporting.
 
+---
 
+## Block 2: Branch F (Feature Analysis & Selection)
+
+### `src/forensics/branch_f/registry.py`
+- **Responsibility:** Registry and schema manager for the canonical 111-feature candidate bank.
+- **Block:** Block 2 (Branch F).
+- **Public Interface:** `FeatureRegistry`, `FeatureMetadata`, `CANONICAL_BRANCHES`, `EXPECTED_FEATURE_COUNT`, `EXPECTED_BRANCH_COUNTS`.
+- **Outputs:** `analysis/forensic_feature_analysis/feature_registry.csv`, `feature_registry.json`.
+
+### `src/forensics/branch_f/analysis/validity.py`
+- **Responsibility:** Feature validity analyzer (finite rate, NaN/Inf detection, variance, class-stratified t-tests).
+- **Public Interface:** `FeatureValidityAnalyzer`, `FeatureValidityStats`.
+- **Outputs:** `analysis/forensic_feature_analysis/feature_validity.csv`.
+
+### `src/forensics/branch_f/analysis/relevance.py`
+- **Responsibility:** Univariate relevance estimation (effective ROC-AUC in $[0.5, 1.0]$, Mutual Information).
+- **Public Interface:** `FeatureRelevanceAnalyzer`, `FeatureRelevanceStats`.
+- **Outputs:** `analysis/forensic_feature_analysis/univariate_relevance.csv`.
+
+### `src/forensics/branch_f/analysis/redundancy.py`
+- **Responsibility:** Redundancy analysis ($111 \times 111$ Pearson and Spearman matrices, pair flagging at $|\rho| \ge 0.90$).
+- **Public Interface:** `FeatureRedundancyAnalyzer`, `RedundantPair`, `BranchRedundancySummary`.
+- **Outputs:** `pearson_matrix.csv`, `spearman_matrix.csv`, `redundancy_pairs.csv`, `branch_redundancy_summary.csv`.
+
+### `src/forensics/branch_f/analysis/complementarity.py`
+- **Responsibility:** Evidence domain summaries and generation of 14 controlled ablation configurations.
+- **Public Interface:** `BranchComplementarityAnalyzer`, `BranchRelevanceSummary`, `BranchAblationConfig`.
+- **Outputs:** `analysis/forensic_feature_analysis/branch_complementarity.csv`.
+
+### `src/forensics/branch_f/analysis/generator_stability.py`
+- **Responsibility:** Diagnostic evaluation across the 5 Defactify AI generators (worst, best, mean, std AUC).
+- **Public Interface:** `GeneratorStabilityAnalyzer`, `GeneratorStabilityStats`.
+- **Outputs:** `analysis/forensic_feature_analysis/generator_stability.csv`.
+
+### `src/forensics/branch_f/analysis/compression_analysis.py`
+- **Responsibility:** Symmetric JPEG degradation evaluation across Clean and Q95..Q20.
+- **Public Interface:** `CompressionSensitivityAnalyzer`, `FeatureCompressionStats`, `apply_symmetric_jpeg_compression`.
+- **Outputs:** `analysis/forensic_feature_analysis/compression_analysis.csv`.
+
+### `src/forensics/branch_f/selection/mrmr.py`
+- **Responsibility:** Train-only Maximum Relevance Minimum Redundancy (mRMR) baseline selector across budgets (111, 64, 32, 16, 8).
+- **Public Interface:** `MRMRFeatureSelector`, `MRMRRankedFeature`.
+- **Outputs:** `mrmr_rankings.csv`, `selected_features_{8,16,32,64,111}.json`.
+
+### `src/forensics/branch_f/selection/validation.py`
+- **Responsibility:** Downstream LightGBM tabular validation on selected feature budgets and branch ablations.
+- **Public Interface:** `DownstreamFeatureValidator`, `ValidationExperimentResult`.
+- **Outputs:** `analysis/forensic_feature_analysis/validation_results.csv`.
+
+### `src/forensics/branch_f/runner.py` & `src/forensics/branch_f/pipeline.py`
+- **Responsibility:** End-to-end execution orchestrator and facade for Branch F analysis and selection stages.
+- **Public Interface:** `FeatureAnalysisRunner`, `BranchFPipeline`.
+- **Outputs:** `analysis/forensic_feature_analysis/run_metadata.json`.
+
+---
+
+## Block 2: Persistent Forensic Dataset (Block 2 Final Output)
+
+### `src/forensics/dataset_materializer.py`
+- **Responsibility:** Production materialization engine that reads all Block 1 processed images, extracts the canonical 111-feature forensic bank, aligns source metadata, and writes the persistent forensic dataset to `data/forensic_dataset/`.
+- **Block:** Block 2 (Final Persistent Output).
+- **Input:**
+  - Block 1 materialized train Parquet files (`data/processed/train/part-*.parquet`).
+  - Raw Defactify Parquet files (`data/defactify/data/train-*.parquet`) — for source metadata only.
+- **Output:** `data/forensic_dataset/` containing:
+  - `features.parquet` — N rows × (11 metadata + 111 feature) columns, Snappy-compressed.
+  - `feature_registry.csv`, `feature_registry.json` — canonical feature provenance.
+  - `dataset_manifest.csv` — per-row identity index.
+  - `dataset_metadata.json` — summary statistics and file inventory.
+  - `selected/features_{8,16,32,64,111}.parquet` — Branch F budget views.
+  - `selected/selected_features_{8,16,32,64,111}.json` — selection manifests.
+- **Public Interface:**
+  - `materialize_forensic_dataset(processed_train_dir, raw_data_dir, output_dir, max_samples, batch_size, overwrite, branch_f_analysis_dir) -> Dict[str, Any]`
+  - `load_raw_source_metadata(raw_data_dir, split, max_samples) -> List[Dict]`
+  - `build_pyarrow_schema(registry) -> pa.Schema`
+  - `GENERATOR_NAMES_MAP: Dict[int, str]`
+  - `SUBBRANCH_COUNTS: Dict[str, int]`
+- **Dependencies:** `pyarrow`, `pyarrow.parquet`, `numpy`, `pandas`, `torch`, `PIL`, `src.forensics.pipeline`, `src.forensics.branch_f.registry`.
+- **Leakage Controls:** Metadata columns physically separated from 111 model-input feature columns. Generator identity and captions retained for audit only, never enter feature extractor.
+- **Tests:** `src/forensics/tests/test_forensic_dataset.py` (Tests: overwrite protection, canonical contract, metadata isolation, registry validation, budget views).
+- **Modification Notes:** `max_samples=None` is the production default (full dataset). Do not pass a numeric limit for production runs.
+
+---
+
+### `src/forensics/dataset.py`
+- **Responsibility:** Read-only interface for downstream Block 3 and Block 4 consumers of the persistent forensic dataset.
+- **Block:** Block 2 / Block 3 Interface.
+- **Input:** `data/forensic_dataset/features.parquet` and associated registry/manifest files.
+- **Output:** Pandas DataFrames, NumPy arrays, and PyTorch Datasets derived from the persistent forensic feature bank.
+- **Public Interface:**
+  - `ForensicDataset(dataset_dir, budget, feature_names, branches, subbranches, split)`
+  - `ForensicDataset.get_features() -> np.ndarray [N, D] float32`
+  - `ForensicDataset.get_labels() -> np.ndarray [N] int32`
+  - `ForensicDataset.get_metadata() -> pd.DataFrame`
+  - `ForensicDataset.get_provenance(feature_name) -> Dict`
+  - `ForensicDataset.get_features_by_branch(branch) -> List[str]`
+  - `ForensicDataset.get_features_by_subbranch(subbranch) -> List[str]`
+  - `ForensicDataset.to_dataframe(include_metadata) -> pd.DataFrame`
+  - `ForensicDataset.to_torch_dataset() -> torch.utils.data.Dataset`
+  - `ForensicDataset.__getitem__(idx) -> Tuple[np.ndarray, int, Dict]`
+  - `ForensicDataset.METADATA_COLUMNS: Tuple[str, ...]` (11 columns)
+- **Dependencies:** `pyarrow.parquet`, `numpy`, `pandas`, `torch`, `src.forensics.branch_f.registry`.
+- **Used by:** Block 3 model training; Block 4 evaluation.
+- **Tests:** `src/forensics/tests/test_forensic_dataset.py` (Tests: feature contract, subbranch counts, metadata isolation, identity, finite values, provenance, budget views, selected views, PyTorch integration, indexing).
+- **Modification Notes:** Zero dependency on feature extraction operators at runtime. Block 3 must not import `ForensicPipeline` or any branch module.
+
+---
+
+### `src/forensics/materialize_forensic_dataset.py`
+- **Responsibility:** CLI entrypoint for production forensic dataset materialization.
+- **Block:** Block 2 (CLI Tool).
+- **Usage:** `.venv/bin/python src/forensics/materialize_forensic_dataset.py [--processed-train-dir PATH] [--raw-data-dir PATH] [--output-dir data/forensic_dataset] [--batch-size 500] [--overwrite]`
+- **Note:** Do NOT use `--max-samples` for production runs. Omit the flag to process all available images.
+- **Dependencies:** `argparse`, `src.forensics.dataset_materializer`.
+
+---
+
+## Block 2 Tests (Updated)
+
+- `src/forensics/tests/test_branch_a_frequency.py`: 11 tests (Branch A).
+- `src/forensics/tests/test_branch_b_wavelet.py`: 11 tests (Branch B).
+- `src/forensics/tests/test_branch_c_texture.py`: 15 tests (Branch C).
+- `src/forensics/tests/test_branch_d_residual.py`: 12 tests (Branch D).
+- `src/forensics/tests/test_branch_e_forensics.py`: 12 tests (Branch E).
+- `src/forensics/tests/test_feature_analysis.py`: 16 tests (Branch F analysis & selection).
+- `src/forensics/tests/test_forensic_dataset.py`: **12 tests** verifying the persistent forensic dataset — canonical 111-feature contract, subbranch partition counts, metadata/feature isolation, row identity, finite values, registry validation, provenance queries, budget views, selected Parquet views (42,000 rows each), PyTorch integration, indexing, and materializer overwrite protection.
+- `src/forensics/tests/run_tests.py`: Master runner executing all **89 Block 2 tests** (Branch A: 11, B: 11, C: 15, D: 12, E: 12, F: 16, Dataset: 12). Exit code 0.
+
+---
 

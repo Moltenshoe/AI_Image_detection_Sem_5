@@ -4,7 +4,7 @@ A modular research project for detecting AI-generated images using a **data-effi
 
 The project is deliberately organized into four sequential blocks. Each block consumes a defined output from the previous block and stores its own output so that later development and experiments do not require repeatedly rerunning earlier stages.
 
-> **Current project status (2026-09-20):** Block 1 is complete. The project is currently finishing Block 2. Forensic branches A–D are implemented; Branch E, forensic feature analysis/selection, and the RGB analysis/selection pipeline remain to be completed. Block 3 model training and Block 4 evaluation have not yet started as the main experimental phase.
+> **Current project status (2026-10-04):** Block 1 is complete (23/23 tests pass). Block 2 is partially complete: the forensic pipeline (Branches A–E, 111 features), Branch F feature analysis/selection, and persistent forensic dataset materialization (`data/forensic_dataset/`, 42,000 rows × 111 features) are fully implemented and verified (89/89 tests pass). The RGB representation pipeline remains pending before final Block 2 closeout. Block 3 model training and Block 4 evaluation have not yet started.
 
 ---
 
@@ -176,27 +176,27 @@ It has two deliberately different paths.
 
 The forensic pipeline is designed around multiple low-level evidence domains:
 
-| Branch | Evidence domain | Planned candidates |
+| Branch | Evidence domain | Canonical features |
 |---|---|---:|
-| A | Frequency / periodicity | 34 |
-| B | Haar wavelet | 30 |
-| C | Local texture | 16 canonical LBP |
-| D | Residual / noise | 5 canonical MFR |
-| E | JPEG / compression-aware | 26 |
+| A | Frequency / periodicity (A1 FFT=4, A2 Synthbuster=30) | 34 |
+| B | Haar wavelet (3-level 2D DWT subbands) | 30 |
+| C | Local texture (rotation-invariant uniform LBP) | 16 |
+| D | Residual / noise (3×3 median filter residual) | 5 |
+| E | JPEG / compression-aware (E1 DCT=10, E2 Response=8, E3 Phase=4, E4 Grid=4) | 26 |
 | **Total** | **Canonical forensic pool** | **111** |
 
-The **111-feature pool is the planned canonical configuration after Branch E is implemented**. The currently implemented canonical A–D portion is 85 features.
+The **111-feature pool is fully implemented and verified**. All 111 features are materialized in the persistent dataset `data/forensic_dataset/features.parquet` across all 42,000 training images.
 
-Branch C and Branch D contain alternatives for ablation:
+Branch C and Branch D contain alternative candidate pipelines reserved for ablation studies:
 
-- C_LBP: 16
-- C_GLCM: 24
-- C_LBP_EDGE: 16
-- D_HIGHPASS: 5
-- D_LAPLACIAN: 5
-- D_MFR: 5
+- C_LBP: 16 (canonical)
+- C_GLCM: 24 (alternative)
+- C_LBP_EDGE: 16 (alternative)
+- D_HIGHPASS: 5 (alternative)
+- D_LAPLACIAN: 5 (alternative)
+- D_MFR: 5 (canonical)
 
-The alternatives are not automatically concatenated into the canonical pool.
+These alternatives are evaluated independently and not concatenated into the canonical 111-feature dataset.
 
 See:
 
@@ -602,42 +602,38 @@ See [`docs/SCIENTIFIC_CONTROLS.md`](docs/SCIENTIFIC_CONTROLS.md).
 ---
 
 # 16. Current Project Status
+ 
+| Component | Status | Verified / Passing |
+|---|---|---|
+| Block 1 data loading & preprocessing | **Complete** | 23/23 tests PASS |
+| Block 1 materialized dataset (`data/processed/train/`, 42k images) | **Complete** | 42,000 samples |
+| Forensic Branch A (Frequency, 34 feats) | **Complete** | 11/11 tests PASS |
+| Forensic Branch B (Wavelet, 30 feats) | **Complete** | 11/11 tests PASS |
+| Forensic Branch C (Texture, 16 feats) | **Complete** | 15/15 tests PASS |
+| Forensic Branch D (Residual, 5 feats) | **Complete** | 12/12 tests PASS |
+| Forensic Branch E (Compression, 26 feats) | **Complete** | 12/12 tests PASS |
+| Branch F Feature Analysis & Selection | **Complete** | 16/16 tests PASS |
+| Block 2 Forensic Dataset (`data/forensic_dataset/`, 42k rows × 111 feats) | **Complete** | 12/12 tests PASS |
+| ForensicDataset Reader Interface (`src/forensics/dataset.py`) | **Complete** | Verified |
+| RGB pipeline representation extraction | **Pending** | - |
+| RGB feature analysis & selection | **Pending** | - |
+| Block 2 final RGB dataset | **Pending** | - |
+| Block 3 model training | **Pending** | - |
+| Block 4 evaluation | **Pending** | - |
 
-| Component | Status |
-|---|---|
-| Block 1 data loading | Complete |
-| Block 1 canonical preprocessing | Complete |
-| Forensic Branch A | Implemented |
-| Forensic Branch B | Implemented |
-| Forensic Branch C | Implemented |
-| Forensic Branch D | Implemented |
-| Forensic Branch E | **Pending** |
-| Forensic feature analysis | **Pending** |
-| Forensic feature selection | **Pending** |
-| RGB pipeline | **Pending** |
-| RGB feature analysis | **Pending** |
-| RGB feature selection | **Pending** |
-| Block 2 final datasets | **Pending** |
-| Block 3 training | Pending |
-| Block 4 evaluation | Pending |
-
-The planned canonical forensic pool becomes 111 features after E is completed:
-
-```text
-A 34
-B 30
-C 16
-D  5
-E 26
-────
-111
-```
-
-Current implemented canonical A–D pool:
+The canonical forensic pool contains **111 features**:
 
 ```text
-34 + 30 + 16 + 5 = 85
+A Frequency:                34
+B Haar Wavelet:             30
+C_LBP Texture:              16
+D_MFR Residual:              5
+E Compression-aware:        26
+──────────────────────────────
+Total Canonical Pool:      111
 ```
+
+All 89 Block 2 forensic tests PASS (`src/forensics/tests/run_tests.py`), and all 23 Block 1 tests PASS (`src/data/tests/run_tests.py`), giving **112 / 112 tests PASS** across the repository.
 
 No final detection-performance claim should be made until Block 4 experiments have been run.
 
@@ -649,8 +645,21 @@ No final detection-performance claim should be made until Block 4 experiments ha
 .
 ├── .agents/
 ├── .venv/
-├── analysis_800x800/
+├── analysis/
+│   └── forensic_feature_analysis/
 ├── data/
+│   ├── defactify/
+│   ├── processed/
+│   │   └── train/
+│   └── forensic_dataset/
+│       ├── features.parquet
+│       ├── dataset_manifest.csv
+│       ├── dataset_metadata.json
+│       ├── feature_registry.csv
+│       ├── feature_registry.json
+│       └── selected/
+│           ├── features_{8,16,32,64,111}.parquet
+│           └── selected_features_{8,16,32,64,111}.json
 ├── docs/
 │   ├── ARCHITECTURE.md
 │   ├── BLOCK_1_DATA_PIPELINE.md
@@ -669,9 +678,12 @@ No final detection-performance claim should be made until Block 4 experiments ha
 │   ├── SCIENTIFIC_CONTROLS.md
 │   ├── RESEARCH_REFERENCES.md
 │   ├── PROJECT_STATUS.md
-│   ├── BRANCH_E_AUDIT_STATE.md
-│   └── MODULE_MAP.md
-├── first_analysis_own/
+│   ├── BRANCH_E_AUDIT_STATE.MD
+│   ├── MODULE_MAP.md
+│   └── research/
+│       ├── BRANCH_E_JPEG_RESEARCH.md
+│       ├── BRANCH_F_FEATURE_ANALYSIS_AND_SELECTION.md
+│       └── BRANCH_F_VERIFICATION.md
 ├── src/
 │   ├── analysis/
 │   ├── data/
@@ -681,9 +693,14 @@ No final detection-performance claim should be made until Block 4 experiments ha
 │       ├── branch_c_texture/
 │       ├── branch_d_residual/
 │       ├── branch_e/
-│       ├── tests/
+│       ├── branch_f/
+│       ├── dataset.py
+│       ├── dataset_materializer.py
+│       ├── materialize_forensic_dataset.py
 │       ├── pipeline.py
-│       └── run_forensic_pipeline.py
+│       ├── run_forensic_pipeline.py
+│       ├── run_feature_analysis.py
+│       └── tests/
 ├── .gitignore
 ├── AGENTS.md
 ├── CHANGELOG.md

@@ -77,7 +77,9 @@ This section establishes the exact scientific literature informing Branch E's re
 - **What is Adapted:** 
   - We evaluate the *stability of the Fourier phase spectrum* when subjected to controlled in-memory JPEG compression ($Q=90$ and $Q=75$):
     $$\Delta\Phi_Q = \angle \mathcal{F}(I) - \angle \mathcal{F}(\text{JPEG}_Q(I))$$
-  - Compact scalar descriptors: Phase cosine similarity / correlation, Phase difference angular energy, and High-frequency phase stability ratio.
+  - Near-Zero Magnitude Masking: Bins where $|\mathcal{F}_{\text{clean}}| < 10^{-8}$ have numerically ill-defined phase and are excluded from phase correlation and error metrics.
+  - Safe Degenerate Fallback: For uniform/constant images where no bins meet the threshold, correlation metrics default safely to $1.0$ and diff energy to $0.0$.
+  - Compact scalar descriptors: Phase cosine similarity / correlation, Phase difference angular energy, and High-frequency phase stability ratio ($r \ge 0.5$).
 - **What is NOT Adopted:** 
   - The heavy "Compression-Robust Phase-Harmonized Transformer" neural architecture or cross-modal attention layers.
 - **Branch Assignment Rationale:** Because phase compression stability requires a *controlled recompression transformation*, it is functionally a compression-response feature (Branch E) rather than a static Fourier feature (Branch A).

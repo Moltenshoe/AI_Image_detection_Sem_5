@@ -1,10 +1,17 @@
 # Block 4 — Evaluation and Experiments
 
+## Status
+
+**Planned — Not Started.**
+
+Block 4 experiments will execute after Block 3 model implementations are frozen.
+
 ## Purpose
 
 Block 4 determines whether the representations and models built in Blocks 1–3 actually work and under what conditions.
 
 No final performance claim should be made before Block 4.
+
 
 ---
 

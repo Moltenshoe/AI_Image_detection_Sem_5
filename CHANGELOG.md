@@ -808,5 +808,119 @@ Result: 61 passed, 0 failed, 0 errors out of 61 tests (2.53s).
 - **Raw Data Immutability:** `data/defactify/` remains untouched (17 files, 7,509,031,418 bytes).
 - **Exit Code:** 0.
 
+---
+
+## 2026-10-02 — Block 2 Phase 5: Branch E Scientific & Code-Level Final Audit (COMPLETE)
+
+Executed comprehensive second-pass scientific and code-level verification of Block 2 — Branch E (JPEG & Compression-Artifact Forensics) and reconciled project audit state.
+
+### Audited & Verified Items
+
+1. **Exact Feature Registry & Ordering (26 features):**
+   - `E1_DCT` (10): `dct_ac_mean_abs`, `dct_ac_energy`, `dct_ac_kurtosis`, `dct_sparsity_ratio`, `dct_low_freq_ratio`, `dct_mid_freq_ratio`, `dct_high_freq_ratio`, `dct_anisotropy`, `dct_benford_ssd`, `dct_block_var_mean`.
+   - `E2_RESP` (8): `ela_q95_mean`, `ela_q90_mean`, `ela_q75_mean`, `ela_q60_mean`, `ela_q90_energy`, `ela_slope_q90_q75`, `ela_ratio_q90_q75`, `ela_q90_gini`.
+   - `E3_PHASE` (4): `phase_corr_q90`, `phase_corr_q75`, `phase_diff_energy_q90`, `phase_hf_stability_q90`.
+   - `E4_GRID` (4): `grid_h_ratio`, `grid_v_ratio`, `grid_strength`, `grid_anisotropy`.
+2. **Direct Extractor vs. ForensicPipeline Numerical Equivalence:** Verified bit-exact output ($\Delta = 0.0000000000e+00$) across all 26 features across 10 pathological and standard test inputs.
+3. **A–D Regression & Isolation:** Confirmed candidate pools ($A=34, B=30, C\_LBP=16, D\_MFR=5, E=26 \to 111$ total) and bit-exact isolation ($\Delta = 0.0000000000e+00$ on A–D when E is added).
+4. **Leakage & Symmetry Audit:** Verified image-only call chain (`ForensicPipeline` $\to$ `extract_branch_e_features` $\to$ sub-branches). No label, generator, split, path, EXIF, or container metadata is accessed. Recompression qualities are uniform ($Q \in \{95, 90, 75, 60\}$) regardless of image class.
+5. **Degenerate & Pathological Robustness:** Verified 100% finite, deterministic outputs on 10 edge cases (all-zero, all-one, constant 0.5, near-zero 1e-6, dark 0.02, bright 0.98, random, Gaussian noise, single-pixel impulse, step edge). Zero NaNs, zero Infs.
+6. **Documentation Corrections:** Updated `docs/research/BRANCH_E_JPEG_RESEARCH.md` to specify near-zero Fourier magnitude masking threshold ($|\mathcal{F}_{\text{clean}}| \ge 10^{-8}$) and safe fallback behavior. Updated `docs/BRANCH_E_AUDIT_STATE.MD` and `docs/BRANCH_E_JPEG.md`.
+
+### Test Execution Results
+
+- `src/forensics/tests/run_tests.py`: **61/61 PASS** (Branch A: 11, Branch B: 11, Branch C: 15, Branch D: 12, Branch E: 12).
+- `src/data/tests/run_tests.py`: **23/23 PASS** (Block 1 Suites 1, 2, 3).
+- **Total:** 84 / 84 tests PASS.
+- **Raw Data Immutability:** 17 Parquet files, 7,509,031,418 bytes verified byte-exact.
+
+---
+
+## 2026-10-03 — Block 2: Branch F (Feature Analysis & Selection) Takeover, Audit, Verification, and Restructuring
+
+### Completed
+- **111-Feature Contract Verification:** Programmatically verified canonical candidate bank: A(34) + B(30) + C_LBP(16) + D_MFR(5) + E(26) = 111 total features with 0 duplicate names and deterministic ordering.
+- **Audited & Verified 19 Analysis Artifacts:** Verified all 19 artifacts generated under `analysis/forensic_feature_analysis/` (validity stats, effective AUC, MI, Pearson/Spearman matrices, redundancy pairs, branch summaries, generator stability, compression sensitivity, mRMR rankings, budget subsets 8/16/32/64/111, LightGBM validation results, run metadata).
+- **Leakage Controls Verified:** Confirmed train-only isolation for all relevance, correlation, and mRMR selection operations; generator labels (`Label_B`) used strictly as evaluation metadata; image-only input pipeline with zero metadata leakage; symmetric JPEG compression.
+- **Restructured into Branch F Package:** Reorganized modular architecture under `src/forensics/branch_f/`:
+  - `src/forensics/branch_f/registry.py` (`FeatureRegistry`)
+  - `src/forensics/branch_f/analysis/` (`validity`, `relevance`, `redundancy`, `complementarity`, `generator_stability`, `compression_analysis`)
+  - `src/forensics/branch_f/selection/` (`mrmr`, `validation`)
+  - `src/forensics/branch_f/runner.py` (`FeatureAnalysisRunner`)
+  - `src/forensics/branch_f/pipeline.py` (`BranchFPipeline`)
+  - `src/forensics/branch_f/__init__.py`
+- **Cleaned Legacy Directories:** Removed `src/forensics/analysis/` after restructuring to eliminate duplication.
+- **Documentation Created:** Published `docs/research/BRANCH_F_FEATURE_ANALYSIS_AND_SELECTION.md` and updated `docs/MODULE_MAP.md`.
+
+### Test Execution Results
+- `src/data/tests/run_tests.py`: **23/23 PASS** (Block 1 Preprocessing, Loader, Materializer).
+- `src/forensics/tests/run_tests.py`: **77/77 PASS** (Branch A: 11, Branch B: 11, Branch C: 15, Branch D: 12, Branch E: 12, Branch F: 16).
+- **Total:** 100 / 100 tests PASS.
+- **Exit Code:** 0.
+
+---
+
+## 2026-10-04 — Block 2 Persistent Forensic Dataset Materialization (Final)
+
+### Stage
+
+Block 2 — Forensic Feature Analysis: Persistent Dataset Output.
+
+### Completed
+
+- **Root Cause of Previous Partial Run Identified:** The previous agent invoked `materialize_forensic_dataset.py --max-samples 2000`, producing only 2,000 rows. The materializer itself was correct; the debug `--max-samples` flag was never removed for the production run.
+- **Block 1 Source Dataset Confirmed:** 42,000 processed images confirmed via `data/processed/train/manifest.json` (`"total": 42000`). User prompt referred to 96,000, but the actual Block 1 output is 42,000 rows (7 raw Defactify files × 6,000 rows each).
+- **Preflight Validation (100 samples):** Passed all checks — 111 features, branch counts 34/30/16/5/26, 0 NaN, 0 Inf, stable identity, exact registry match.
+- **Full Production Materialization:** Ran `materialize_forensic_dataset.py --output-dir data/forensic_dataset --overwrite` (no sample cap) over all 42,000 Block 1 processed images. Completed in 1,315 seconds (~31 ms/img).
+- **Persistent Dataset Created:** `data/forensic_dataset/` with:
+  - `features.parquet` — 42,000 rows × 111 canonical forensic features + 11 metadata columns.
+  - `feature_registry.csv` / `feature_registry.json` — explicit feature provenance (name → subbranch → branch).
+  - `dataset_manifest.csv` — per-row image identity index.
+  - `dataset_metadata.json` — summary statistics and file inventory.
+  - `selected/features_{8,16,32,64,111}.parquet` — 5 Branch F budget views, each with all 42,000 rows.
+  - `selected/selected_features_{8,16,32,64,111}.json` — corresponding feature selection manifests.
+- **20 Mandatory Verification Checks:** All PASS.
+  - Row count: 42,000 ✓
+  - Feature count: 111 ✓
+  - Branch counts: A=34, B=30, C_LBP=16, D_MFR=5, E=26 ✓
+  - No duplicate feature names ✓
+  - Feature names match FeatureRegistry exactly ✓
+  - Identity stable (image_id = `train_XXXXXX`) ✓
+  - label_a ∈ {0,1}, label_b ∈ {0..5} ✓
+  - No metadata column in feature set ✓
+  - Class distribution: real=7,000, AI=35,000 ✓
+  - 0 NaN, 0 Inf ✓
+  - All 5 selected views: 42,000 rows, correct feature counts, manifests valid ✓
+- **New Test Suite:** `src/forensics/tests/test_forensic_dataset.py` — 12 tests covering the above requirements.
+- **Test Runner Updated:** `src/forensics/tests/run_tests.py` now includes `TestForensicDataset`.
+
+### File Sizes
+
+| File | Size |
+|---|---|
+| `data/forensic_dataset/features.parquet` | 25.88 MB |
+| `data/forensic_dataset/selected/features_8.parquet` | 2.87 MB |
+| `data/forensic_dataset/selected/features_16.parquet` | 4.52 MB |
+| `data/forensic_dataset/selected/features_32.parquet` | 7.75 MB |
+| `data/forensic_dataset/selected/features_64.parquet` | 14.69 MB |
+| `data/forensic_dataset/selected/features_111.parquet` | 25.80 MB |
+| Total `data/forensic_dataset/` | 84 MB |
+
+### Test Execution Results
+
+- `src/data/tests/run_tests.py`: **23/23 PASS** (Block 1 — unchanged).
+- `src/forensics/tests/run_tests.py`: **89/89 PASS** (Branch A: 11, Branch B: 11, Branch C: 15, Branch D: 12, Branch E: 12, Branch F: 16, Forensic Dataset: 12).
+- **Total:** 112 / 112 tests PASS.
+- **Exit Code:** 0.
+
+### Leakage Controls
+
+- Metadata columns (`image_id`, `source_path`, `generator_name`, `caption`, etc.) are physically separated from the 111-feature model input matrix.
+- No metadata field enters any feature column.
+- Generator identity retained only for audit/evaluation; not exposed to the feature extractor.
+
+### Block Boundary
+
+Block 2 is complete. `data/forensic_dataset/` is the persistent handoff artifact for Block 3. Block 3 models consume this dataset via `ForensicDataset` in `src/forensics/dataset.py` without importing or re-executing any feature extraction code.
 
 

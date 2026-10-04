@@ -1,0 +1,1112 @@
+[
+  {
+    "index": 0,
+    "name": "fft_low_freq_ratio",
+    "branch": "A",
+    "sub_branch": "A1_FFT",
+    "domain": "frequency",
+    "data_type": "float32",
+    "description": "Standard 2D Fourier radial spectral feature: fft_low_freq_ratio",
+    "sensitivity": "frequency_energy"
+  },
+  {
+    "index": 1,
+    "name": "fft_mid_freq_ratio",
+    "branch": "A",
+    "sub_branch": "A1_FFT",
+    "domain": "frequency",
+    "data_type": "float32",
+    "description": "Standard 2D Fourier radial spectral feature: fft_mid_freq_ratio",
+    "sensitivity": "frequency_energy"
+  },
+  {
+    "index": 2,
+    "name": "fft_high_freq_ratio",
+    "branch": "A",
+    "sub_branch": "A1_FFT",
+    "domain": "frequency",
+    "data_type": "float32",
+    "description": "Standard 2D Fourier radial spectral feature: fft_high_freq_ratio",
+    "sensitivity": "frequency_energy"
+  },
+  {
+    "index": 3,
+    "name": "fft_spectral_centroid",
+    "branch": "A",
+    "sub_branch": "A1_FFT",
+    "domain": "frequency",
+    "data_type": "float32",
+    "description": "Standard 2D Fourier radial spectral feature: fft_spectral_centroid",
+    "sensitivity": "frequency_energy"
+  },
+  {
+    "index": 4,
+    "name": "synth_r_p2_x_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_r_p2_x_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 5,
+    "name": "synth_r_p2_y_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_r_p2_y_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 6,
+    "name": "synth_r_p2_d_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_r_p2_d_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 7,
+    "name": "synth_r_p4_x_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_r_p4_x_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 8,
+    "name": "synth_r_p4_y_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_r_p4_y_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 9,
+    "name": "synth_r_p4_d_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_r_p4_d_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 10,
+    "name": "synth_r_p8_x_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_r_p8_x_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 11,
+    "name": "synth_r_p8_y_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_r_p8_y_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 12,
+    "name": "synth_r_p8_d_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_r_p8_d_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 13,
+    "name": "synth_r_fft_highfreq_ratio",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_r_fft_highfreq_ratio",
+    "sensitivity": "periodicity_highfreq"
+  },
+  {
+    "index": 14,
+    "name": "synth_g_p2_x_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_g_p2_x_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 15,
+    "name": "synth_g_p2_y_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_g_p2_y_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 16,
+    "name": "synth_g_p2_d_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_g_p2_d_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 17,
+    "name": "synth_g_p4_x_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_g_p4_x_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 18,
+    "name": "synth_g_p4_y_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_g_p4_y_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 19,
+    "name": "synth_g_p4_d_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_g_p4_d_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 20,
+    "name": "synth_g_p8_x_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_g_p8_x_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 21,
+    "name": "synth_g_p8_y_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_g_p8_y_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 22,
+    "name": "synth_g_p8_d_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_g_p8_d_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 23,
+    "name": "synth_g_fft_highfreq_ratio",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_g_fft_highfreq_ratio",
+    "sensitivity": "periodicity_highfreq"
+  },
+  {
+    "index": 24,
+    "name": "synth_b_p2_x_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_b_p2_x_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 25,
+    "name": "synth_b_p2_y_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_b_p2_y_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 26,
+    "name": "synth_b_p2_d_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_b_p2_d_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 27,
+    "name": "synth_b_p4_x_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_b_p4_x_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 28,
+    "name": "synth_b_p4_y_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_b_p4_y_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 29,
+    "name": "synth_b_p4_d_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_b_p4_d_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 30,
+    "name": "synth_b_p8_x_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_b_p8_x_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 31,
+    "name": "synth_b_p8_y_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_b_p8_y_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 32,
+    "name": "synth_b_p8_d_mean",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_b_p8_d_mean",
+    "sensitivity": "periodicity_peaks"
+  },
+  {
+    "index": 33,
+    "name": "synth_b_fft_highfreq_ratio",
+    "branch": "A",
+    "sub_branch": "A2_SYNTH",
+    "domain": "frequency_periodicity",
+    "data_type": "float32",
+    "description": "Synthbuster-inspired cross-difference periodicity feature: synth_b_fft_highfreq_ratio",
+    "sensitivity": "periodicity_highfreq"
+  },
+  {
+    "index": 34,
+    "name": "LL3_energy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (LL3): LL3_energy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 35,
+    "name": "LL3_entropy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (LL3): LL3_entropy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 36,
+    "name": "LH3_energy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (LH3): LH3_energy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 37,
+    "name": "LH3_absmean",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (LH3): LH3_absmean",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 38,
+    "name": "LH3_entropy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (LH3): LH3_entropy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 39,
+    "name": "HL3_energy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (HL3): HL3_energy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 40,
+    "name": "HL3_absmean",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (HL3): HL3_absmean",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 41,
+    "name": "HL3_entropy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (HL3): HL3_entropy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 42,
+    "name": "HH3_energy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (HH3): HH3_energy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 43,
+    "name": "HH3_absmean",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (HH3): HH3_absmean",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 44,
+    "name": "HH3_entropy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (HH3): HH3_entropy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 45,
+    "name": "LH2_energy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (LH2): LH2_energy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 46,
+    "name": "LH2_absmean",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (LH2): LH2_absmean",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 47,
+    "name": "LH2_entropy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (LH2): LH2_entropy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 48,
+    "name": "HL2_energy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (HL2): HL2_energy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 49,
+    "name": "HL2_absmean",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (HL2): HL2_absmean",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 50,
+    "name": "HL2_entropy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (HL2): HL2_entropy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 51,
+    "name": "HH2_energy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (HH2): HH2_energy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 52,
+    "name": "HH2_absmean",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (HH2): HH2_absmean",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 53,
+    "name": "HH2_entropy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (HH2): HH2_entropy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 54,
+    "name": "LH1_energy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (LH1): LH1_energy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 55,
+    "name": "LH1_absmean",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (LH1): LH1_absmean",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 56,
+    "name": "LH1_entropy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (LH1): LH1_entropy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 57,
+    "name": "HL1_energy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (HL1): HL1_energy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 58,
+    "name": "HL1_absmean",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (HL1): HL1_absmean",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 59,
+    "name": "HL1_entropy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (HL1): HL1_entropy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 60,
+    "name": "HH1_energy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (HH1): HH1_energy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 61,
+    "name": "HH1_absmean",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (HH1): HH1_absmean",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 62,
+    "name": "HH1_entropy",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (HH1): HH1_entropy",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 63,
+    "name": "detail_energy_ratio",
+    "branch": "B",
+    "sub_branch": "B_HAAR",
+    "domain": "wavelet",
+    "data_type": "float32",
+    "description": "3-level 2D Haar DWT multiscale wavelet feature (detail): detail_energy_ratio",
+    "sensitivity": "wavelet_multiscale"
+  },
+  {
+    "index": 64,
+    "name": "lbp_bin_0",
+    "branch": "C_LBP",
+    "sub_branch": "C_LBP",
+    "domain": "texture",
+    "data_type": "float32",
+    "description": "Standard rotation-invariant uniform LBP texture feature: lbp_bin_0",
+    "sensitivity": "local_texture"
+  },
+  {
+    "index": 65,
+    "name": "lbp_bin_1",
+    "branch": "C_LBP",
+    "sub_branch": "C_LBP",
+    "domain": "texture",
+    "data_type": "float32",
+    "description": "Standard rotation-invariant uniform LBP texture feature: lbp_bin_1",
+    "sensitivity": "local_texture"
+  },
+  {
+    "index": 66,
+    "name": "lbp_bin_2",
+    "branch": "C_LBP",
+    "sub_branch": "C_LBP",
+    "domain": "texture",
+    "data_type": "float32",
+    "description": "Standard rotation-invariant uniform LBP texture feature: lbp_bin_2",
+    "sensitivity": "local_texture"
+  },
+  {
+    "index": 67,
+    "name": "lbp_bin_3",
+    "branch": "C_LBP",
+    "sub_branch": "C_LBP",
+    "domain": "texture",
+    "data_type": "float32",
+    "description": "Standard rotation-invariant uniform LBP texture feature: lbp_bin_3",
+    "sensitivity": "local_texture"
+  },
+  {
+    "index": 68,
+    "name": "lbp_bin_4",
+    "branch": "C_LBP",
+    "sub_branch": "C_LBP",
+    "domain": "texture",
+    "data_type": "float32",
+    "description": "Standard rotation-invariant uniform LBP texture feature: lbp_bin_4",
+    "sensitivity": "local_texture"
+  },
+  {
+    "index": 69,
+    "name": "lbp_bin_5",
+    "branch": "C_LBP",
+    "sub_branch": "C_LBP",
+    "domain": "texture",
+    "data_type": "float32",
+    "description": "Standard rotation-invariant uniform LBP texture feature: lbp_bin_5",
+    "sensitivity": "local_texture"
+  },
+  {
+    "index": 70,
+    "name": "lbp_bin_6",
+    "branch": "C_LBP",
+    "sub_branch": "C_LBP",
+    "domain": "texture",
+    "data_type": "float32",
+    "description": "Standard rotation-invariant uniform LBP texture feature: lbp_bin_6",
+    "sensitivity": "local_texture"
+  },
+  {
+    "index": 71,
+    "name": "lbp_bin_7",
+    "branch": "C_LBP",
+    "sub_branch": "C_LBP",
+    "domain": "texture",
+    "data_type": "float32",
+    "description": "Standard rotation-invariant uniform LBP texture feature: lbp_bin_7",
+    "sensitivity": "local_texture"
+  },
+  {
+    "index": 72,
+    "name": "lbp_bin_8",
+    "branch": "C_LBP",
+    "sub_branch": "C_LBP",
+    "domain": "texture",
+    "data_type": "float32",
+    "description": "Standard rotation-invariant uniform LBP texture feature: lbp_bin_8",
+    "sensitivity": "local_texture"
+  },
+  {
+    "index": 73,
+    "name": "lbp_bin_nonuniform",
+    "branch": "C_LBP",
+    "sub_branch": "C_LBP",
+    "domain": "texture",
+    "data_type": "float32",
+    "description": "Standard rotation-invariant uniform LBP texture feature: lbp_bin_nonuniform",
+    "sensitivity": "local_texture"
+  },
+  {
+    "index": 74,
+    "name": "lbp_entropy",
+    "branch": "C_LBP",
+    "sub_branch": "C_LBP",
+    "domain": "texture",
+    "data_type": "float32",
+    "description": "Standard rotation-invariant uniform LBP texture feature: lbp_entropy",
+    "sensitivity": "local_texture"
+  },
+  {
+    "index": 75,
+    "name": "lbp_uniformity",
+    "branch": "C_LBP",
+    "sub_branch": "C_LBP",
+    "domain": "texture",
+    "data_type": "float32",
+    "description": "Standard rotation-invariant uniform LBP texture feature: lbp_uniformity",
+    "sensitivity": "local_texture"
+  },
+  {
+    "index": 76,
+    "name": "lbp_dominant_bin",
+    "branch": "C_LBP",
+    "sub_branch": "C_LBP",
+    "domain": "texture",
+    "data_type": "float32",
+    "description": "Standard rotation-invariant uniform LBP texture feature: lbp_dominant_bin",
+    "sensitivity": "local_texture"
+  },
+  {
+    "index": 77,
+    "name": "lbp_mean_code",
+    "branch": "C_LBP",
+    "sub_branch": "C_LBP",
+    "domain": "texture",
+    "data_type": "float32",
+    "description": "Standard rotation-invariant uniform LBP texture feature: lbp_mean_code",
+    "sensitivity": "local_texture"
+  },
+  {
+    "index": 78,
+    "name": "lbp_std_code",
+    "branch": "C_LBP",
+    "sub_branch": "C_LBP",
+    "domain": "texture",
+    "data_type": "float32",
+    "description": "Standard rotation-invariant uniform LBP texture feature: lbp_std_code",
+    "sensitivity": "local_texture"
+  },
+  {
+    "index": 79,
+    "name": "lbp_nonuniform_ratio",
+    "branch": "C_LBP",
+    "sub_branch": "C_LBP",
+    "domain": "texture",
+    "data_type": "float32",
+    "description": "Standard rotation-invariant uniform LBP texture feature: lbp_nonuniform_ratio",
+    "sensitivity": "local_texture"
+  },
+  {
+    "index": 80,
+    "name": "mfr_absmean",
+    "branch": "D_MFR",
+    "sub_branch": "D_MFR",
+    "domain": "residual",
+    "data_type": "float32",
+    "description": "Nonlinear 3x3 median filter residual noise feature: mfr_absmean",
+    "sensitivity": "nonlinear_residual"
+  },
+  {
+    "index": 81,
+    "name": "mfr_std",
+    "branch": "D_MFR",
+    "sub_branch": "D_MFR",
+    "domain": "residual",
+    "data_type": "float32",
+    "description": "Nonlinear 3x3 median filter residual noise feature: mfr_std",
+    "sensitivity": "nonlinear_residual"
+  },
+  {
+    "index": 82,
+    "name": "mfr_energy",
+    "branch": "D_MFR",
+    "sub_branch": "D_MFR",
+    "domain": "residual",
+    "data_type": "float32",
+    "description": "Nonlinear 3x3 median filter residual noise feature: mfr_energy",
+    "sensitivity": "nonlinear_residual"
+  },
+  {
+    "index": 83,
+    "name": "mfr_kurtosis",
+    "branch": "D_MFR",
+    "sub_branch": "D_MFR",
+    "domain": "residual",
+    "data_type": "float32",
+    "description": "Nonlinear 3x3 median filter residual noise feature: mfr_kurtosis",
+    "sensitivity": "nonlinear_residual"
+  },
+  {
+    "index": 84,
+    "name": "mfr_entropy",
+    "branch": "D_MFR",
+    "sub_branch": "D_MFR",
+    "domain": "residual",
+    "data_type": "float32",
+    "description": "Nonlinear 3x3 median filter residual noise feature: mfr_entropy",
+    "sensitivity": "nonlinear_residual"
+  },
+  {
+    "index": 85,
+    "name": "dct_ac_mean_abs",
+    "branch": "E",
+    "sub_branch": "E1_DCT",
+    "domain": "compression_transform",
+    "data_type": "float32",
+    "description": "8x8 block DCT basis transform & zonal distribution feature: dct_ac_mean_abs",
+    "sensitivity": "transform_dct"
+  },
+  {
+    "index": 86,
+    "name": "dct_ac_energy",
+    "branch": "E",
+    "sub_branch": "E1_DCT",
+    "domain": "compression_transform",
+    "data_type": "float32",
+    "description": "8x8 block DCT basis transform & zonal distribution feature: dct_ac_energy",
+    "sensitivity": "transform_dct"
+  },
+  {
+    "index": 87,
+    "name": "dct_ac_kurtosis",
+    "branch": "E",
+    "sub_branch": "E1_DCT",
+    "domain": "compression_transform",
+    "data_type": "float32",
+    "description": "8x8 block DCT basis transform & zonal distribution feature: dct_ac_kurtosis",
+    "sensitivity": "transform_dct"
+  },
+  {
+    "index": 88,
+    "name": "dct_sparsity_ratio",
+    "branch": "E",
+    "sub_branch": "E1_DCT",
+    "domain": "compression_transform",
+    "data_type": "float32",
+    "description": "8x8 block DCT basis transform & zonal distribution feature: dct_sparsity_ratio",
+    "sensitivity": "transform_dct"
+  },
+  {
+    "index": 89,
+    "name": "dct_low_freq_ratio",
+    "branch": "E",
+    "sub_branch": "E1_DCT",
+    "domain": "compression_transform",
+    "data_type": "float32",
+    "description": "8x8 block DCT basis transform & zonal distribution feature: dct_low_freq_ratio",
+    "sensitivity": "transform_dct"
+  },
+  {
+    "index": 90,
+    "name": "dct_mid_freq_ratio",
+    "branch": "E",
+    "sub_branch": "E1_DCT",
+    "domain": "compression_transform",
+    "data_type": "float32",
+    "description": "8x8 block DCT basis transform & zonal distribution feature: dct_mid_freq_ratio",
+    "sensitivity": "transform_dct"
+  },
+  {
+    "index": 91,
+    "name": "dct_high_freq_ratio",
+    "branch": "E",
+    "sub_branch": "E1_DCT",
+    "domain": "compression_transform",
+    "data_type": "float32",
+    "description": "8x8 block DCT basis transform & zonal distribution feature: dct_high_freq_ratio",
+    "sensitivity": "transform_dct"
+  },
+  {
+    "index": 92,
+    "name": "dct_anisotropy",
+    "branch": "E",
+    "sub_branch": "E1_DCT",
+    "domain": "compression_transform",
+    "data_type": "float32",
+    "description": "8x8 block DCT basis transform & zonal distribution feature: dct_anisotropy",
+    "sensitivity": "transform_dct"
+  },
+  {
+    "index": 93,
+    "name": "dct_benford_ssd",
+    "branch": "E",
+    "sub_branch": "E1_DCT",
+    "domain": "compression_transform",
+    "data_type": "float32",
+    "description": "8x8 block DCT basis transform & zonal distribution feature: dct_benford_ssd",
+    "sensitivity": "transform_dct"
+  },
+  {
+    "index": 94,
+    "name": "dct_block_var_mean",
+    "branch": "E",
+    "sub_branch": "E1_DCT",
+    "domain": "compression_transform",
+    "data_type": "float32",
+    "description": "8x8 block DCT basis transform & zonal distribution feature: dct_block_var_mean",
+    "sensitivity": "transform_dct"
+  },
+  {
+    "index": 95,
+    "name": "ela_q95_mean",
+    "branch": "E",
+    "sub_branch": "E2_RESP",
+    "domain": "compression_response",
+    "data_type": "float32",
+    "description": "Controlled multi-quality JPEG recompression response feature: ela_q95_mean",
+    "sensitivity": "compression_response"
+  },
+  {
+    "index": 96,
+    "name": "ela_q90_mean",
+    "branch": "E",
+    "sub_branch": "E2_RESP",
+    "domain": "compression_response",
+    "data_type": "float32",
+    "description": "Controlled multi-quality JPEG recompression response feature: ela_q90_mean",
+    "sensitivity": "compression_response"
+  },
+  {
+    "index": 97,
+    "name": "ela_q75_mean",
+    "branch": "E",
+    "sub_branch": "E2_RESP",
+    "domain": "compression_response",
+    "data_type": "float32",
+    "description": "Controlled multi-quality JPEG recompression response feature: ela_q75_mean",
+    "sensitivity": "compression_response"
+  },
+  {
+    "index": 98,
+    "name": "ela_q60_mean",
+    "branch": "E",
+    "sub_branch": "E2_RESP",
+    "domain": "compression_response",
+    "data_type": "float32",
+    "description": "Controlled multi-quality JPEG recompression response feature: ela_q60_mean",
+    "sensitivity": "compression_response"
+  },
+  {
+    "index": 99,
+    "name": "ela_q90_energy",
+    "branch": "E",
+    "sub_branch": "E2_RESP",
+    "domain": "compression_response",
+    "data_type": "float32",
+    "description": "Controlled multi-quality JPEG recompression response feature: ela_q90_energy",
+    "sensitivity": "compression_response"
+  },
+  {
+    "index": 100,
+    "name": "ela_slope_q90_q75",
+    "branch": "E",
+    "sub_branch": "E2_RESP",
+    "domain": "compression_response",
+    "data_type": "float32",
+    "description": "Controlled multi-quality JPEG recompression response feature: ela_slope_q90_q75",
+    "sensitivity": "compression_response"
+  },
+  {
+    "index": 101,
+    "name": "ela_ratio_q90_q75",
+    "branch": "E",
+    "sub_branch": "E2_RESP",
+    "domain": "compression_response",
+    "data_type": "float32",
+    "description": "Controlled multi-quality JPEG recompression response feature: ela_ratio_q90_q75",
+    "sensitivity": "compression_response"
+  },
+  {
+    "index": 102,
+    "name": "ela_q90_gini",
+    "branch": "E",
+    "sub_branch": "E2_RESP",
+    "domain": "compression_response",
+    "data_type": "float32",
+    "description": "Controlled multi-quality JPEG recompression response feature: ela_q90_gini",
+    "sensitivity": "compression_response"
+  },
+  {
+    "index": 103,
+    "name": "phase_corr_q90",
+    "branch": "E",
+    "sub_branch": "E3_PHASE",
+    "domain": "compression_phase",
+    "data_type": "float32",
+    "description": "Compression-stable Fourier phase spectrum response feature: phase_corr_q90",
+    "sensitivity": "phase_stability"
+  },
+  {
+    "index": 104,
+    "name": "phase_corr_q75",
+    "branch": "E",
+    "sub_branch": "E3_PHASE",
+    "domain": "compression_phase",
+    "data_type": "float32",
+    "description": "Compression-stable Fourier phase spectrum response feature: phase_corr_q75",
+    "sensitivity": "phase_stability"
+  },
+  {
+    "index": 105,
+    "name": "phase_diff_energy_q90",
+    "branch": "E",
+    "sub_branch": "E3_PHASE",
+    "domain": "compression_phase",
+    "data_type": "float32",
+    "description": "Compression-stable Fourier phase spectrum response feature: phase_diff_energy_q90",
+    "sensitivity": "phase_stability"
+  },
+  {
+    "index": 106,
+    "name": "phase_hf_stability_q90",
+    "branch": "E",
+    "sub_branch": "E3_PHASE",
+    "domain": "compression_phase",
+    "data_type": "float32",
+    "description": "Compression-stable Fourier phase spectrum response feature: phase_hf_stability_q90",
+    "sensitivity": "phase_stability"
+  },
+  {
+    "index": 107,
+    "name": "grid_h_ratio",
+    "branch": "E",
+    "sub_branch": "E4_GRID",
+    "domain": "compression_grid",
+    "data_type": "float32",
+    "description": "Canonical 8x8 JPEG grid boundary discontinuity feature: grid_h_ratio",
+    "sensitivity": "grid_discontinuity"
+  },
+  {
+    "index": 108,
+    "name": "grid_v_ratio",
+    "branch": "E",
+    "sub_branch": "E4_GRID",
+    "domain": "compression_grid",
+    "data_type": "float32",
+    "description": "Canonical 8x8 JPEG grid boundary discontinuity feature: grid_v_ratio",
+    "sensitivity": "grid_discontinuity"
+  },
+  {
+    "index": 109,
+    "name": "grid_strength",
+    "branch": "E",
+    "sub_branch": "E4_GRID",
+    "domain": "compression_grid",
+    "data_type": "float32",
+    "description": "Canonical 8x8 JPEG grid boundary discontinuity feature: grid_strength",
+    "sensitivity": "grid_discontinuity"
+  },
+  {
+    "index": 110,
+    "name": "grid_anisotropy",
+    "branch": "E",
+    "sub_branch": "E4_GRID",
+    "domain": "compression_grid",
+    "data_type": "float32",
+    "description": "Canonical 8x8 JPEG grid boundary discontinuity feature: grid_anisotropy",
+    "sensitivity": "grid_discontinuity"
+  }
+]

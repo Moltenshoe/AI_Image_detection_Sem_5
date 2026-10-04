@@ -104,4 +104,13 @@ The purpose of feature selection is to determine whether C contributes informati
 
 ## Canonical choice
 
-C_LBP = 16.
+C_LBP = 16 features.
+
+## Implementation & Verification Status
+
+- **Status:** Implemented & Verified.
+- **Modules:** `src/forensics/branch_c_texture/lbp.py`, `src/forensics/branch_c_texture/glcm.py`, `src/forensics/branch_c_texture/features.py`.
+- **Verification:** 15/15 tests PASS in `src/forensics/tests/test_branch_c_texture.py`.
+- **Dataset Integration:** 16 canonical C_LBP features materialized into `data/forensic_dataset/features.parquet`.
+- **Ablation Candidates:** C_GLCM (24) and C_LBP_EDGE (16) implemented as independent alternatives for ablation experiments.
+

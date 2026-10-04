@@ -1,15 +1,22 @@
 # Block 3 — Models
 
+## Status
+
+**Planned — Not Started.**
+
+Block 3 will be implemented after Block 2 is fully finalized (including RGB pipeline completion).
+
 ## Purpose
 
-Block 3 is deliberately separated from image analysis.
+Block 3 is deliberately separated from image analysis and feature extraction.
 
-Its input is the persistent output of Block 2.
+Its inputs are the persistent, stored outputs of Block 2:
 
 ```text
-Forensic Dataset ──→ Forensic Models
-RGB Dataset ────────→ RGB Models
+data/forensic_dataset/ (ForensicDataset interface) ──→ Forensic Models (LightGBM, Tiny MLP)
+RGB Dataset ──────────────────────────────────────────→ RGB Models (MobileNetV3-Small, ShuffleNetV2)
 ```
+
 
 ## Forensic models
 

@@ -57,6 +57,18 @@ from src.forensics.branch_e import (
     extract_branch_e_phase_features,
     extract_branch_e_recompression_features,
 )
+from src.forensics.branch_f import (
+    BranchFPipeline,
+    FeatureAnalysisRunner,
+    FeatureRegistry,
+    MRMRFeatureSelector,
+)
+from src.forensics.dataset import ForensicDataset
+from src.forensics.dataset_materializer import (
+    GENERATOR_NAMES_MAP,
+    SUBBRANCH_COUNTS,
+    materialize_forensic_dataset,
+)
 from src.forensics.pipeline import DEFAULT_BRANCHES, ForensicPipeline
 
 __all__ = [
@@ -104,4 +116,9 @@ __all__ = [
     "compute_block_dct",
     "compute_recompression_error_map",
     "compute_grid_discontinuities",
+    # Branch F
+    "BranchFPipeline",
+    "FeatureAnalysisRunner",
+    "FeatureRegistry",
+    "MRMRFeatureSelector",
 ]

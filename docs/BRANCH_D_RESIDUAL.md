@@ -77,4 +77,13 @@ The project therefore treats residual extraction as a candidate evidence family 
 
 ## Canonical choice
 
-D_MFR = 5.
+D_MFR = 5 features.
+
+## Implementation & Verification Status
+
+- **Status:** Implemented & Verified.
+- **Modules:** `src/forensics/branch_d_residual/median_filter.py`, `src/forensics/branch_d_residual/highpass.py`, `src/forensics/branch_d_residual/laplacian.py`, `src/forensics/branch_d_residual/features.py`.
+- **Verification:** 12/12 tests PASS in `src/forensics/tests/test_branch_d_residual.py`.
+- **Dataset Integration:** 5 canonical D_MFR features materialized into `data/forensic_dataset/features.parquet`.
+- **Ablation Candidates:** D_HIGHPASS (5) and D_LAPLACIAN (5) implemented as independent alternatives for ablation experiments.
+

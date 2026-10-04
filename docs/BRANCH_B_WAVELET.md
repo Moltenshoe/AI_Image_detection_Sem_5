@@ -65,4 +65,12 @@ This overlap is intentional enough to be tested, not assumed away.
 
 ## Canonical count
 
-B = 30.
+B = 30 features (2 LL3 subband stats + 27 detail subband stats + 1 detail energy ratio).
+
+## Implementation & Verification Status
+
+- **Status:** Implemented & Verified (pure PyTorch implementation).
+- **Modules:** `src/forensics/branch_b_wavelet/haar.py`, `src/forensics/branch_b_wavelet/features.py`.
+- **Verification:** 11/11 tests PASS in `src/forensics/tests/test_branch_b_wavelet.py`.
+- **Dataset Integration:** All 30 features materialized into `data/forensic_dataset/features.parquet`.
+

@@ -235,3 +235,15 @@ Does the information survive generator changes and compression?
 How much computation and storage does the feature require?
 
 These are separate properties.
+
+---
+
+# 11. Implementation & Verification Status
+
+The feature analysis and selection pipeline has been fully implemented in `src/forensics/branch_f/` and verified:
+
+- **19 Persistent Analysis Artifacts:** Stored under `analysis/forensic_feature_analysis/` (validity stats, univariate effective AUC & MI, 111×111 Pearson & Spearman redundancy matrices, high-redundancy pair flagging, branch complementarity summaries, generator stability diagnostics, symmetric JPEG compression degradation, train-only mRMR rankings, budget manifests for 111, 64, 32, 16, 8, LightGBM validation results, and execution metadata).
+- **Persistent Dataset Materialization:** Budget views (111, 64, 32, 16, 8) are materialized as persistent Parquet files under `data/forensic_dataset/selected/` over all 42,000 training images.
+- **Verification:** 16/16 tests PASS in `src/forensics/tests/test_feature_analysis.py`; 12/12 tests PASS in `src/forensics/tests/test_forensic_dataset.py`.
+- **Detailed Report:** See `docs/research/BRANCH_F_FEATURE_ANALYSIS_AND_SELECTION.md`.
+

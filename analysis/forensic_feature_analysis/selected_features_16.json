@@ -1,0 +1,22 @@
+{
+  "budget": 16,
+  "feature_count": 16,
+  "features": [
+    "synth_r_p8_y_mean",
+    "lbp_bin_8",
+    "synth_b_p8_x_mean",
+    "lbp_std_code",
+    "synth_b_p8_y_mean",
+    "grid_h_ratio",
+    "synth_r_p8_x_mean",
+    "synth_g_p8_y_mean",
+    "lbp_bin_4",
+    "lbp_bin_0",
+    "dct_high_freq_ratio",
+    "synth_g_p8_x_mean",
+    "synth_g_fft_highfreq_ratio",
+    "dct_low_freq_ratio",
+    "synth_b_p2_x_mean",
+    "grid_strength"
+  ]
+}

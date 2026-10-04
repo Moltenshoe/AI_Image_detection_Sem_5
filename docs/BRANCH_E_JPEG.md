@@ -2,9 +2,9 @@
 
 ## Status
 
-**Pending implementation and code-level verification.**
+**Implemented and Code-Level Verified.**
 
-This document defines the intended Branch E design. It must not be interpreted as evidence that the branch has already been implemented.
+All 26 candidate features across sub-branches E1 (DCT, 10), E2 (Response, 8), E3 (Phase, 4), and E4 (Grid, 4) have been implemented, tested, and audited with 100% passing regression suites (61/61 forensic tests, 23/23 Block 1 data tests). Bit-exact pipeline equivalence and A-D isolation confirmed.
 
 ## Purpose
 
@@ -129,17 +129,16 @@ E4 grid          4
                  26
 ```
 
-## Required verification before Branch E is closed
+## Verification & Dataset Materialization Status
 
-At minimum:
+- **Status:** Complete & Verified.
+- **Modules:** `src/forensics/branch_e/dct.py` (E1, 10), `src/forensics/branch_e/recompression.py` (E2, 8), `src/forensics/branch_e/phase_stability.py` (E3, 4), `src/forensics/branch_e/grid.py` (E4, 4), `src/forensics/branch_e/features.py` (unified 26).
+- **Verification Checks:**
+  - Exact feature count (26) and ordering: PASS
+  - Direct extractor vs pipeline numerical equivalence: PASS
+  - Pathological-input numerical robustness (constant/zero inputs): PASS
+  - No metadata/label/generator/split leakage: PASS
+  - Symmetric real/fake processing: PASS
+  - Regression tests: 12/12 tests PASS in `src/forensics/tests/test_branch_e_forensics.py`
+  - Dataset Materialization: All 26 features materialized into `data/forensic_dataset/features.parquet`
 
-- exact feature count and ordering
-- direct extractor vs pipeline numerical equivalence
-- pathological-input numerical robustness
-- no metadata/label/generator/split leakage
-- symmetric real/fake processing
-- full forensic regression tests
-- raw Defactify integrity
-- scientific wording cross-check
-
-See `BRANCH_E_AUDIT_STATE.md` and the project source under `src/forensics/branch_e/`.

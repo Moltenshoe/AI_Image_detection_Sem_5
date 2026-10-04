@@ -1,0 +1,112 @@
+index,name,branch,sub_branch,domain,data_type,description,sensitivity
+0,fft_low_freq_ratio,A,A1_FFT,frequency,float32,Standard 2D Fourier radial spectral feature: fft_low_freq_ratio,frequency_energy
+1,fft_mid_freq_ratio,A,A1_FFT,frequency,float32,Standard 2D Fourier radial spectral feature: fft_mid_freq_ratio,frequency_energy
+2,fft_high_freq_ratio,A,A1_FFT,frequency,float32,Standard 2D Fourier radial spectral feature: fft_high_freq_ratio,frequency_energy
+3,fft_spectral_centroid,A,A1_FFT,frequency,float32,Standard 2D Fourier radial spectral feature: fft_spectral_centroid,frequency_energy
+4,synth_r_p2_x_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_r_p2_x_mean,periodicity_peaks
+5,synth_r_p2_y_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_r_p2_y_mean,periodicity_peaks
+6,synth_r_p2_d_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_r_p2_d_mean,periodicity_peaks
+7,synth_r_p4_x_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_r_p4_x_mean,periodicity_peaks
+8,synth_r_p4_y_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_r_p4_y_mean,periodicity_peaks
+9,synth_r_p4_d_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_r_p4_d_mean,periodicity_peaks
+10,synth_r_p8_x_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_r_p8_x_mean,periodicity_peaks
+11,synth_r_p8_y_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_r_p8_y_mean,periodicity_peaks
+12,synth_r_p8_d_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_r_p8_d_mean,periodicity_peaks
+13,synth_r_fft_highfreq_ratio,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_r_fft_highfreq_ratio,periodicity_highfreq
+14,synth_g_p2_x_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_g_p2_x_mean,periodicity_peaks
+15,synth_g_p2_y_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_g_p2_y_mean,periodicity_peaks
+16,synth_g_p2_d_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_g_p2_d_mean,periodicity_peaks
+17,synth_g_p4_x_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_g_p4_x_mean,periodicity_peaks
+18,synth_g_p4_y_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_g_p4_y_mean,periodicity_peaks
+19,synth_g_p4_d_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_g_p4_d_mean,periodicity_peaks
+20,synth_g_p8_x_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_g_p8_x_mean,periodicity_peaks
+21,synth_g_p8_y_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_g_p8_y_mean,periodicity_peaks
+22,synth_g_p8_d_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_g_p8_d_mean,periodicity_peaks
+23,synth_g_fft_highfreq_ratio,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_g_fft_highfreq_ratio,periodicity_highfreq
+24,synth_b_p2_x_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_b_p2_x_mean,periodicity_peaks
+25,synth_b_p2_y_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_b_p2_y_mean,periodicity_peaks
+26,synth_b_p2_d_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_b_p2_d_mean,periodicity_peaks
+27,synth_b_p4_x_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_b_p4_x_mean,periodicity_peaks
+28,synth_b_p4_y_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_b_p4_y_mean,periodicity_peaks
+29,synth_b_p4_d_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_b_p4_d_mean,periodicity_peaks
+30,synth_b_p8_x_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_b_p8_x_mean,periodicity_peaks
+31,synth_b_p8_y_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_b_p8_y_mean,periodicity_peaks
+32,synth_b_p8_d_mean,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_b_p8_d_mean,periodicity_peaks
+33,synth_b_fft_highfreq_ratio,A,A2_SYNTH,frequency_periodicity,float32,Synthbuster-inspired cross-difference periodicity feature: synth_b_fft_highfreq_ratio,periodicity_highfreq
+34,LL3_energy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (LL3): LL3_energy,wavelet_multiscale
+35,LL3_entropy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (LL3): LL3_entropy,wavelet_multiscale
+36,LH3_energy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (LH3): LH3_energy,wavelet_multiscale
+37,LH3_absmean,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (LH3): LH3_absmean,wavelet_multiscale
+38,LH3_entropy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (LH3): LH3_entropy,wavelet_multiscale
+39,HL3_energy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (HL3): HL3_energy,wavelet_multiscale
+40,HL3_absmean,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (HL3): HL3_absmean,wavelet_multiscale
+41,HL3_entropy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (HL3): HL3_entropy,wavelet_multiscale
+42,HH3_energy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (HH3): HH3_energy,wavelet_multiscale
+43,HH3_absmean,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (HH3): HH3_absmean,wavelet_multiscale
+44,HH3_entropy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (HH3): HH3_entropy,wavelet_multiscale
+45,LH2_energy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (LH2): LH2_energy,wavelet_multiscale
+46,LH2_absmean,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (LH2): LH2_absmean,wavelet_multiscale
+47,LH2_entropy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (LH2): LH2_entropy,wavelet_multiscale
+48,HL2_energy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (HL2): HL2_energy,wavelet_multiscale
+49,HL2_absmean,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (HL2): HL2_absmean,wavelet_multiscale
+50,HL2_entropy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (HL2): HL2_entropy,wavelet_multiscale
+51,HH2_energy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (HH2): HH2_energy,wavelet_multiscale
+52,HH2_absmean,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (HH2): HH2_absmean,wavelet_multiscale
+53,HH2_entropy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (HH2): HH2_entropy,wavelet_multiscale
+54,LH1_energy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (LH1): LH1_energy,wavelet_multiscale
+55,LH1_absmean,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (LH1): LH1_absmean,wavelet_multiscale
+56,LH1_entropy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (LH1): LH1_entropy,wavelet_multiscale
+57,HL1_energy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (HL1): HL1_energy,wavelet_multiscale
+58,HL1_absmean,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (HL1): HL1_absmean,wavelet_multiscale
+59,HL1_entropy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (HL1): HL1_entropy,wavelet_multiscale
+60,HH1_energy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (HH1): HH1_energy,wavelet_multiscale
+61,HH1_absmean,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (HH1): HH1_absmean,wavelet_multiscale
+62,HH1_entropy,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (HH1): HH1_entropy,wavelet_multiscale
+63,detail_energy_ratio,B,B_HAAR,wavelet,float32,3-level 2D Haar DWT multiscale wavelet feature (detail): detail_energy_ratio,wavelet_multiscale
+64,lbp_bin_0,C_LBP,C_LBP,texture,float32,Standard rotation-invariant uniform LBP texture feature: lbp_bin_0,local_texture
+65,lbp_bin_1,C_LBP,C_LBP,texture,float32,Standard rotation-invariant uniform LBP texture feature: lbp_bin_1,local_texture
+66,lbp_bin_2,C_LBP,C_LBP,texture,float32,Standard rotation-invariant uniform LBP texture feature: lbp_bin_2,local_texture
+67,lbp_bin_3,C_LBP,C_LBP,texture,float32,Standard rotation-invariant uniform LBP texture feature: lbp_bin_3,local_texture
+68,lbp_bin_4,C_LBP,C_LBP,texture,float32,Standard rotation-invariant uniform LBP texture feature: lbp_bin_4,local_texture
+69,lbp_bin_5,C_LBP,C_LBP,texture,float32,Standard rotation-invariant uniform LBP texture feature: lbp_bin_5,local_texture
+70,lbp_bin_6,C_LBP,C_LBP,texture,float32,Standard rotation-invariant uniform LBP texture feature: lbp_bin_6,local_texture
+71,lbp_bin_7,C_LBP,C_LBP,texture,float32,Standard rotation-invariant uniform LBP texture feature: lbp_bin_7,local_texture
+72,lbp_bin_8,C_LBP,C_LBP,texture,float32,Standard rotation-invariant uniform LBP texture feature: lbp_bin_8,local_texture
+73,lbp_bin_nonuniform,C_LBP,C_LBP,texture,float32,Standard rotation-invariant uniform LBP texture feature: lbp_bin_nonuniform,local_texture
+74,lbp_entropy,C_LBP,C_LBP,texture,float32,Standard rotation-invariant uniform LBP texture feature: lbp_entropy,local_texture
+75,lbp_uniformity,C_LBP,C_LBP,texture,float32,Standard rotation-invariant uniform LBP texture feature: lbp_uniformity,local_texture
+76,lbp_dominant_bin,C_LBP,C_LBP,texture,float32,Standard rotation-invariant uniform LBP texture feature: lbp_dominant_bin,local_texture
+77,lbp_mean_code,C_LBP,C_LBP,texture,float32,Standard rotation-invariant uniform LBP texture feature: lbp_mean_code,local_texture
+78,lbp_std_code,C_LBP,C_LBP,texture,float32,Standard rotation-invariant uniform LBP texture feature: lbp_std_code,local_texture
+79,lbp_nonuniform_ratio,C_LBP,C_LBP,texture,float32,Standard rotation-invariant uniform LBP texture feature: lbp_nonuniform_ratio,local_texture
+80,mfr_absmean,D_MFR,D_MFR,residual,float32,Nonlinear 3x3 median filter residual noise feature: mfr_absmean,nonlinear_residual
+81,mfr_std,D_MFR,D_MFR,residual,float32,Nonlinear 3x3 median filter residual noise feature: mfr_std,nonlinear_residual
+82,mfr_energy,D_MFR,D_MFR,residual,float32,Nonlinear 3x3 median filter residual noise feature: mfr_energy,nonlinear_residual
+83,mfr_kurtosis,D_MFR,D_MFR,residual,float32,Nonlinear 3x3 median filter residual noise feature: mfr_kurtosis,nonlinear_residual
+84,mfr_entropy,D_MFR,D_MFR,residual,float32,Nonlinear 3x3 median filter residual noise feature: mfr_entropy,nonlinear_residual
+85,dct_ac_mean_abs,E,E1_DCT,compression_transform,float32,8x8 block DCT basis transform & zonal distribution feature: dct_ac_mean_abs,transform_dct
+86,dct_ac_energy,E,E1_DCT,compression_transform,float32,8x8 block DCT basis transform & zonal distribution feature: dct_ac_energy,transform_dct
+87,dct_ac_kurtosis,E,E1_DCT,compression_transform,float32,8x8 block DCT basis transform & zonal distribution feature: dct_ac_kurtosis,transform_dct
+88,dct_sparsity_ratio,E,E1_DCT,compression_transform,float32,8x8 block DCT basis transform & zonal distribution feature: dct_sparsity_ratio,transform_dct
+89,dct_low_freq_ratio,E,E1_DCT,compression_transform,float32,8x8 block DCT basis transform & zonal distribution feature: dct_low_freq_ratio,transform_dct
+90,dct_mid_freq_ratio,E,E1_DCT,compression_transform,float32,8x8 block DCT basis transform & zonal distribution feature: dct_mid_freq_ratio,transform_dct
+91,dct_high_freq_ratio,E,E1_DCT,compression_transform,float32,8x8 block DCT basis transform & zonal distribution feature: dct_high_freq_ratio,transform_dct
+92,dct_anisotropy,E,E1_DCT,compression_transform,float32,8x8 block DCT basis transform & zonal distribution feature: dct_anisotropy,transform_dct
+93,dct_benford_ssd,E,E1_DCT,compression_transform,float32,8x8 block DCT basis transform & zonal distribution feature: dct_benford_ssd,transform_dct
+94,dct_block_var_mean,E,E1_DCT,compression_transform,float32,8x8 block DCT basis transform & zonal distribution feature: dct_block_var_mean,transform_dct
+95,ela_q95_mean,E,E2_RESP,compression_response,float32,Controlled multi-quality JPEG recompression response feature: ela_q95_mean,compression_response
+96,ela_q90_mean,E,E2_RESP,compression_response,float32,Controlled multi-quality JPEG recompression response feature: ela_q90_mean,compression_response
+97,ela_q75_mean,E,E2_RESP,compression_response,float32,Controlled multi-quality JPEG recompression response feature: ela_q75_mean,compression_response
+98,ela_q60_mean,E,E2_RESP,compression_response,float32,Controlled multi-quality JPEG recompression response feature: ela_q60_mean,compression_response
+99,ela_q90_energy,E,E2_RESP,compression_response,float32,Controlled multi-quality JPEG recompression response feature: ela_q90_energy,compression_response
+100,ela_slope_q90_q75,E,E2_RESP,compression_response,float32,Controlled multi-quality JPEG recompression response feature: ela_slope_q90_q75,compression_response
+101,ela_ratio_q90_q75,E,E2_RESP,compression_response,float32,Controlled multi-quality JPEG recompression response feature: ela_ratio_q90_q75,compression_response
+102,ela_q90_gini,E,E2_RESP,compression_response,float32,Controlled multi-quality JPEG recompression response feature: ela_q90_gini,compression_response
+103,phase_corr_q90,E,E3_PHASE,compression_phase,float32,Compression-stable Fourier phase spectrum response feature: phase_corr_q90,phase_stability
+104,phase_corr_q75,E,E3_PHASE,compression_phase,float32,Compression-stable Fourier phase spectrum response feature: phase_corr_q75,phase_stability
+105,phase_diff_energy_q90,E,E3_PHASE,compression_phase,float32,Compression-stable Fourier phase spectrum response feature: phase_diff_energy_q90,phase_stability
+106,phase_hf_stability_q90,E,E3_PHASE,compression_phase,float32,Compression-stable Fourier phase spectrum response feature: phase_hf_stability_q90,phase_stability
+107,grid_h_ratio,E,E4_GRID,compression_grid,float32,Canonical 8x8 JPEG grid boundary discontinuity feature: grid_h_ratio,grid_discontinuity
+108,grid_v_ratio,E,E4_GRID,compression_grid,float32,Canonical 8x8 JPEG grid boundary discontinuity feature: grid_v_ratio,grid_discontinuity
+109,grid_strength,E,E4_GRID,compression_grid,float32,Canonical 8x8 JPEG grid boundary discontinuity feature: grid_strength,grid_discontinuity
+110,grid_anisotropy,E,E4_GRID,compression_grid,float32,Canonical 8x8 JPEG grid boundary discontinuity feature: grid_anisotropy,grid_discontinuity

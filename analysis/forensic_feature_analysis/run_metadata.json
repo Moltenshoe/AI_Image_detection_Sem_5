@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-10-02T19:07:23Z",
+  "total_execution_time_sec": 26.95397939400027,
+  "random_state": 42,
+  "feature_bank_count": 111,
+  "branches": [
+    "A",
+    "B",
+    "C_LBP",
+    "D_MFR",
+    "E"
+  ],
+  "train_samples": 2000,
+  "val_samples": 1000,
+  "artifacts_generated": {
+    "feature_registry_csv": "analysis/forensic_feature_analysis/feature_registry.csv",
+    "feature_registry_json": "analysis/forensic_feature_analysis/feature_registry.json",
+    "feature_validity_csv": "analysis/forensic_feature_analysis/feature_validity.csv",
+    "univariate_relevance_csv": "analysis/forensic_feature_analysis/univariate_relevance.csv",
+    "pearson_matrix_csv": "analysis/forensic_feature_analysis/pearson_matrix.csv",
+    "spearman_matrix_csv": "analysis/forensic_feature_analysis/spearman_matrix.csv",
+    "redundancy_pairs_csv": "analysis/forensic_feature_analysis/redundancy_pairs.csv",
+    "branch_redundancy_csv": "analysis/forensic_feature_analysis/branch_redundancy_summary.csv",
+    "branch_complementarity_csv": "analysis/forensic_feature_analysis/branch_complementarity.csv",
+    "generator_stability_csv": "analysis/forensic_feature_analysis/generator_stability.csv",
+    "compression_analysis_csv": "analysis/forensic_feature_analysis/compression_analysis.csv",
+    "mrmr_rankings_csv": "analysis/forensic_feature_analysis/mrmr_rankings.csv",
+    "selected_features_8": "analysis/forensic_feature_analysis/selected_features_8.json",
+    "selected_features_16": "analysis/forensic_feature_analysis/selected_features_16.json",
+    "selected_features_32": "analysis/forensic_feature_analysis/selected_features_32.json",
+    "selected_features_64": "analysis/forensic_feature_analysis/selected_features_64.json",
+    "selected_features_111": "analysis/forensic_feature_analysis/selected_features_111.json",
+    "validation_results_csv": "analysis/forensic_feature_analysis/validation_results.csv"
+  }
+}

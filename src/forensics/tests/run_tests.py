@@ -3,8 +3,11 @@
 Executes:
 - Branch A (Frequency / Periodicity) test suite
 - Branch B (Wavelet / Haar DWT) test suite
-- Branch C (Local Texture: C_LBP, C_GLCM, C_LBP_EDGE) test suite
-- Multi-branch ForensicPipeline integration tests
+- Branch C (Local Texture: C_LBP) test suite
+- Branch D (MFR Residual) test suite
+- Branch E (JPEG/Compression-aware) test suite
+- Feature Analysis (Branch F) test suite
+- Persistent Forensic Dataset (Block 2 final output) test suite
 """
 
 import os
@@ -21,11 +24,13 @@ from src.forensics.tests.test_branch_b_wavelet import TestBranchBWavelet
 from src.forensics.tests.test_branch_c_texture import TestBranchCTexture
 from src.forensics.tests.test_branch_d_residual import TestBranchDResidual
 from src.forensics.tests.test_branch_e_forensics import TestBranchEForensics
+from src.forensics.tests.test_feature_analysis import TestFeatureAnalysis
+from src.forensics.tests.test_forensic_dataset import TestForensicDataset
 
 
 def main():
     print("======================================================================")
-    print("Block 2 — Forensic Feature Extraction & Pipeline Test Suite")
+    print("Block 2 — Forensic Feature Extraction & Persistent Dataset Test Suite")
     print("======================================================================")
 
     loader = unittest.TestLoader()
@@ -35,6 +40,8 @@ def main():
         loader.loadTestsFromTestCase(TestBranchCTexture),
         loader.loadTestsFromTestCase(TestBranchDResidual),
         loader.loadTestsFromTestCase(TestBranchEForensics),
+        loader.loadTestsFromTestCase(TestFeatureAnalysis),
+        loader.loadTestsFromTestCase(TestForensicDataset),
     ])
 
     runner = unittest.TextTestRunner(verbosity=2)

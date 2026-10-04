@@ -214,16 +214,83 @@ It was built using the current preprocessing pipeline:
 
 ---
 
+## DEC-011 — Canonical 111-Feature Forensic Bank across Branches A–E
+
+**Status:** FINAL
+
+The canonical forensic feature bank consists of exactly 111 scalar float32 features across five low-level evidence branches:
+
+1. **Branch A (Frequency & Periodicity):** 34 features
+   - Subbranch A1 (FFT Spectral Ratios & Centroid): 4 features
+   - Subbranch A2 (Synthbuster Cross-Difference Periodicity): 30 features (10 per RGB channel)
+2. **Branch B (Haar Wavelet):** 30 features
+   - Subbranch B (3-Level 2D Haar DWT): 2 LL3 statistics + 27 detail subband statistics + 1 detail energy ratio
+3. **Branch C_LBP (Local Texture):** 16 features
+   - Subbranch C_LBP: 10-bin rotation-invariant uniform LBP histogram + 6 summary statistics
+4. **Branch D_MFR (Residual / Noise):** 5 features
+   - Subbranch D_MFR: 5 summary statistics from 3×3 median filter residual
+5. **Branch E (JPEG / Compression-Aware):** 26 features
+   - Subbranch E1 (8×8 Block DCT Fingerprint): 10 features
+   - Subbranch E2 (Multi-Quality Recompression Response Q95..Q60): 8 features
+   - Subbranch E3 (Fourier Phase Stability under JPEG): 4 features
+   - Subbranch E4 (Canonical 8×8 Grid Step Discontinuities): 4 features
+
+**Ablation Alternatives (Not in Canonical Pool):**
+`C_GLCM` (24), `C_LBP_EDGE` (16), `D_HIGHPASS` (5), `D_LAPLACIAN` (5) are isolated alternative candidates for ablation experiments and are not concatenated into the production 111-feature pool.
+
+**Implemented in:** `src/forensics/pipeline.py`, `src/forensics/branch_a_frequency/`, `src/forensics/branch_b_wavelet/`, `src/forensics/branch_c_texture/`, `src/forensics/branch_d_residual/`, `src/forensics/branch_e/`  
+**Verified by:** `src/forensics/tests/run_tests.py` (89/89 tests PASS)
+
+---
+
+## DEC-012 — Branch F Train-Only Feature Analysis & Selection Contract
+
+**Status:** FINAL
+
+Feature analysis and selection must follow strict scientific controls:
+
+1. **Train-Only Isolation:** Univariate relevance (effective ROC-AUC, Mutual Information), redundancy estimation (111×111 Pearson and Spearman correlation matrices), and Maximum Relevance Minimum Redundancy (mRMR) feature selection must be computed strictly on training data (`split == "train"`). Validation and test data are strictly excluded from selection.
+2. **Effective ROC-AUC:** Univariate discrimination is quantified as $\text{AUC}_{\text{eff}} = \max(\text{AUC}, 1 - \text{AUC}) \in [0.5, 1.0]$ to capture both direct and inverse discriminators symmetrically.
+3. **Selected Feature Budgets:** Canonical evaluated budgets are 111, 64, 32, 16, and 8 features.
+4. **Metadata Protection:** Generator identity (`label_b`), captions, file paths, and dataset split labels are strictly excluded from feature extraction and selection.
+
+**Implemented in:** `src/forensics/branch_f/`  
+**Verified by:** `src/forensics/tests/test_feature_analysis.py` (16/16 tests PASS)
+
+---
+
+## DEC-013 — Block 2 Persistent Forensic Dataset Materialization Architecture
+
+**Status:** FINAL
+
+The persistent Block 2 forensic dataset is materialized under `data/forensic_dataset/` as the immutable handoff artifact for downstream Block 3 models:
+
+1. **Format & Separation:**
+   - `features.parquet`: Full training split (42,000 rows) containing 11 metadata columns strictly separated from 111 float32 feature columns. Snappy compression.
+   - 11 metadata columns: `image_id`, `sample_idx`, `split`, `source_path`, `source_file`, `source_row_group`, `source_row`, `label_a` (target), `label_b` (audit), `generator_name` (audit), `caption` (audit).
+2. **Provenance & Manifests:**
+   - `feature_registry.csv` and `feature_registry.json` map every feature to its subbranch, branch, domain, data type, and sensitivity.
+   - `dataset_manifest.csv` records row-level image identity.
+   - `dataset_metadata.json` records complete dataset statistics and file inventory.
+3. **Selected Budget Views:**
+   - `selected/features_{8,16,32,64,111}.parquet` materialize the mRMR-selected feature subsets for all 42,000 images, accompanied by `selected_features_{8,16,32,64,111}.json`.
+4. **Decoupled Downstream Reader:**
+   - `ForensicDataset` (`src/forensics/dataset.py`) provides the sole consumption interface for Block 3 and Block 4, with zero runtime dependency on feature extraction libraries or operators.
+
+**Implemented in:** `src/forensics/dataset_materializer.py`, `src/forensics/dataset.py`  
+**Verified by:** `src/forensics/tests/test_forensic_dataset.py` (12/12 tests PASS)
+
+---
+
 # Pending / Not Yet Finalized
 
 The following remain open decisions:
 
-- exact train/validation/test construction for custom experiments
-- exact generator-disjoint split protocol
-- final forensic feature set
-- final feature-selection method
-- final feature counts
-- exact data-efficiency sampling protocol
-- final RGB baseline architecture
-- optional fusion architecture
-- final compression experiment implementation details
+- RGB pipeline representation extraction, analysis, and selection
+- exact RGB baseline architecture (MobileNetV3-Small vs. ShuffleNetV2)
+- final evaluation split construction for validation (9,000) and test (45,000) forensic/RGB datasets
+- exact generator-disjoint split protocol (leave-one-generator-out rotation)
+- exact data-efficiency sampling protocol (1k, 5k, 10k, 20k)
+- optional fusion architecture (feature-level vs. decision-level)
+- final compression robustness evaluation grid implementation details
+

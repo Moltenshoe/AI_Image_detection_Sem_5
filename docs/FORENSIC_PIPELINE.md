@@ -15,18 +15,18 @@ E JPEG / Compression-aware
 ```
 
 ## Canonical pool
-
+ 
 ```text
-A = 34
-B = 30
-C_LBP = 16
-D_MFR = 5
-E = 26
-------------
-    111
+A Frequency:                34 (A1 FFT=4, A2 Synthbuster=30)
+B Haar Wavelet:             30 (3-level 2D Haar DWT subband statistics)
+C_LBP Texture:              16 (Rotation-invariant uniform LBP)
+D_MFR Residual:              5 (3×3 Median filter residual statistics)
+E Compression-aware:        26 (E1 DCT=10, E2 Response=8, E3 Phase=4, E4 Grid=4)
+─────────────────────────────────────────────────────────────────────────────
+Total Canonical Pool:      111 features
 ```
 
-Before E is implemented, the canonical A–D implementation contains 85 candidates.
+The canonical 111-feature pool is fully implemented, verified, and materialized into `data/forensic_dataset/` across all 42,000 Block 1 training images.
 
 ## Scientific interpretation
 

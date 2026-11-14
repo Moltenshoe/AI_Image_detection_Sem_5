@@ -1,0 +1,21 @@
+{
+  "experiment_id": "exp_b_cvpr_seeded_50",
+  "candidate_name": "cvpr_color_seeded",
+  "implementation_type": "deterministic_project_adaptation",
+  "input_domain": "normalized_float32",
+  "is_normalized": true,
+  "parameters": {
+    "replicas": 50,
+    "sigma": 0.10,
+    "variance": 0.01,
+    "levels": 16,
+    "step_q": 0.06666666666666667,
+    "clip_noise": true,
+    "clip_quant": true,
+    "base_seed": 42,
+    "rng_library": "torch.randn"
+  },
+  "residual_sign": "x_hat - x",
+  "tolerance": 1e-6,
+  "description": "Deterministic project adaptation of CVPR 2025 4-bit quantization with per-image SHA-256 seeding (R=50)."
+}

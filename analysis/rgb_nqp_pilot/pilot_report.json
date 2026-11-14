@@ -1,0 +1,121 @@
+{
+  "pilot_samples_count": 100,
+  "configuration": {
+    "sigma": 0.1,
+    "replicas": 50,
+    "base_seed": 42,
+    "input_intensity_convention": "uint8_integer_[0,255]"
+  },
+  "aggregate_metrics": {
+    "total_scalars": 19660800,
+    "total_nonzero_scalars": 513,
+    "nonzero_scalar_fraction": 2.6092529296875e-05,
+    "total_pixels": 6553600,
+    "total_pixels_nonzero_any_channel": 513,
+    "nonzero_pixel_fraction": 7.8277587890625e-05,
+    "mean_abs_residual": 5.218758936583374e-07,
+    "max_abs_residual": 0.0200042724609375,
+    "num_unique_residual_values": 7,
+    "unique_residual_values_sample": [
+      -0.020004,
+      -0.02,
+      -0.019997,
+      0.0,
+      0.019997,
+      0.02,
+      0.020004
+    ]
+  },
+  "per_channel_metrics": {
+    "R": {
+      "nonzero_scalar_fraction": 2.716064453125e-05,
+      "mean_abs_residual": 5.432444595498964e-07
+    },
+    "G": {
+      "nonzero_scalar_fraction": 2.838134765625e-05,
+      "mean_abs_residual": 5.676582077285275e-07
+    },
+    "B": {
+      "nonzero_scalar_fraction": 2.2735595703125e-05,
+      "mean_abs_residual": 4.547250136965886e-07
+    }
+  },
+  "class_summary": {
+    "Real": {
+      "nonzero_scalar_fraction": 2.4922688802083333e-05,
+      "mean_abs_residual": 4.984689439879731e-07,
+      "max_abs_residual": 0.0200042724609375
+    },
+    "AI": {
+      "nonzero_scalar_fraction": 2.6384989420572918e-05,
+      "mean_abs_residual": 5.277276310759286e-07,
+      "max_abs_residual": 0.0200042724609375
+    }
+  },
+  "generator_summary": {
+    "Real": {
+      "generator_id": 0,
+      "label_a": 0,
+      "samples": 20,
+      "nonzero_scalar_fraction": 2.4922688802083333e-05,
+      "nonzero_pixel_fraction": 7.476806640625e-05,
+      "mean_abs_residual": 4.984689439879731e-07,
+      "max_abs_residual": 0.0200042724609375
+    },
+    "SD2.1": {
+      "generator_id": 1,
+      "label_a": 1,
+      "samples": 16,
+      "nonzero_scalar_fraction": 2.5113423665364582e-05,
+      "nonzero_pixel_fraction": 7.534027099609375e-05,
+      "mean_abs_residual": 5.022869421130357e-07,
+      "max_abs_residual": 0.0200042724609375
+    },
+    "SDXL": {
+      "generator_id": 2,
+      "label_a": 1,
+      "samples": 16,
+      "nonzero_scalar_fraction": 2.2252400716145832e-05,
+      "nonzero_pixel_fraction": 6.67572021484375e-05,
+      "mean_abs_residual": 4.450860918344309e-07,
+      "max_abs_residual": 0.0200042724609375
+    },
+    "SD3": {
+      "generator_id": 3,
+      "label_a": 1,
+      "samples": 16,
+      "nonzero_scalar_fraction": 3.1153361002604164e-05,
+      "nonzero_pixel_fraction": 9.34600830078125e-05,
+      "mean_abs_residual": 6.231148290680721e-07,
+      "max_abs_residual": 0.0200042724609375
+    },
+    "DALL-E3": {
+      "generator_id": 4,
+      "label_a": 1,
+      "samples": 16,
+      "nonzero_scalar_fraction": 2.7020772298177082e-05,
+      "nonzero_pixel_fraction": 8.106231689453125e-05,
+      "mean_abs_residual": 5.404350910490999e-07,
+      "max_abs_residual": 0.0200042724609375
+    },
+    "Midjourney": {
+      "generator_id": 5,
+      "label_a": 1,
+      "samples": 16,
+      "nonzero_scalar_fraction": 2.6384989420572918e-05,
+      "nonzero_pixel_fraction": 7.915496826171875e-05,
+      "mean_abs_residual": 5.277152013150044e-07,
+      "max_abs_residual": 0.0200042724609375
+    }
+  },
+  "repeatability": {
+    "is_repeatable": true,
+    "max_discrepancy": 0.0
+  },
+  "degeneracy_evaluation": {
+    "is_nearly_zero": true,
+    "finding": "DEGENERATE (NEARLY ZERO): With sigma=0.10 on integer-valued [0, 255] pixels, adding N(0, 0.01) noise and rounding to nearest integer flips pixel values with probability ~ 5.7e-7. Residuals collapse to 0 almost everywhere.",
+    "recommendation": "STOP full generation. The paper convention requires float values with non-integer coordinates, or noise scale sigma relative to [0, 1] normalization, or probe before integer quantization."
+  },
+  "visual_examples_dir": "/home/moltenshoe/Desktop/ArchFiles/UBUNTU_FILES/projects/Minor/analysis/rgb_nqp_pilot/examples"
+}

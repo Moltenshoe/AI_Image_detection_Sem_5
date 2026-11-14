@@ -1,0 +1,20 @@
+{
+  "experiment_id": "exp_b_cvpr_reference_50",
+  "candidate_name": "cvpr_color_reference",
+  "implementation_type": "reference_reproduction",
+  "input_domain": "normalized_float32",
+  "is_normalized": true,
+  "parameters": {
+    "replicas": 50,
+    "variance": 0.01,
+    "sigma": 0.10,
+    "levels": 16,
+    "step_q": 0.06666666666666667,
+    "clip_noise": true,
+    "clip_quant": true,
+    "rng_library": "skimage.util.random_noise"
+  },
+  "residual_sign": "x_hat - x",
+  "tolerance": 1e-6,
+  "description": "CVPR 2025 reference reproduction with R=50 replicas for computational sensitivity."
+}

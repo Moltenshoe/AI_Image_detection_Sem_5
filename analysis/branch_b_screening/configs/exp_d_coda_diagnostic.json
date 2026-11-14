@@ -1,0 +1,12 @@
+{
+  "experiment_id": "exp_d_coda_diagnostic",
+  "candidate_name": "coda_diagnostic",
+  "implementation_type": "analytical_diagnostic",
+  "is_materialization_candidate": false,
+  "parameters": {
+    "sigma": 0.10,
+    "replicas": 50,
+    "seed": 42
+  },
+  "description": "Purely analytical diagnostic model comparing CoDA Algorithm 1 vs Section IV-C Equation 12 across integer and fractional inputs."
+}

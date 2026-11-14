@@ -1,0 +1,20 @@
+{
+  "experiment_id": "exp_b_cvpr_reference_500",
+  "candidate_name": "cvpr_color_reference",
+  "implementation_type": "reference_reproduction",
+  "input_domain": "normalized_float32",
+  "is_normalized": true,
+  "parameters": {
+    "replicas": 500,
+    "variance": 0.01,
+    "sigma": 0.10,
+    "levels": 16,
+    "step_q": 0.06666666666666667,
+    "clip_noise": true,
+    "clip_quant": true,
+    "rng_library": "skimage.util.random_noise"
+  },
+  "residual_sign": "x_hat - x",
+  "tolerance": 1e-6,
+  "description": "Primary-source reference reproduction of CVPR 2025 Table 5 best configuration (R=500, var=0.01, L=16)."
+}

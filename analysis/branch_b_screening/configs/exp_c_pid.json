@@ -1,0 +1,19 @@
+{
+  "experiment_id": "exp_c_pid",
+  "candidate_name": "pid_yuv",
+  "implementation_type": "primary_source_deterministic",
+  "input_domain": "raw_uint8",
+  "is_normalized": false,
+  "parameters": {
+    "unscaled_reference_s": 1.0,
+    "table_5_ablation_s_values": [0.2, 0.5, 0.8, 1.0, 1.5, 2.0],
+    "forward_matrix": "ITU-R_BT.601",
+    "inverse_matrix": "Figure_2_verified_inverse",
+    "replicas": 1,
+    "noise": null,
+    "rounding_stages": ["transformed_yuv", "reconstructed_rgb"]
+  },
+  "residual_sign": "x - x_hat",
+  "tolerance": 1e-4,
+  "description": "PiD ICML 2025 deterministic color-space roundtrip decomposition with verified inverse and Table 5 scaling factors."
+}

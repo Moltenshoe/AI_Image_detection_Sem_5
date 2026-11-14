@@ -589,3 +589,88 @@ This document defines the responsibility, inputs, outputs, public interfaces, de
 
 ---
 
+## Block 2: RGB Representation Pipeline
+
+### `src/rgb/branch_a_lab/color_conversion.py`
+- **Responsibility:** Canonical RGB -> CIE Lab color space conversion.
+- **Block:** Block 2 (RGB Branch A).
+- **Input:** Canonical RGB image (`[3, H, W]` float32 in $[0, 1]$ or `[H, W, 3]` uint8 in $[0, 255]$).
+- **Output:** CIE Lab float32 tensor of shape `[3, H, W]` ($L \in [0, 100]$, $a, b \in [-128, 127]$).
+- **Public Interface:** `rgb_to_cielab(image: Union[torch.Tensor, np.ndarray]) -> torch.Tensor`.
+- **Dependencies:** `cv2`, `numpy`, `torch`.
+- **Tests:** `src/rgb/tests/test_branch_a_lab.py` (Test 1).
+
+### `src/rgb/branch_a_lab/correlation.py`
+- **Responsibility:** Sliding 7x7 window Pearson correlation maps for $(L, a)$, $(L, b)$, $(a, b)$.
+- **Block:** Block 2 (RGB Branch A).
+- **Input:** CIE Lab tensor `[3, H, W]` or `[B, 3, H, W]`.
+- **Output:** Tensor of shape `[3, H, W]` in $[-1.0, 1.0]$.
+- **Public Interface:** `compute_local_correlation_maps(lab_tensor, window_size=7, min_var=1e-8, eps=1e-12) -> torch.Tensor`.
+- **Dependencies:** `torch`, `torch.nn.functional`.
+- **Tests:** `src/rgb/tests/test_branch_a_lab.py` (Tests 2, 3, 4, 5, 6).
+
+### `src/rgb/branch_a_lab/features.py` & `src/rgb/branch_a_lab/__init__.py`
+- **Responsibility:** Branch A composition layer.
+- **Public Interface:** `extract_branch_a_lab_maps(image, window_size=7) -> torch.Tensor`.
+- **Tests:** `src/rgb/tests/test_branch_a_lab.py` (Tests 2, 7).
+
+### `src/rgb/branch_b_nqp/pid.py`
+- **Responsibility:** Active Branch B Projected Inversion Dynamics (PiD) YUV residual extraction ($s=0.2$, DEC-015).
+- **Block:** Block 2 (RGB Branch B Active).
+- **Input:** Canonical RGB image (`[3, H, W]` float32 in $[0, 1]$ or uint8 in $[0, 255]$).
+- **Output:** Signed residual map $\Delta = x - \hat{x}$ of shape `[3, H, W]` in $[-255.0, 255.0]$.
+- **Public Interface:** `compute_pid_residual(image, s=0.2, return_continuous=False) -> torch.Tensor`, `compute_branch_b_residual(image, s=0.2, ...) -> torch.Tensor`.
+- **Dependencies:** `torch`, `numpy`.
+- **Tests:** `src/rgb/tests/test_branch_b_nqp.py` (Tests 7, 8, 9, 10).
+
+### `src/rgb/branch_b_nqp/probe.py`
+- **Responsibility:** Noise Quantization Probe (NQP) core operator (research-only baseline; DEC-014, DEC-015).
+- **Block:** Block 2 (RGB Branch B Research Baseline).
+- **Input:** Canonical RGB image (`[3, H, W]`), sample ID, $\sigma=0.10$, $R=50$.
+- **Output:** Signed residual map $\Delta = I - \hat{I}$ of shape `[3, H, W]` in $[-255.0, 255.0]$.
+- **Public Interface:** `compute_nqp_residual(image, sample_id, sigma=0.10, replicas=50, base_seed=42) -> torch.Tensor`, `derive_sample_seed(sample_id, base_seed=42) -> int`.
+- **Dependencies:** `torch`, `numpy`, `hashlib`.
+- **Tests:** `src/rgb/tests/test_branch_b_nqp.py` (Tests 1, 2, 3, 4, 5, 6).
+
+### `src/rgb/branch_b_nqp/pilot.py` & `src/rgb/branch_b_nqp/__init__.py`
+- **Responsibility:** Mandatory 100-image NQP pilot runner and diagnostics exporter (research-only). Exposes active PiD API alongside legacy NQP API.
+- **Public Interface:** `compute_pid_residual`, `compute_branch_b_residual`, `compute_nqp_residual`, `derive_sample_seed`, `run_nqp_pilot`.
+- **Outputs:** `analysis/rgb_nqp_pilot/pilot_report.json`, visual examples.
+- **Tests:** `src/rgb/tests/test_branch_b_nqp.py` (Test 4).
+
+### `src/rgb/branch_c_validation/validator.py`
+- **Responsibility:** Quality control validation (shape, ranges, NaN/Inf, 1:1 Block 1 ID alignment, read-after-write parity).
+- **Block:** Block 2 (RGB Branch C).
+- **Public Interface:** `validate_lab_maps`, `validate_branch_b_map`, `validate_pid_map`, `validate_nqp_map`, `validate_dataset_alignment`, `verify_read_after_write`, `ValidationResult`.
+- **Tests:** `src/rgb/tests/test_branch_c_validation.py` (Tests 1, 2, 3, 4).
+
+### `src/rgb/branch_c_validation/reporter.py` & `src/rgb/branch_c_validation/__init__.py`
+- **Responsibility:** Report compilation for Branch C.
+- **Public Interface:** `generate_validation_report(results, output_path, dataset_summary) -> Dict[str, Any]`.
+- **Tests:** `src/rgb/tests/test_branch_c_validation.py` (Test 5).
+
+### `src/rgb/pipeline.py`
+- **Responsibility:** RGBPipeline unified multi-branch orchestrator (dispatches Branch B to active PiD YUV $s=0.2$).
+- **Public Interface:** `RGBPipeline(branches=["A", "B"], branch_b_scale=0.2)`, `pipeline.extract(image, sample_id) -> Dict[str, torch.Tensor]`.
+
+### `src/rgb/dataset.py`
+- **Responsibility:** PyTorch Dataset reader joining Block 1 images with derived spatial maps for Block 3 ablations (A: RGB, B: RGB+Lab, C: RGB+PiD/NQP, D: RGB+Lab+PiD/NQP).
+- **Public Interface:** `RGBDataset(mode="A"|"B"|"C"|"D", processed_train_dir, rgb_dir, transform, stack_channels)`.
+
+### `src/rgb/materializer.py`
+- **Responsibility:** Production materialization engine under `data/rgb/` generating Branch A Lab and Branch B PiD ($s=0.2$) maps.
+- **Public Interface:** `materialize_rgb_representations(branches, processed_train_dir, output_base_dir, max_samples, dtype, overwrite)`.
+
+### `src/rgb/__init__.py`
+- **Responsibility:** Package entrypoint exposing `RGBPipeline`, `RGBDataset`, `extract_branch_a_lab_maps`, `compute_branch_b_residual`, `compute_pid_residual`, `validate_branch_b_map`, `validate_pid_map`, `materialize_rgb_representations`, etc.
+
+---
+
+## Block 2 RGB Tests
+
+- `src/rgb/tests/test_branch_a_lab.py`: 7 tests verifying CIE Lab conversion, 7x7 Pearson sliding window correlation, constant/zero window handling, $[-1, 1]$ bounds, determinism, batching, and real Defactify sample extraction.
+- `src/rgb/tests/test_branch_b_nqp.py`: 10 tests verifying seed derivation, probe contract, determinism, integer degeneracy verification, fractional input behavior, FP16 vs FP32 storage fidelity, PiD residual contract and shapes, PiD determinism, PiD non-degeneracy/density, and pipeline active Branch B integration.
+- `src/rgb/tests/test_branch_c_validation.py`: 5 tests verifying Lab maps validation, Branch B / PiD / NQP map validation, 1:1 ID alignment, read-after-write checks, and validation report generation.
+- `src/rgb/tests/run_tests.py`: Master test runner executing all **22 RGB tests**. Exit code 0.
+
+

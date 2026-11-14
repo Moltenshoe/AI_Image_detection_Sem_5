@@ -1,0 +1,17 @@
+{
+  "experiment_id": "exp_a_baseline",
+  "candidate_name": "raw_nqp",
+  "implementation_type": "project_baseline",
+  "input_domain": "raw_uint8",
+  "is_normalized": false,
+  "parameters": {
+    "sigma": 0.10,
+    "replicas": 50,
+    "rounding": "nearest_integer",
+    "clipping": [0, 255],
+    "base_seed": 42
+  },
+  "residual_sign": "I - I_hat",
+  "tolerance": 1e-4,
+  "description": "Baseline Raw NQP with sigma=0.10, R=50 replicas on uint8 [0, 255]."
+}

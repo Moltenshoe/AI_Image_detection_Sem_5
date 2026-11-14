@@ -1,0 +1,26 @@
+{
+  "experiment_id": "exp_b1_sweep",
+  "candidate_name": "cvpr_color_seeded",
+  "implementation_type": "deterministic_project_adaptation",
+  "input_domain": "normalized_float32",
+  "is_normalized": true,
+  "parameters": {
+    "levels": 16,
+    "step_q": 0.06666666666666667,
+    "replicas": 50,
+    "base_seed": 42,
+    "clip_noise": true,
+    "clip_quant": true,
+    "sweep_sigma_over_q": [0.1, 0.2, 0.3, 0.5, 1.5],
+    "sweep_sigmas": [
+      0.006666666666666667,
+      0.013333333333333334,
+      0.02,
+      0.03333333333333333,
+      0.10
+    ]
+  },
+  "residual_sign": "x_hat - x",
+  "tolerance": 1e-6,
+  "description": "Controlled sensitivity sweep of noise-to-quantization step ratio sigma/q in {0.1, 0.2, 0.3, 0.5, 1.5}."
+}

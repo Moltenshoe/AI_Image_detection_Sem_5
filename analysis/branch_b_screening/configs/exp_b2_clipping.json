@@ -1,0 +1,23 @@
+{
+  "experiment_id": "exp_b2_clipping",
+  "candidate_name": "cvpr_color_seeded",
+  "implementation_type": "deterministic_project_adaptation",
+  "input_domain": "normalized_float32",
+  "is_normalized": true,
+  "parameters": {
+    "levels": 16,
+    "step_q": 0.06666666666666667,
+    "sigma": 0.10,
+    "replicas": 50,
+    "base_seed": 42,
+    "factorial_matrix": [
+      {"config_id": 1, "clip_noise": true, "clip_quant": true, "label": "both_on"},
+      {"config_id": 2, "clip_noise": true, "clip_quant": false, "label": "noise_on_quant_off"},
+      {"config_id": 3, "clip_noise": false, "clip_quant": true, "label": "noise_off_quant_on"},
+      {"config_id": 4, "clip_noise": false, "clip_quant": false, "label": "both_off"}
+    ]
+  },
+  "residual_sign": "x_hat - x",
+  "tolerance": 1e-6,
+  "description": "True 2x2 factorial clipping disentanglement experiment on CVPR 4-bit quantization."
+}

@@ -921,6 +921,99 @@ Block 2 — Forensic Feature Analysis: Persistent Dataset Output.
 
 ### Block Boundary
 
-Block 2 is complete. `data/forensic_dataset/` is the persistent handoff artifact for Block 3. Block 3 models consume this dataset via `ForensicDataset` in `src/forensics/dataset.py` without importing or re-executing any feature extraction code.
+Block 2 forensic pipeline is complete. `data/forensic_dataset/` is the persistent handoff artifact for Block 3. Block 3 models consume this dataset via `ForensicDataset` in `src/forensics/dataset.py` without importing or re-executing any feature extraction code.
+
+---
+
+## 2026-11-13 — Block 2 Phase 6: RGB Pipeline Implementation & Branch B Pilot Checkpoint (COMPLETE)
+
+### Purpose
+
+Implemented the Block 2 RGB spatial analysis pipeline specified in `docs/RGB_PIPELINE.md`:
+1. **Branch A (Lab Local Correlation Maps):** Measures inter-channel local Pearson correlations ($L \leftrightarrow a$, $L \leftrightarrow b$, $a \leftrightarrow b$) over sliding $7 \times 7$ windows (CHROMA-inspired).
+2. **Branch B (Noise Quantization Probe):** Implemented the core probe with incremental replica accumulation and deterministic per-sample seeding. Executed the mandatory 100-image pilot across Real and 5 AI generators.
+3. **Branch C (Final Representation Validation):** Quality control suite validating structural properties, numerical ranges, NaN/Inf absence, 1:1 Block 1 sample ID alignment, and read-after-write verification.
+4. **Integration & Readers:** `RGBPipeline` orchestrator, `RGBDataset` reader for Block 3 ablations A–D, and `materialize_rgb_representations` engine under `data/rgb/`.
+
+### Added
+
+- `src/rgb/__init__.py` — Package root exports.
+- `src/rgb/branch_a_lab/color_conversion.py` — Canonical RGB -> CIE Lab conversion using OpenCV (`cv2.cvtColor`, `cv2.COLOR_RGB2LAB`) in continuous float32.
+- `src/rgb/branch_a_lab/correlation.py` — Vectorized 7×7 sliding window Pearson correlation map computation via `torch.nn.functional.unfold` with reflect padding ($p=3$) and zero-variance protection.
+- `src/rgb/branch_a_lab/features.py` — Branch A composition layer (`extract_branch_a_lab_maps`).
+- `src/rgb/branch_a_lab/__init__.py` — Clean Branch A API.
+- `src/rgb/branch_b_nqp/probe.py` — Pure PyTorch NQP probe with incremental replica accumulation ($R=50$), $\sigma=0.10$, integer clipping $[0, 255]$, and deterministic seed derivation.
+- `src/rgb/branch_b_nqp/pilot.py` — Mandatory 100-image NQP pilot runner and reporting module.
+- `src/rgb/branch_b_nqp/__init__.py` — Clean Branch B API.
+- `src/rgb/branch_c_validation/validator.py` — Quality control validation module.
+- `src/rgb/branch_c_validation/reporter.py` — Validation report generator.
+- `src/rgb/branch_c_validation/__init__.py` — Clean Branch C API.
+- `src/rgb/pipeline.py` — Unified RGB orchestrator.
+- `src/rgb/dataset.py` — Decoupled PyTorch dataset reader for Block 3 ablations (A: RGB, B: RGB+Lab, C: RGB+NQP, D: RGB+Lab+NQP).
+- `src/rgb/materializer.py` — Storage materialization engine writing derived maps to `data/rgb/`.
+- `src/rgb/README.md` — Comprehensive documentation and usage guide.
+- `src/rgb/tests/test_branch_a_lab.py` — 7 tests (Branch A).
+- `src/rgb/tests/test_branch_b_nqp.py` — 6 tests (Branch B).
+- `src/rgb/tests/test_branch_c_validation.py` — 5 tests (Branch C).
+- `src/rgb/tests/run_tests.py` — Master test runner for RGB pipeline.
+
+### Pilot Findings & Mandatory Checkpoint (RESULT)
+
+Executed the mandatory 100-image pilot (`analysis/rgb_nqp_pilot/pilot_report.json`) across 100 stratified training samples (20 Real, 16 SD2.1, 16 SDXL, 16 SD3, 16 DALL-E3, 16 Midjourney):
+- **Total scalars evaluated:** 19,660,800
+- **Nonzero scalar count:** 513
+- **Nonzero scalar fraction:** **0.002609%**
+- **Nonzero pixel fraction:** **0.007828%**
+- **Mean absolute residual:** **0.00000052**
+- **Max absolute residual:** 0.020004
+- **Unique residual values:** 7 ($-0.02, 0.0, +0.02$)
+- **Repeatability verified:** Bit-exact ($\Delta = 0.0$)
+- **Empirical Confirmation:** Confirms the mathematical degeneracy risk identified in `docs/RGB_PIPELINE.md`: On exact integer-quantized uint8 pixel data ($I \in \{0 \dots 255\}$), adding Gaussian noise with $\sigma = 0.10$ produces an integer rounding flip with probability $\approx 5.7 \times 10^{-7}$. Across 50 replicas, $>99.997\%$ of pixel values remain unchanged.
+- **Checkpoint Action:** Full materialization of Branch B is strictly halted pending resolution of the intensity/noise convention with the user.
+
+### Test Execution Results
+
+- `src/data/tests/run_tests.py`: **23/23 PASS** (Block 1).
+- `src/forensics/tests/run_tests.py`: **89/89 PASS** (Block 2 Forensics).
+- `src/rgb/tests/run_tests.py`: **18/18 PASS** (Block 2 RGB).
+- **Total Repository Test Suite:** **130/130 PASS** (exit code 0).
+
+---
+
+## 2026-11-14 — Finalization of RGB Pipeline Branch B (DEC-015)
+
+### Purpose
+
+Finalized the RGB spatial representation pipeline for Branch B following the completion of the 100-image screening harness (Stage 1), mathematical/implementation audit of B2 clipping equivalence, and comparative analysis (Stage 2).
+
+### Implemented & Changed
+
+1. **Active Branch B Implementation (`src/rgb/branch_b_nqp/pid.py`):**
+   - Implemented Projected Inversion Dynamics (PiD) with ITU-R BT.601 conversion matrix $M_{\text{YUV}}$, scaling factor $s=0.2$, integer rounding in YUV space, Figure 2 inverse matrix $M_{\text{RGB}}$ with $1/s$ scaling, and integer rounding/clipping in RGB space.
+   - Computes signed float32 residual $\Delta = x - \hat{x} \in [-255, 255]$ with shape `[3, 256, 256]`.
+   - Exposes `compute_pid_residual` and `compute_branch_b_residual`.
+2. **Integration into RGB Pipeline (`src/rgb/pipeline.py`):**
+   - Dispatches Branch B to `compute_pid_residual(image, s=0.2)`. Excluded NQP execution from the active extraction path.
+   - Returns representation dictionary with `branch_b_map`, `pid_map`, and backward-compatible alias `nqp_map`.
+3. **Dataset Reader & Materializer Updates (`src/rgb/dataset.py`, `src/rgb/materializer.py`):**
+   - `RGBDataset` and `materialize_rgb_representations` updated to use PiD YUV $s=0.2$ under directory `data/rgb/branch_b_pid/`.
+   - Manifest contains `branch_b_map_path`, `pid_map_path`, and `nqp_map_path`.
+4. **Validation Suite (`src/rgb/branch_c_validation/validator.py`):**
+   - Added `validate_branch_b_map` checking shape `[3, 256, 256]`, 0 NaNs/Infs, valid range $[-255, 255]$, and non-degeneracy.
+   - Aliased `validate_pid_map` and `validate_nqp_map`.
+5. **Research Retention:**
+   - Preserved NQP probe (`src/rgb/branch_b_nqp/probe.py`), pilot (`src/rgb/branch_b_nqp/pilot.py`), and isolated screening harness (`analysis/branch_b_screening/`) as research-only artifacts for reproducibility.
+6. **Decisions & Documentation:**
+   - Recorded **DEC-015** in `DECISIONS.md`.
+   - Updated `PROJECT.md`, `docs/RGB_PIPELINE.md`, `docs/MODULE_MAP.md`, and `src/rgb/README.md`.
+
+### Test Execution Results
+
+- `src/rgb/tests/run_tests.py`: **22/22 PASS** (0 failures, 0 errors, 4 new tests covering PiD contract, determinism, non-degeneracy, and pipeline integration).
+- `src/forensics/tests/run_tests.py`: **89/89 PASS**.
+- `src/data/tests/run_tests.py`: **23/23 PASS**.
+- **Total Repository Test Suite:** **134/134 PASS** (exit code 0).
+
+
 
 

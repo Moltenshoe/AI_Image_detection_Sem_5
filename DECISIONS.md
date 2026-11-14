@@ -282,15 +282,69 @@ The persistent Block 2 forensic dataset is materialized under `data/forensic_dat
 
 ---
 
+## DEC-014 — RGB Pipeline Architecture, Branch B Pilot Checkpoint & Data Contract
+
+**Status:** FINAL
+
+The Block 2 RGB spatial analysis pipeline is established with three modular branches and strict data contracts:
+
+1. **Branch A (Lab Local Correlation Maps):**
+   - Canonical RGB images are converted to CIE $L^*a^*b^*$ in continuous float32 using OpenCV (`cv2.cvtColor`, `cv2.COLOR_RGB2LAB`) with $L \in [0, 100]$, $a, b \in [-128, 127]$.
+   - Inter-channel Pearson correlations are computed across $7 \times 7$ sliding windows (stride 1, reflect padding $p=3$) for channel pairs $(L, a)$, $(L, b)$, and $(a, b)$.
+   - Two-pass centered mean subtraction ensures numerical stability; windows with variance $< 10^{-12}$ output exactly `0.0` (undefined correlation for zero-variance/constant patches). Outputs are clamped to $[-1.0, 1.0]$ with 0 NaN / 0 Inf. Output shape: $[3, 256, 256]$.
+2. **Branch B (Noise Quantization Probe Pilot Checkpoint):**
+   - Implements paper-specified NQP operation: $I'_r = I + N_r$, $N_r \sim \mathcal{N}(0, \sigma^2)$, $Y_r = \operatorname{clip}(\operatorname{round}(I'_r), 0, 255)$, $\hat{I} = \frac{1}{R} \sum Y_r$, $\Delta = I - \hat{I}$ with target settings $\sigma = 0.10$, $R = 50$, signed residuals.
+   - Per-sample deterministic RNG seed derived from hash of `(base_seed, sample_id)`.
+   - **Pilot Empirical Checkpoint Result:** Mandatory 100-image pilot across Real and 5 AI generators revealed that on integer-quantized uint8 pixel data ($I \in \{0 \dots 255\}$), $\sigma = 0.10$ noise produces nonzero residuals in only **0.0026%** of scalar values (mean absolute residual $\approx 5.2 \times 10^{-7}$).
+   - **Gating Rule:** Full materialization of Branch B is blocked pending methodological resolution of the intensity/noise convention with the user.
+3. **Branch C (Final Representation Validation):**
+   - Quality control stage validating structural shapes $[3, 256, 256]$, numerical ranges ($[-1, 1]$ for Lab, $[-255, 255]$ for NQP), zero NaN/Inf, 1:1 Block 1 sample ID alignment, and read-after-write numerical parity.
+4. **Data Isolation & Storage Contract:**
+   - Derived representations reside under `data/rgb/` with zero duplication of Block 1 original images.
+   - Downstream models access representations joined by stable sample ID (`image_id`).
+
+**Implemented in:** `src/rgb/` (`branch_a_lab/`, `branch_b_nqp/`, `branch_c_validation/`, `pipeline.py`, `dataset.py`, `materializer.py`)  
+**Verified by:** `src/rgb/tests/run_tests.py` (18/18 tests PASS)
+
+---
+
+## DEC-015 — RGB Pipeline Branch B Active Representation (PiD YUV s=0.2) & Retention of NQP as Research-Only
+
+**Status:** FINAL
+
+Based on the completed Stage 1 numerical screening (100-image stratified manifest) and Stage 2 comparative analysis (`analysis/branch_b_screening/STAGE_2_COMPARATIVE_ANALYSIS.md`), the active representation for RGB Pipeline Branch B is finalized:
+
+1. **Active Branch B Representation:**
+   - Pixelwise Decomposition Residuals (PiD YUV) with scaling factor **`s = 0.2`** (ICML 2025 adaptation) is selected as the active spatial representation for Branch B.
+   - Forward projection uses the standard ITU-R BT.601 matrix; transformed-space quantization uses nearest-integer rounding; inverse projection uses the verified inverse matrix scaled by `1/s` followed by RGB-space integer rounding.
+   - Signed residual $\Delta = x - \hat{x} \in [-255, 255]$ of shape `[3, 256, 256]` float32.
+   - **Rationale:** PiD YUV $s=0.2$ maintains an active, non-degenerate residual field ($15.0\%$ zero fraction, MAR $\approx 1.95$) on discrete integer inputs without suffering the sparsity collapse of unscaled PiD ($83.3\%$ zero at $s=1.0$, $97.2\%$ at $s=2.0$). It is strictly deterministic (single forward/inverse pass), avoiding stochastic Monte Carlo variance, and executes in $\approx 1.2$–$1.5\text{ ms/image}$ on CPU.
+
+2. **Retention of Noise Quantization Probe (NQP) as Research-Only:**
+   - Raw uint8 NQP (Exp A) is confirmed to be statistically degenerate on integer pixel data ($99.997\%$ zero scalars, collapsed dynamic range).
+   - Normalized float32 CVPR NQP (Exp B, B1, B2) successfully resolves the mathematical degeneracy, but is retained exclusively as a research harness for experimental analysis and ablation studies.
+   - The active RGB pipeline (`src/rgb/pipeline.py`, `src/rgb/materializer.py`, `src/rgb/dataset.py`) excludes NQP and executes PiD YUV $s=0.2$.
+   - Experiment B2's finding is recorded: clipping before vs. after quantization is an algebraic equivalence ($C(Q(C(y))) \equiv Q(C(y)) \equiv C(Q(y))$); B2 is closed as a verified equivalence finding.
+
+3. **Pipeline Invariant Preservation:**
+   - Branch A (Lab local correlation maps) and Branch C (representation validation) remain unchanged.
+   - Branch B continues to output shape `[3, 256, 256]` float32. Downstream interfaces (`RGBPipeline`, `RGBDataset`) expose `branch_b_map`, `pid_map`, and alias `nqp_map` for backward compatibility.
+
+**Implemented in:** `src/rgb/branch_b_nqp/pid.py`, `src/rgb/pipeline.py`, `src/rgb/materializer.py`, `src/rgb/dataset.py`, `src/rgb/branch_c_validation/`  
+**Verified by:** `src/rgb/tests/run_tests.py` (22/22 tests PASS)
+
+---
+
 # Pending / Not Yet Finalized
 
 The following remain open decisions:
 
-- RGB pipeline representation extraction, analysis, and selection
 - exact RGB baseline architecture (MobileNetV3-Small vs. ShuffleNetV2)
 - final evaluation split construction for validation (9,000) and test (45,000) forensic/RGB datasets
 - exact generator-disjoint split protocol (leave-one-generator-out rotation)
 - exact data-efficiency sampling protocol (1k, 5k, 10k, 20k)
 - optional fusion architecture (feature-level vs. decision-level)
 - final compression robustness evaluation grid implementation details
+
+
 

@@ -1,0 +1,13 @@
+{
+  "diagnostic_name": "coda_formulation_comparison",
+  "is_materialization_candidate": 0,
+  "config": {
+    "sigma": 0.1,
+    "replicas": 50
+  },
+  "algorithm_1_integer_mean_abs": 0.0,
+  "algorithm_1_fractional_mean_abs": 0.02400045469403267,
+  "equation_12_integer_max_abs": 0.25626999139785767,
+  "equation_12_fractional_max_abs": 0.2556251585483551,
+  "conclusion": "Algorithm 1 expected residual is zero on interior integers away from boundaries, whereas Equation 12 models a unit-step rounder on [0, 1) and is not equivalent to evaluating raw 8-bit integers."
+}

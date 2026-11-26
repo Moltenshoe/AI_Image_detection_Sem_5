@@ -1014,6 +1014,42 @@ Finalized the RGB spatial representation pipeline for Branch B following the com
 - `src/data/tests/run_tests.py`: **23/23 PASS**.
 - **Total Repository Test Suite:** **134/134 PASS** (exit code 0).
 
+---
+
+## 2026-11-26 — Finalization of RGB Pipeline for On-The-Fly Feature Extraction
+
+### Purpose
+
+Finalized the Block 2 RGB pipeline to operate exclusively via on-the-fly feature extraction directly from Block 1 preprocessed images during data loading, enforcing zero image duplication and preventing unnecessary disk materialization.
+
+### Implemented & Changed
+
+1. **Reconstruction Clipping (`src/rgb/branch_b_nqp/pid.py`):**
+   - Added explicit `torch.clamp(torch.round(rgb_reconstructed), 0.0, 255.0)` to `x_hat`.
+   - Signed residual $\Delta = x - \hat{x}$ strictly maintained.
+   - Clarified ITU-R BT.601 full-range YCbCr color-space terminology while maintaining backward-compatible identifiers.
+2. **Type Hints & Imports (`src/rgb/pipeline.py`, `src/rgb/materializer.py`):**
+   - Added `Any` import to `pipeline.py`; added `Sequence` import to `materializer.py`. Introspection (`typing.get_type_hints`) verified passing.
+3. **RGBDataset On-The-Fly Primary Mode (`src/rgb/dataset.py`):**
+   - Changed `rgb_dir` default to `None`. Removed filesystem lookups for derived datasets.
+   - Implemented lazy, picklable ParquetFile handle management (`__getstate__`/`__setstate__`) resolving Python 3.14+ `forkserver` worker serialization.
+   - Verified on-the-fly extraction across all four ablation configurations (Mode A: 3 channels, Mode B: 6 channels, Mode C: 6 channels, Mode D: 9 channels).
+4. **Offline Cache Demarcation (`src/rgb/materializer.py`):**
+   - Retained strictly as an optional offline caching utility (`data/rgb_cache/`), never invoked by the normal training path.
+   - Zero redundant image datasets or cached feature files created on disk.
+5. **Testing & Benchmarks (`src/rgb/tests/test_dataset.py`, `src/rgb/tests/benchmark_dataloader.py`):**
+   - Created dedicated `TestRGBDataset` suite (8 tests) covering selective branch execution, shapes, channel ordering, dictionary output, determinism, and 42k index alignment.
+   - Registered `TestRGBDataset` in `src/rgb/tests/run_tests.py` (total 30 tests).
+   - Created `benchmark_dataloader.py` measuring DataLoader throughput and identifying Branch A as the primary compute bottleneck (~24 ms vs ~0.36 ms for Branch B).
+
+### Test Execution Results
+
+- `src/rgb/tests/run_tests.py`: **30/30 PASS** (0 failures, 0 errors in 1.97s).
+- `src/forensics/tests/run_tests.py`: **89/89 PASS** (0 failures, 0 errors in 10.47s).
+- `src/data/tests/run_tests.py`: **23/23 PASS** (0 failures, 0 errors in 5.5s).
+- **Total Repository Test Suite:** **142/142 PASS** (exit code 0).
+
+
 
 
 

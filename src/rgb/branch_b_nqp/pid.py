@@ -4,18 +4,24 @@ Implements Pixelwise Decomposition Residuals (PiD, ICML 2025) using the verified
 ITU-R BT.601 forward matrix and the corroborated Figure 2 inverse matrix, with
 scaling factor s=0.2 as finalized in DEC-015.
 
+NOTE ON TERMINOLOGY: The underlying colour space is ITU-R BT.601 full-range YCbCr.
+Module identifiers and variable names use the informal alias "YUV" (common in
+vision literature) for consistency with the reference paper.  The mathematical
+coefficients are unchanged.
+
 OPERATION SPECIFICATION:
-    1. Forward projection to YUV under matrix scaling factor s (default s=0.2):
-       yuv = s * x * M_YUV^T
-    2. Quantization (nearest integer rounding in YUV space):
-       yuv_quant = round(yuv)
+    1. Forward projection to YCbCr space under matrix scaling factor s (default s=0.2):
+       ycbcr = s * x * M_YCbCr^T
+    2. Quantization (nearest integer rounding in YCbCr space):
+       ycbcr_quant = round(ycbcr)
     3. Inverse projection back to RGB under (1/s) * M_inv^T:
-       rgb_rec = (1/s) * yuv_quant * (M_true^-1)^T
-    4. Post-inverse rounding (nearest integer in RGB space):
-       x_hat = round(rgb_rec)
+       rgb_rec = (1/s) * ycbcr_quant * (M_true^-1)^T
+    4. Post-inverse rounding and clipping to valid RGB range [0, 255]:
+       x_hat = clip(round(rgb_rec), 0, 255)
     5. Signed residual map:
        Delta = x - x_hat
 """
+
 
 from __future__ import annotations
 
@@ -108,8 +114,10 @@ def compute_pid_residual(
 
     Returns:
         torch.Tensor of shape [3, H, W] representing signed residual Delta = x - x_hat.
-        Residual values are float32 in [-255.0, 255.0].
+        x_hat = clip(round(rgb_rec), 0, 255) so residual values are float32 in
+        approximately [-7.0, 7.0] for typical RGB inputs.
     """
+
     if isinstance(image, np.ndarray):
         if image.ndim != 3 or image.shape[2] != 3:
             raise ValueError(f"Expected np.ndarray with shape [H, W, 3], got {image.shape}")
@@ -141,17 +149,18 @@ def compute_pid_residual(
     # 1. Forward transform to YUV with scale factor s
     yuv = forward_yuv(x_orig, scale=s)
 
-    # 2. Integer rounding in transformed YUV space
+    # 2. Integer rounding in transformed YCbCr space
     yuv_quant = torch.round(yuv)
 
     # 3. Inverse transform back to RGB with 1/s
     rgb_reconstructed = inverse_yuv(yuv_quant, scale=s)
 
-    # 4. Post-inverse rounding in RGB space
-    x_hat = torch.round(rgb_reconstructed)
+    # 4. Post-inverse rounding and clipping to valid RGB range [0, 255]
+    x_hat = torch.clamp(torch.round(rgb_reconstructed), 0.0, 255.0)
 
-    # 5. Signed residual: continuous original minus reconstructed
+    # 5. Signed residual: continuous original minus clipped-rounded reconstruction
     residual = x_orig - x_hat
+
 
     return residual.to(device=target_device, dtype=torch.float32)
 

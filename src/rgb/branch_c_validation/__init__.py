@@ -2,7 +2,9 @@
 
 Public API:
     - validate_lab_maps: Structural and range validation for Branch A.
-    - validate_nqp_map: Structural and range validation for Branch B.
+    - validate_branch_b_map: Structural and range validation for Branch B (PiD / NQP).
+    - validate_pid_map: Canonical alias for Branch B PiD representation validation.
+    - validate_nqp_map: Legacy compatibility alias for Branch B validation.
     - validate_dataset_alignment: 1:1 ID alignment with Block 1.
     - verify_read_after_write: Precision and storage verification.
     - generate_validation_report: Report generation.

@@ -264,32 +264,17 @@ expected/processed/missing/invalid counts, numerical summaries, NQP
 pilot status and storage verification. Only validated outputs are marked
 ready for Block 3.
 
-## 8. Output organization and storage
+## 8. Output organization and on-the-fly execution
 
-Inspect existing Block 1 and forensic output conventions before choosing
-exact paths. A possible logical organization is:
+In accordance with project storage and non-duplication rules, the RGB pipeline operates on-the-fly during data loading:
 
-``` text
-data/
-  ... existing Block 1 data ...
-  rgb/
-    branch_a_lab/
-    branch_b_nqp/
-    branch_c_validation/
-    manifests/
-```
-
-Adapt to existing project conventions; do not create a competing layout.
-
-Store derived maps only. Keep a compact manifest containing sample ID,
-representation paths, version, parameters, shape, dtype and processing
-configuration. Do not duplicate original images or unnecessary metadata.
-
-Benchmark FP16 and FP32. Preserve signed NQP values and verify FP16 does
-not destroy small residuals. Measure actual storage rather than relying
-only on estimates.
+- **Canonical Source:** Original images reside exclusively in Block 1 (`data/processed/train/part-*.parquet`).
+- **On-the-Fly Processing:** `RGBDataset` generates Branch A (Lab local correlation maps) and Branch B (PiD YCbCr residuals) dynamically upon request during `__getitem__()`.
+- **Zero Image Duplication:** No separate `rgb_dataset` directory or persistent feature maps are created on disk.
+- **Optional Cache Support:** `src/rgb/materializer.py` remains available strictly as an optional offline caching utility (`data/rgb_cache/`), but is not invoked or required by the normal training path.
 
 ## 9. Block 3 integration contract
+
 
 Block 2 does not train models. Block 3 must be able to run these
 controlled ablations:

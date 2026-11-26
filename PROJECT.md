@@ -4,7 +4,8 @@
 
 ## 1. Project Status
 
-**Current phase:** Block 2 — Image Analysis (Forensic Feature Bank materialized, RGB Pipeline Branch A verified, Branch B finalized with active PiD YUV s=0.2 residual map per DEC-015, Branch C validation verified, NQP retained as research-only; 134/134 tests PASS).
+**Current phase:** Block 2 — Image Analysis COMPLETE (Forensic Feature Bank materialized, RGB Pipeline finalized with active on-the-fly PiD YCbCr s=0.2 residual extraction and Lab local correlation maps per DEC-014/DEC-015, zero redundant image datasets; 142/142 tests PASS).
+
 
 This document describes the current project state.
 
@@ -365,23 +366,22 @@ The intended project progression is:
 - Block 2 forensic test suite verified: **89/89 PASS** (`src/forensics/tests/run_tests.py`).
 - Block 2 RGB Pipeline implemented and finalized (`src/rgb/`):
   - Branch A (Lab Local Correlation Maps): CIE Lab conversion, 7×7 Pearson local correlation maps ($L$-$a$, $L$-$b$, $a$-$b$).
-  - Branch B (Active: PiD YUV Residuals; Research: NQP): PiD YUV ($s=0.2$) residual extraction finalized as active representation (DEC-015), deterministic, non-degenerate (~15% zero fraction). 100-image screening harness completed across 8 configurations; NQP retained as research-only probe for reproducibility.
+  - Branch B (Active: PiD YCbCr Residuals; Research: NQP): PiD YCbCr ($s=0.2$) residual extraction finalized as active representation (DEC-015), deterministic, non-degenerate (~15% zero fraction). 100-image screening harness completed across 8 configurations; NQP retained as research-only probe for reproducibility.
   - Branch C (Final Representation Validation): quality control suite, structure, range, and 1:1 Block 1 ID alignment validation.
-  - Orchestration & integration: `RGBPipeline`, `RGBDataset` reader for Block 3 ablations A–D, and `materialize_rgb_representations`.
-- Block 2 RGB test suite verified: **22/22 PASS** (`src/rgb/tests/run_tests.py`).
-- Total repository test suite: **134/134 PASS** (Block 1: 23, Forensics: 89, RGB: 22).
+  - Orchestration & integration: `RGBPipeline`, `RGBDataset` on-the-fly data loader for Block 3 ablations A–D directly from Block 1 Parquet images. Zero redundant image datasets created.
+- Block 2 RGB test suite verified: **30/30 PASS** (`src/rgb/tests/run_tests.py`), including on-the-fly `RGBDataset` integration across all four ablation configurations.
+- Total repository test suite: **142/142 PASS** (Block 1: 23, Forensics: 89, RGB: 30).
 
 ---
 
 # 19. Current Pending Work
 
-1. Optional materialization of Block 2 training RGB spatial representations under `data/rgb/`.
-2. Finalize Block 2 closeout.
-3. Generate deterministic Block 1 validation (9,000) and test (45,000) processed datasets.
-4. Generate corresponding Block 2 validation and test forensic datasets.
-5. Implement Block 3 forensic models (LightGBM, Tiny MLP) and RGB baseline models.
-6. Conduct Block 4 experiments (training data budgets, feature budgets, generator-disjoint evaluation, compression robustness, efficiency).
-7. Future Research Extensions (larger feature banks, additional evidence families, dynamic feature routing).
+1. Generate deterministic Block 1 validation (9,000) and test (45,000) processed datasets.
+2. Generate corresponding Block 2 validation and test forensic datasets.
+3. Implement Block 3 forensic models (LightGBM, Tiny MLP) and RGB baseline models.
+4. Conduct Block 4 experiments (training data budgets, feature budgets, generator-disjoint evaluation, compression robustness, efficiency).
+5. Future Research Extensions (larger feature banks, additional evidence families, dynamic feature routing).
+
 
 
 ---

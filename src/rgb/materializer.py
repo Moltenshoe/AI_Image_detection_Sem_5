@@ -1,27 +1,30 @@
-"""Derived RGB Dataset Materializer (Block 2).
+"""Optional Offline Representation Cache Utility (Block 2).
 
-Materializes derived spatial representations (Branch A Lab correlation maps and
-Branch B NQP residual maps) under:
-    data/rgb/
+OPTIONAL UTILITY ONLY:
+In standard operation, all RGB models load canonical images directly from Block 1
+(data/processed/) and compute representations (Branch A Lab maps, Branch B PiD residuals)
+on-the-fly during data loading.
+
+This utility provides optional offline caching of derived representations under:
+    data/rgb_cache/
         branch_a_lab/
-        branch_b_nqp/
+        branch_b_pid/
         branch_c_validation/
         manifests/
 
-MANDATORY PILOT CHECKPOINT:
-Branch B (NQP) full dataset generation is strictly gated by the 100-image pilot.
-If the NQP pilot findings indicate near-zero residuals or an unresolved intensity convention,
-full materialization of Branch B is blocked.
+NOTE: This utility does NOT duplicate canonical images; it caches only derived maps.
+It is never invoked by the normal training path.
 """
 
 from __future__ import annotations
 
 import argparse
+import csv
 import glob
 import json
 import os
 import time
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Sequence
 
 import numpy as np
 import pyarrow.parquet as pq
@@ -49,7 +52,7 @@ def _get_project_root() -> str:
 
 
 def materialize_rgb_representations(
-    branches: Sequence[str] = ("A",),
+    branches: Sequence[str] = ("A", "B"),
     processed_train_dir: Optional[str] = None,
     output_base_dir: Optional[str] = None,
     max_samples: Optional[int] = None,
@@ -62,7 +65,7 @@ def materialize_rgb_representations(
     Args:
         branches: Sequence of branches to materialize ("A", "B").
         processed_train_dir: Path to Block 1 materialized images.
-        output_base_dir: Target output root (defaults to data/rgb/).
+        output_base_dir: Target output root (defaults to data/rgb_cache/).
         max_samples: Max samples to process (None for full split).
         dtype: Storage dtype ("float16" or "float32").
         overwrite: Overwrite existing outputs if True.
@@ -75,7 +78,9 @@ def materialize_rgb_representations(
     if processed_train_dir is None:
         processed_train_dir = get_processed_train_dir()
     if output_base_dir is None:
-        output_base_dir = os.path.join(project_root, "data", "rgb")
+        output_base_dir = os.path.join(project_root, "data", "rgb_cache")
+
+
 
     branch_a_dir = os.path.join(output_base_dir, "branch_a_lab")
     branch_b_dir = os.path.join(output_base_dir, "branch_b_pid")
@@ -156,6 +161,11 @@ def materialize_rgb_representations(
                 manifest_records.append(rec)
                 total_processed += 1
 
+                if total_processed % 5000 == 0:
+                    curr_elapsed = time.time() - start_time
+                    rate = total_processed / curr_elapsed if curr_elapsed > 0 else 0
+                    print(f"Materialized {total_processed} samples ({curr_elapsed:.1f}s, {rate:.1f} samples/s)...")
+
             if max_samples is not None and total_processed >= max_samples:
                 break
         if max_samples is not None and total_processed >= max_samples:
@@ -167,7 +177,7 @@ def materialize_rgb_representations(
     align_res = validate_dataset_alignment(block1_ids, processed_ids)
     validation_results.append(align_res)
 
-    # Save manifest
+    # Save manifest data
     manifest_data = {
         "dataset": "Defactify_Image_Dataset",
         "split": "train",
@@ -178,9 +188,22 @@ def materialize_rgb_representations(
         "records_count": len(manifest_records),
     }
 
+    # Write manifest.json to both manifests/manifest.json and root manifest.json
     manifest_json_path = os.path.join(manifests_dir, "manifest.json")
+    root_manifest_json_path = os.path.join(output_base_dir, "manifest.json")
     with open(manifest_json_path, "w") as f:
         json.dump(manifest_data, f, indent=2)
+    with open(root_manifest_json_path, "w") as f:
+        json.dump(manifest_data, f, indent=2)
+
+    # Write dataset_manifest.csv for tabular access
+    manifest_csv_path = os.path.join(output_base_dir, "dataset_manifest.csv")
+    if manifest_records:
+        fieldnames = list(manifest_records[0].keys())
+        with open(manifest_csv_path, "w", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(manifest_records)
 
     # Save validation report
     val_report_path = os.path.join(validation_dir, "validation_report.json")
@@ -193,7 +216,27 @@ def materialize_rgb_representations(
     print(f"Materialization complete: {total_processed} samples in {elapsed:.2f}s. Validation: {val_report['status']}")
     return {
         "total_processed": total_processed,
-        "manifest_path": manifest_json_path,
+        "manifest_path": root_manifest_json_path,
+        "manifest_csv_path": manifest_csv_path,
         "validation_report_path": val_report_path,
         "elapsed_seconds": elapsed,
     }
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Materialize derived RGB representations.")
+    parser.add_argument("--branches", nargs="+", default=["A", "B"], help="Branches to materialize (A, B)")
+    parser.add_argument("--max-samples", type=int, default=None, help="Max samples to process")
+    parser.add_argument("--output-dir", type=str, default=None, help="Output base directory")
+    parser.add_argument("--dtype", type=str, default="float16", choices=["float16", "float32"], help="Storage dtype")
+    parser.add_argument("--overwrite", action="store_true", help="Overwrite existing files")
+    args = parser.parse_args()
+
+    materialize_rgb_representations(
+        branches=tuple(args.branches),
+        output_base_dir=args.output_dir,
+        max_samples=args.max_samples,
+        dtype=args.dtype,
+        overwrite=args.overwrite,
+    )
+

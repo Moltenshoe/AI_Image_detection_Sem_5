@@ -9,16 +9,13 @@ block consumes a defined output from the previous block and stores its
 own output so that later development and experiments do not require
 repeatedly rerunning earlier stages.
 
-> **Current project status (2026-11-14):** Block 1 and the forensic side
-> of Block 2 are complete. The RGB representation implementation and
-> screening comparison are complete: Branch A uses Lab local-correlation
-> maps, Branch B uses PiD BT.601 YCbCr residuals at `s=0.2`, and Branch
-> C provides validation. NQP screening code and results remain
-> research-only. The RGB implementation passed its reported tests, but a
-> final review identified three important corrections still to apply
-> (PiD reconstruction clipping and missing typing imports). Full-scale
-> RGB dataset materialization remains pending. Block 3 training and
-> Block 4 evaluation have not started.
+> **Current project status (2026-11-26):** Block 1 and the Forensics
+> pipeline are reported complete. The RGB pipeline is implemented with
+> on-the-fly Lab and PiD representation extraction; normal training does
+> not require a separately materialized RGB dataset. The Block 2 AE data
+> interface for two class-specific autoencoders is planned but has not
+> yet been verified as implemented. Block 3 model development/training
+> and Block 4 evaluation remain separate downstream stages.
 
 ------------------------------------------------------------------------
 
@@ -52,71 +49,30 @@ preprocessing.
 
 # 2. Four-Block Architecture
 
-``` text
-                           Defactify
-                              │
-                              ▼
-┌───────────────────────────────────────────────────────────────┐
-│ BLOCK 1 — DATA LOADING + PREPROCESSING                        │
-│                                                               │
-│ Raw images → deterministic crop → resize → RGB uint8          │
-└──────────────────────────────┬────────────────────────────────┘
-                               │
-                        Stored processed data
-                               │
-                               ▼
-┌───────────────────────────────────────────────────────────────┐
-│ BLOCK 2 — IMAGE ANALYSIS                                      │
-│                                                               │
-│                  ┌────────────────────────┐                   │
-│                  │                        │                   │
-│                  ▼                        ▼                   │
-│           RGB PIPELINE             FORENSIC PIPELINE          │
-│                  │                        │                   │
-│           representation          A Frequency                 │
-│           extraction               B Wavelet                   │
-│           analysis                 C Texture                   │
-│           selection                D Residual                  │
-│                  │                  E JPEG / Compression       │
-│                  │                        │                   │
-│                  ▼                        ▼                   │
-│             RGB DATASET             FORENSIC DATASET          │
-└──────────────────────────────┬────────────────────────────────┘
-                               │
-                               ▼
-┌───────────────────────────────────────────────────────────────┐
-│ BLOCK 3 — MODELS                                              │
-│                                                               │
-│ RGB models + forensic models + optional controlled fusion     │
-└──────────────────────────────┬────────────────────────────────┘
-                               │
-                         Predictions/results
-                               │
-                               ▼
-┌───────────────────────────────────────────────────────────────┐
-│ BLOCK 4 — EVALUATION + EXPERIMENTS                            │
-│                                                               │
-│ Data budget × feature budget × model type                     │
-│ + generator-disjoint evaluation + compression robustness     │
-│ + efficiency measurements                                     │
-└───────────────────────────────────────────────────────────────┘
-```
+The project is organized into four sequential blocks. Each block has a
+defined responsibility and exposes outputs or interfaces for the next
+stage.
 
-The important architectural property is that **Block 2 produces two
-persistent datasets**:
+![Overall project architecture](docs_images/overall_architecture.png)
 
-1.  a selected **forensic dataset**
-2.  a selected **RGB dataset**
+### Block responsibilities
 
-Block 3 should consume these outputs rather than rebuilding Block 2.
+1.  **Block 1 --- Data loading and preprocessing:** converts the raw
+    Defactify images into the canonical 256 × 256 RGB representation.
+2.  **Block 2 --- Feature and representation pipelines:** provides three
+    independent pathways: Forensics, RGB, and the planned dual-AE data
+    interface.
+3.  **Block 3 --- Model development and training:** trains the forensic
+    and RGB models, and will implement and train the two class-specific
+    autoencoders.
+4.  **Block 4 --- Evaluation and experiments:** compares the approaches
+    under controlled data, feature, generator-generalization,
+    compression, and efficiency conditions.
 
-See:
+![Dataset split flow](docs_images/dataset_flow.png)
 
--   [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
--   [`docs/BLOCK_1_DATA_PIPELINE.md`](docs/BLOCK_1_DATA_PIPELINE.md)
--   [`docs/BLOCK_2_DUAL_PIPELINE.md`](docs/BLOCK_2_DUAL_PIPELINE.md)
-
-------------------------------------------------------------------------
+See the detailed architecture and implementation documents under
+`docs/`.
 
 # 3. Dataset
 
@@ -203,34 +159,34 @@ It has two deliberately different paths.
 The forensic pipeline is designed around multiple low-level evidence
 domains:
 
-  ------------------------------------------------------------------------
-  Branch                Evidence domain                 Canonical features
-  --------------------- --------------------- ----------------------------
-  A                     Frequency /                                     34
-                        periodicity (A1       
-                        FFT=4, A2             
-                        Synthbuster=30)       
+  ----------------------------------------------------------------------
+  Branch               Evidence domain                Canonical features
+  -------------------- --------------------- ---------------------------
+  A                    Frequency /                                    34
+                       periodicity (A1       
+                       FFT=4, A2             
+                       Synthbuster=30)       
 
-  B                     Haar wavelet (3-level                           30
-                        2D DWT subbands)      
+  B                    Haar wavelet (3-level                          30
+                       2D DWT subbands)      
 
-  C                     Local texture                                   16
-                        (rotation-invariant   
-                        uniform LBP)          
+  C                    Local texture                                  16
+                       (rotation-invariant   
+                       uniform LBP)          
 
-  D                     Residual / noise (3×3                            5
-                        median filter         
-                        residual)             
+  D                    Residual / noise (3×3                           5
+                       median filter         
+                       residual)             
 
-  E                     JPEG /                                          26
-                        compression-aware (E1 
-                        DCT=10, E2            
-                        Response=8, E3        
-                        Phase=4, E4 Grid=4)   
+  E                    JPEG /                                         26
+                       compression-aware (E1 
+                       DCT=10, E2            
+                       Response=8, E3        
+                       Phase=4, E4 Grid=4)   
 
-  **Total**             **Canonical forensic                       **111**
-                        pool**                
-  ------------------------------------------------------------------------
+  **Total**            **Canonical forensic                      **111**
+                       pool**                
+  ----------------------------------------------------------------------
 
 The **111-feature pool is fully implemented and verified**. All 111
 features are materialized in the persistent dataset
@@ -261,38 +217,78 @@ See:
 
 ## 5.2 RGB pipeline
 
-The RGB path retains conventional spatial/image information and remains
-separate from the handcrafted forensic representation.
+The RGB pathway retains spatial image information and remains
+independent of the handcrafted forensic feature pipeline.
 
-The accepted active RGB pipeline is:
+![RGB pipeline](docs_images/rgb_pipeline.png)
 
--   **Branch A --- Lab local-correlation maps:** retained as the first
-    RGB representation.
--   **Branch B --- PiD BT.601 YCbCr residuals:** uses the selected scale
-    `s=0.2`.
--   **Branch C --- validation:** checks the generated Branch B
-    representation; it is not a separate feature-generation branch.
--   **NQP:** its implementation and screening outputs are preserved for
-    reproducibility but are excluded from the active RGB pipeline.
+The active RGB pipeline has three branches:
 
-The Branch B screening experiments and comparative analysis are
-complete. The selected representations are implementation decisions for
-downstream model evaluation; they are not claims of proven
-detection-accuracy superiority. The implementation review reported
-134/134 repository tests passing before the review corrections. Three
-important fixes remain pending: explicitly clip the reconstructed image
-to `[0, 255]` as specified, import `Any` in `pipeline.py`, and import
-`Sequence` in `materializer.py`. Minor documentation clean-up is also
-pending.
+-   **Branch A --- Lab local-correlation maps:** converts RGB to CIE Lab
+    and calculates the three local Pearson correlation maps (L-a, L-b,
+    and a-b) using the established 7 × 7 neighbourhood.
+-   **Branch B --- PiD residual maps:** uses the selected BT.601
+    full-range YCbCr transformation and scaling parameter `s=0.2` to
+    produce signed RGB-channel residual maps.
+-   **Branch C --- validation:** validates the generated
+    representations; it does not generate an additional feature
+    representation.
 
-Full-scale RGB dataset materialization and output verification are still
-required before Block 2 can be closed. Lightweight model candidates for
-Block 3 include MobileNetV3-Small and ShuffleNetV2.
+NQP research code and screening results are retained for reproducibility
+but are excluded from the active RGB execution path.
 
-See [`docs/RGB_PIPELINE.md`](docs/RGB_PIPELINE.md) and
-[`docs/PROJECT_STATUS.md`](docs/PROJECT_STATUS.md).
+### On-the-fly data flow
 
-------------------------------------------------------------------------
+The RGB dataset reads the original canonical images directly from
+Block 1. Branch A and Branch B are calculated on demand according to the
+selected experiment mode.
+
+  Mode     Input channels Composition
+  ------ ---------------- ---------------------------------------------
+  A                     3 Original RGB
+  B                     6 Original RGB + Lab maps
+  C                     6 Original RGB + PiD residual maps
+  D                     9 Original RGB + Lab maps + PiD residual maps
+
+No separate `rgb_dataset/` or `rgb_cache/` is required or created by the
+normal training path. The optional materializer is not part of normal
+training and must not be invoked automatically.
+
+The selected representations are implementation decisions for downstream
+experiments; they are not claims of proven detection-accuracy
+superiority. The reported implementation includes the PiD reconstruction
+clipping and typing/documentation corrections.
+
+See [`docs/RGB_PIPELINE.md`](docs/RGB_PIPELINE.md).
+
+## 5.3 Dual-autoencoder pathway (planned)
+
+The project is extending Block 2 with an independent autoencoder data
+interface. It will provide access to the original Block 1 images for two
+separate class-specific convolutional autoencoders.
+
+![Dual autoencoder architecture](docs_images/dual_ae_architecture.png)
+
+-   **Real AE:** will be trained only on real training images
+    (`label_a == 0`).
+-   **AI AE:** will be trained only on AI-generated training images
+    (`label_a == 1`).
+-   **Shared evaluation:** both trained models will be evaluated on the
+    same real and AI validation/test images so their reconstruction
+    errors can be compared on identical inputs.
+
+The Block 2 scope is limited to datasets and DataLoader interfaces,
+including class filtering, split handling, and sample-identity
+preservation. The AE architectures, training loops, losses, optimizers,
+checkpoints, inference, and reconstruction-error feature extraction
+belong to Block 3.
+
+The AE pathway must read the canonical Block 1 images directly. It must
+not create another image dataset or duplicate the original images.
+
+The AE implementation is **planned and not yet verified as implemented**
+in this README revision. See the project status section before relying
+on this interface.
 
 # 6. Why the Forensic Branches Are Separate
 
@@ -451,37 +447,37 @@ See
 
 ------------------------------------------------------------------------
 
-# 9. Block 2 Completion Criterion
+# 9. Block 2 Completion and Output Contracts
 
-Block 2 is considered complete only when both paths produce stable,
-reproducible, persistent outputs:
+Block 2 contains three independent pathways with different output
+contracts:
 
-``` text
-                 BLOCK 2
-                    │
-          ┌─────────┴─────────┐
-          ▼                   ▼
-   Forensic pipeline      RGB pipeline
-          │                   │
-   analysis + selection  selected representations
-          │                   │
-          ▼                   ▼
-   FORENSIC DATASET       RGB DATASET
-```
+![Block 2 architecture](docs_images/block2_architecture.png)
 
-The forensic dataset is already materialized. The RGB implementation and
-screening-based representation decision are complete, but the final RGB
-dataset has not yet been materialized and verified across the required
-splits.
+1.  **Forensics:** produces the canonical forensic feature
+    representation and its selected feature subsets. The forensic
+    feature dataset is persisted.
+2.  **RGB:** produces RGB inputs and derived Lab/PiD representations
+    on-the-fly from Block 1 images. A separate RGB image dataset is not
+    required.
+3.  **AE data interface (planned):** provides class-specific real and AI
+    image loaders plus a shared unfiltered evaluation loader. It does
+    not train models or materialize another image dataset.
 
-These two datasets become the inputs to Block 3. Implementing feature
-extraction alone does **not** complete Block 2.
+The Block 2 pathways are considered complete individually when their
+interfaces, outputs, tests, and data contracts have been verified. The
+AE pathway remains pending until its implementation and tests are
+completed.
 
-------------------------------------------------------------------------
+Block 3 consumes the forensic and RGB interfaces and, once implemented,
+the AE data interface. It does not require the RGB pipeline to create a
+second persistent copy of the original images.
 
 # 10. Block 3 --- Models
 
-Block 3 consumes the outputs of Block 2.
+Block 3 is responsible for model architecture, training, checkpoints,
+inference, and model-level experiments. It consumes the outputs and
+interfaces prepared by Block 2.
 
 ### Forensic models
 
@@ -500,14 +496,34 @@ Candidate lightweight CNNs:
 -   MobileNetV3-Small
 -   ShuffleNetV2
 
-Optional fusion is considered only after the independent RGB and
-forensic pipelines are understood.
+The four RGB input modes (A, B, C, and D) allow controlled comparisons
+between original RGB and the additional Lab/PiD representations.
 
-Fusion is not assumed to improve performance.
+### Dual autoencoders
+
+The planned AE experiment uses two separate convolutional autoencoders:
+
+-   **Real AE:** trained exclusively on real training images.
+-   **AI AE:** trained exclusively on AI-generated training images.
+
+Both models should use comparable architectures, preprocessing,
+reconstruction objectives, and training protocols so that differences in
+reconstruction behaviour can be meaningfully investigated.
+
+At inference/evaluation time, both models should process the same input
+images. Their reconstruction errors can then be compared, for example:
+
+-   `real_ae_error`
+-   `ai_ae_error`
+-   `ae_error_difference`
+
+These are proposed downstream features, not yet validated detection
+signals. Their usefulness must be measured experimentally.
+
+Optional fusion is considered only after the independent pathways and
+models are understood. Fusion is not assumed to improve performance.
 
 See [`docs/BLOCK_3_MODELS.md`](docs/BLOCK_3_MODELS.md).
-
-------------------------------------------------------------------------
 
 # 11. Block 4 --- Evaluation and Experiments
 
@@ -707,187 +723,137 @@ See [`docs/SCIENTIFIC_CONTROLS.md`](docs/SCIENTIFIC_CONTROLS.md).
 
 # 16. Current Project Status
 
-Last updated: **2026-11-14**
+Last updated: **2026-11-26**
 
-  ---------------------------------------------------------------------------
-  Component                   Status                  Verified / Passing
-  --------------------------- ----------------------- -----------------------
-  Block 1 data loading &      **Complete**            23/23 tests PASS
-  preprocessing                                       
+The table distinguishes implementation reported in the project workflow
+from work that remains planned or requires the repository audit.
 
-  Block 1 training dataset    **Complete**            42,000 samples
-  (`data/processed/train/`)                           
+  -----------------------------------------------------------------------
+  Component               Current status          Reported verification /
+                                                  notes
+  ----------------------- ----------------------- -----------------------
+  Block 1 data loading    Complete                23/23 data tests
+  and preprocessing                               reported passing
 
-  Forensic Branches A--E (111 **Complete**            Existing branch tests
-  features)                                           PASS
+  Block 1 canonical       Complete                42,000 training samples
+  training data                                   reported
 
-  Branch F feature analysis & **Complete**            16/16 tests PASS
-  selection                                           
+  Forensic branches A-E   Complete                111-feature canonical
+                                                  pool
 
-  Persistent forensic dataset **Complete**            42,000 rows × 111
-                                                      features
+  Forensic feature        Complete                Five selected feature
+  analysis and selection                          budgets reported
 
-  RGB Branch A --- Lab        **Implemented**         Included in reported
-  local-correlation maps                              RGB suite
+  Persistent forensic     Complete                42,000 rows × 111
+  feature dataset                                 features reported
 
-  RGB Branch B --- PiD BT.601 **Implemented; small    Review found one
-  YCbCr residuals (`s=0.2`)   corrections pending**   specification mismatch
+  RGB Branch A --- Lab    Implemented             Included in RGB test
+  correlations                                    suite
 
-  RGB Branch C --- validation **Implemented**         Included in reported
-                                                      RGB suite
+  RGB Branch B --- PiD    Implemented             BT.601 YCbCr, `s=0.2`,
+  residuals                                       reconstruction clipping
 
-  Branch B screening and      **Complete**            Stage 1 and Stage 2
-  comparative analysis                                analyses accepted
+  RGB Branch C ---        Implemented             Included in RGB test
+  validation                                      suite
 
-  NQP experiments and         **Research-only**       Preserved; excluded
-  implementation                                      from active RGB path
+  RGB on-the-fly dataset  Implemented             Modes A-D; no separate
+  interface                                       RGB dataset required
 
-  RGB full-dataset            **Pending**             Must verify
-  materialization                                     train/validation/test
-                                                      outputs
+  RGB materializer        Optional utility        Not part of normal
+                                                  training; not to be run
+                                                  automatically
 
-  Block 2 final closeout      **Pending**             Requires RGB
-                                                      materialization and
-                                                      output checks
+  AE data interface       Planned                 Two class-specific
+                                                  training datasets and
+                                                  shared evaluation
+                                                  dataset are specified,
+                                                  but implementation is
+                                                  not yet verified
 
-  Block 3 model training      **Not started**         \-
+  Real and AI autoencoder Not started             Block 3 responsibility
+  models                                          
 
-  Block 4 evaluation          **Not started**         \-
-  ---------------------------------------------------------------------------
+  Block 3 model training  Not started / in        No training result is
+                          progress only if        claimed here
+                          separately recorded     
 
-## Final RGB code-review actions
+  Block 4 evaluation      Not started             Requires completed
+                                                  model experiments
+  -----------------------------------------------------------------------
 
-The implementation review found the following items. These are targeted
-corrections, not a reason to repeat the experiments or redesign the
-pipeline.
+### Reported test results
 
-**Important --- fix before Block 2 closeout** 1. In
-`src/rgb/branch_b_nqp/pid.py`, clip the rounded reconstructed RGB image
-to `[0, 255]` before calculating the residual, matching the documented
-specification. 2. Import `Any` in `src/rgb/pipeline.py` so runtime
-type-hint introspection works. 3. Import `Sequence` in
-`src/rgb/materializer.py` for the same reason.
+The latest Antigravity implementation report stated:
 
-**Minor --- clean up documentation** - Replace stale NQP descriptions in
-RGB materializer, dataset, and validation package docstrings. - Clarify
-that the BT.601 coefficients used are technically YCbCr, although
-existing `YUV` identifiers may be retained where renaming would break
-compatibility. - Document the input-scale heuristic edge case: a very
-dark float image expressed in `[0, 255]` with maximum value near 1 can
-be mistaken for normalized `[0, 1]` input. Current materializer and
-dataset paths use unambiguous input conventions.
+  Test suite                Reported result
+  -------------------- --------------------
+  Block 1 data tests           23/23 passed
+  Forensics tests              89/89 passed
+  RGB tests                    30/30 passed
+  **Total**              **142/142 passed**
 
-**Reviewed and accepted** - Active Branch B execution uses PiD; NQP
-remains research-only. - NQP compatibility aliases currently resolve to
-the same Branch B representation and are retained for compatibility. -
-The review found no unrelated changes in the reported change set. - The
-reported PiD CPU benchmark was approximately 1.36 ms/image on the
-project laptop; treat this as a local measurement, not a universal
-performance guarantee.
+These are reported results from the implementation workflow. The planned
+repository audit should rerun the suites and confirm the current
+working-tree state before this README is treated as an independently
+verified audit record.
 
-## Test status
+### RGB data-flow clarification
 
-The implementation task reported **134/134 tests passing** before the
-final review corrections: - RGB pipeline: 22/22 - Forensic pipeline:
-89/89 - Block 1 data pipeline: 23/23
+The RGB pathway does not require full-dataset materialization of its
+derived maps. The normal dataset interface reads Block 1 images and
+computes only the representations required by the selected mode. No
+`data/rgb_dataset/` or `data/rgb_cache/` should be created by normal
+training.
 
-The three important corrections above have not yet been applied and
-retested. Therefore, 134/134 is the last reported pre-correction result,
-not a post-fix verification result.
+### AE implementation boundary
 
-## Next steps
+The next Block 2 addition is the AE data interface only:
 
-1.  Apply the three important code corrections and the small
-    documentation clean-up.
-2.  Run the RGB test suite; then run the relevant repository suites.
-3.  Materialize the RGB representations for the required dataset splits
-    and verify sample identity, labels, shapes, finite values, and split
-    coverage.
-4.  Once both persistent Block 2 datasets are ready, freeze Block 2 and
-    begin Block 3 model development.
+-   Real training dataset (`label_a == 0`).
+-   AI training dataset (`label_a == 1`).
+-   Shared unfiltered validation/test dataset for evaluating both AEs on
+    the same images.
+-   Preservation of original labels and sample identities.
+-   No duplicate image dataset.
 
-No further Branch B screening or broad paper-verification cycle is
-planned unless a concrete implementation defect is discovered.
-
-The canonical forensic pool remains **111 features**:
-
-``` text
-A Frequency:                34
-B Haar Wavelet:             30
-C_LBP Texture:              16
-D_MFR Residual:              5
-E Compression-aware:        26
-──────────────────────────────
-Total Canonical Pool:      111
-```
-
-No final detection-performance claim should be made until Block 4
-experiments have been run.
-
-------------------------------------------------------------------------
+The two AE architectures and their training loops belong to Block 3. Do
+not treat the AE pathway as implemented until its code and tests have
+been inspected and verified.
 
 # 17. Repository Structure
 
+The repository is organized around the four project blocks, with
+detailed module documentation under `docs/` and high-level architecture
+diagrams under `docs_images/`.
+
 ``` text
 .
-├── .agents/
-├── .venv/
-├── analysis/
-│   └── forensic_feature_analysis/
 ├── data/
 │   ├── defactify/
 │   ├── processed/
-│   │   └── train/
 │   └── forensic_dataset/
-│       ├── features.parquet
-│       ├── dataset_manifest.csv
-│       ├── dataset_metadata.json
-│       ├── feature_registry.csv
-│       ├── feature_registry.json
-│       └── selected/
-│           ├── features_{8,16,32,64,111}.parquet
-│           └── selected_features_{8,16,32,64,111}.json
 ├── docs/
 │   ├── ARCHITECTURE.md
 │   ├── BLOCK_1_DATA_PIPELINE.md
 │   ├── BLOCK_2_DUAL_PIPELINE.md
 │   ├── FORENSIC_PIPELINE.md
-│   ├── BRANCH_A_FREQUENCY.md
-│   ├── BRANCH_B_WAVELET.md
-│   ├── BRANCH_C_TEXTURE.md
-│   ├── BRANCH_D_RESIDUAL.md
-│   ├── BRANCH_E_JPEG.md
 │   ├── RGB_PIPELINE.md
 │   ├── FEATURE_ANALYSIS_SELECTION.md
 │   ├── BLOCK_3_MODELS.md
 │   ├── BLOCK_4_EVALUATION.md
-│   ├── EXPERIMENTAL_PROTOCOL.md
-│   ├── SCIENTIFIC_CONTROLS.md
-│   ├── RESEARCH_REFERENCES.md
-│   ├── PROJECT_STATUS.md
-│   ├── BRANCH_E_AUDIT_STATE.MD
-│   ├── MODULE_MAP.md
-│   └── research/
-│       ├── BRANCH_E_JPEG_RESEARCH.md
-│       ├── BRANCH_F_FEATURE_ANALYSIS_AND_SELECTION.md
-│       └── BRANCH_F_VERIFICATION.md
+│   └── ...
+├── docs_images/
+│   ├── overall_architecture.png
+│   ├── block2_architecture.png
+│   ├── rgb_pipeline.png
+│   ├── dual_ae_architecture.png
+│   └── dataset_flow.png
 ├── src/
 │   ├── analysis/
 │   ├── data/
-│   └── forensics/
-│       ├── branch_a_frequency/
-│       ├── branch_b_wavelet/
-│       ├── branch_c_texture/
-│       ├── branch_d_residual/
-│       ├── branch_e/
-│       ├── branch_f/
-│       ├── dataset.py
-│       ├── dataset_materializer.py
-│       ├── materialize_forensic_dataset.py
-│       ├── pipeline.py
-│       ├── run_forensic_pipeline.py
-│       ├── run_feature_analysis.py
-│       └── tests/
+│   ├── forensics/
+│   ├── rgb/
+│   └── ae/                 # Planned AE data interface; verify implementation
 ├── .gitignore
 ├── AGENTS.md
 ├── CHANGELOG.md
@@ -896,10 +862,13 @@ experiments have been run.
 └── README.md
 ```
 
-Large/raw datasets and virtual environments should remain excluded
-through `.gitignore`.
+Large/raw datasets, generated feature data, and virtual environments
+should remain excluded from Git according to `.gitignore` and project
+data-management rules.
 
-------------------------------------------------------------------------
+The `docs_images/` directory contains rendered overview diagrams.
+Detailed algorithmic and implementation explanations remain in the
+individual Markdown documents under `docs/`.
 
 # 18. Research References
 

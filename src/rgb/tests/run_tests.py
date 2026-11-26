@@ -37,10 +37,13 @@ def run_rgb_test_suite() -> int:
     from src.rgb.tests.test_branch_a_lab import TestBranchALab
     from src.rgb.tests.test_branch_b_nqp import TestBranchBNQP
     from src.rgb.tests.test_branch_c_validation import TestBranchCValidation
+    from src.rgb.tests.test_dataset import TestRGBDataset
 
     suite.addTests(loader.loadTestsFromTestCase(TestBranchALab))
     suite.addTests(loader.loadTestsFromTestCase(TestBranchBNQP))
     suite.addTests(loader.loadTestsFromTestCase(TestBranchCValidation))
+    suite.addTests(loader.loadTestsFromTestCase(TestRGBDataset))
+
 
     runner = unittest.TextTestRunner(verbosity=2)
     result = runner.run(suite)

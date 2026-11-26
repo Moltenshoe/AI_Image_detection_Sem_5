@@ -6,7 +6,8 @@ Branch B (PiD YUV Residuals, s=0.2 per DEC-015), unifying derived spatial repres
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional, Sequence, Union
+from typing import Any, Dict, List, Optional, Sequence, Union
+
 
 import numpy as np
 import torch
